@@ -59,7 +59,7 @@ require_once "../tamplate/sidebar.php";
                                             <option value="A11">A11</option>
                                             <option value="A21">A21</option>
                                             <option value="A41">A41</option>
-                                            <option value="C71">C72</option>
+                                            <option value="C72">C72</option>
                                             <option value="C81">C81</option>
                                             <option value="C82">C82</option>
                                             <option value="D101">D101</option>
@@ -70,6 +70,7 @@ require_once "../tamplate/sidebar.php";
                                             <option value="D112">D112</option>
                                             <option value="D121">D121</option>
                                             <option value="D122">D122</option>
+                                            <option value="E131">E131</option>
                                             <option value="E132">E132</option>
                                             <option value="E141">E141</option>
                                             <option value="E142">E142</option>

@@ -69,9 +69,10 @@ if (isset($_FILES["filecsv"])) {
             foreach ($data as $row) {
                 $Polres = $row[0];
                 $Persentase = $row[1];
-                mysqli_query($koneksi, "INSERT INTO persentase (Polres, Periode, Persentase, PG, Triwulan) VALUES ('$Polres', '$Periode', '$Persentase', '$PG', '$Tiwulan')");
+                $Persentase = gantiKoma($Persentase);
+                mysqli_query($koneksi, "INSERT INTO persentase_polres (Polres, Periode, Persentase, PG, Triwulan) VALUES ('$Polres', '$Periode', '$Persentase', '$PG', '$Triwulan')");
             }
-            mysqli_query($koneksi, "INSERT INTO laporan (Periode, PG, Min, Max , Triwulan) VALUES ('$Periode', '$PG', '$Min', '$Max', '$Triwulan')");
+            mysqli_query($koneksi, "INSERT INTO laporan_polres (Periode, PG, Min, Max , Triwulan) VALUES ('$Periode', '$PG', '$Min', '$Max', '$Triwulan')");
 
             echo "<script>
                 alert('Data berhasil disimpan');

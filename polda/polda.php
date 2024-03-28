@@ -66,9 +66,9 @@ require_once "../tamplate/sidebar.php";
                             <?php
 
                             $no = 1;
-                            $queryLaporan = mysqli_query($koneksi, "SELECT * FROM laporan");
+                            $queryLaporan = mysqli_query($koneksi, "SELECT * FROM laporan_polda");
                             while ($data = mysqli_fetch_array($queryLaporan)) {
-                                $queryPersentase = mysqli_query($koneksi, "SELECT * FROM persentase WHERE Periode = '{$data['Periode']}' AND PG = '{$data['PG']}'");
+                                $queryPersentase = mysqli_query($koneksi, "SELECT * FROM persentase_polres WHERE Periode = '{$data['Periode']}' AND PG = '{$data['PG']}'");
                                 while ($dataPersentase = mysqli_fetch_array($queryPersentase)) {
                             ?>
                                     <tr>
