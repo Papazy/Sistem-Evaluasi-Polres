@@ -79,7 +79,7 @@ require_once "../tamplate/sidebar.php";
                                         <td><center><?= $dataPersentase['Persentase'] . "%" ?></td>
                                         <td><center><?= $data['Min'] . "%" ?></center></td>
                                         <td><center><?= $data['Max'] . "%" ?></center></td>
-                                        <td><center><?= $data['Tw'] ?></center></td>
+                                        <td><center><?= $data['Triwulan'] ?></center></td>
                                         <td align="center">
                                             <a href="" class="btn btn-sm btn-warning"><i class="fa-solid fa-pen" title="Edit"></i> Edit</a>
                                             <a href="" class="btn btn-sm btn-danger"><i class="fa-solid fa-trash" title="Delete"></i> Delete</a>

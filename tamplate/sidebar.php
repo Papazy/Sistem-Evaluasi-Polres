@@ -36,7 +36,7 @@
                                 <div class="sb-nav-link-icon"><i class="fa-solid fa-book-bookmark"></i></div>
                                 Kegiatan
                             </a>
-                            <a class="nav-link" href="<?= $main_url ?>laporan/gabungan.php">
+                            <a class="nav-link" href="<?= $main_url ?>laporan/Gabungan/Polda.php">
                                 <div class="sb-nav-link-icon"><i class="fa-solid fa-briefcase"></i></div>
                                 Laporan
                             </a>

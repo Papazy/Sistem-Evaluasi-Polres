@@ -97,11 +97,12 @@ require_once "../tamplate/sidebar.php";
                                     <label for="Tw" class="col-sm-2 col-form-label">Triwulan</label>
                                     <label for="Tw" class="col-sm-1 col-form-label">:</label>
                                     <div class="col-sm-9" style="margin-left: -45px;">
-                                        <select name="Tw" id="Tw" class="form-select border-0 border-bottom">
+                                        <select name="Triwulan" id="Triwulan" class="form-select border-0 border-bottom">
                                             <option value="" selected>-- Pilih --</option>
                                             <option value="1">1</option>
                                             <option value="2">2</option>
                                             <option value="3">3</option>
+                                            <option value="4">4</option>
                                         </select>
                                     </div>
 
