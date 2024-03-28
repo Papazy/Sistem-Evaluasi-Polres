@@ -7,7 +7,9 @@ if (!isset($_SESSION["ssLogin"])) {
     exit;
 }
 
-require_once "config.php";
+require "config.php";
+require_once "utils.php";
+
 
 $title = "Dashboard - Sistem Evaluasi Polres";
 require_once "tamplate/header.php";
@@ -20,10 +22,14 @@ $totalPolres = mysqli_num_rows($queryPolres);
 $queryKegiatan = mysqli_query($koneksi, "SELECT * FROM kegiatan");
 $totalKegiatan = mysqli_num_rows($queryKegiatan);
 
-$queryLaporan = mysqli_query($koneksi, "SELECT * FROM laporan");
+$queryLaporan = mysqli_query($koneksi, "SELECT * FROM laporan_polres");
 $totalLaporan = mysqli_num_rows($queryLaporan);
 
+$polres_merah = cariJumlahPolresMerah();
+$polres_kuning = cariJumlahPolresKuning();
+$polres_hijau = cariJumlahPolresHijau();
 
+$persentase = $polres_hijau / ($polres_kuning + $polres_merah) * 100;
 ?>
 
 <div id="layoutSidenav_content">
@@ -33,50 +39,7 @@ $totalLaporan = mysqli_num_rows($queryLaporan);
             <ol class="breadcrumb mb-4">
                 <li class="breadcrumb-item active">Home</li>
             </ol>
-            <!-- <div class="row">
-                <div class="col-xl-3 col-md-6">
-                    <div class="card bg-warning text-white mb-4">
-                        <div class="card-body">Total Polres</div>
-                        <div class="card-footer d-flex align-items-center justify-content-between">
-                            <a class="small text-white stretched-link" href="polres/polres.php">
-                                <?= $totalPolres . ' Polres' ?>
-                            </a>
-                            <div class="small text-white"><i class="fas fa-angle-right"></i></div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-xl-3 col-md-6">
-                    <div class="card bg-primary text-white mb-4">
-                        <div class="card-body">Total Polres</div>
-                        <div class="card-footer d-flex align-items-center justify-content-between">
-                            <a class="small text-white stretched-link" href="kegiatan/kegiatan.php">
-                                <?= $totalKegiatan . ' Kegiatan' ?>
-                            </a>
-                            <div class="small text-white"><i class="fas fa-angle-right"></i></div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-xl-3 col-md-6">
-                    <div class="card bg-success text-white mb-4">
-                        <div class="card-body">Total Polres</div>
-                        <div class="card-footer d-flex align-items-center justify-content-between">
-                            <a class="small text-white stretched-link" href="laporan/laporan.php">
-                                <?= $totalLaporan . ' Laporan' ?>
-                            </a>
-                            <div class="small text-white"><i class="fas fa-angle-right"></i></div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-xl-3 col-md-6">
-                    <div class="card bg-danger text-white mb-4">
-                        <div class="card-body">Danger Card</div>
-                        <div class="card-footer d-flex align-items-center justify-content-between">
-                            <a class="small text-white stretched-link" href="#">View Details</a>
-                            <div class="small text-white"><i class="fas fa-angle-right"></i></div>
-                        </div>
-                    </div>
-                </div>
-            </div> -->
+            
             <div class="row">
                 <div class="" style="width: 22%; flex:0 0 auto;">
                     <a href="<?= $main_url ?>laporan/gabungan.php" style="text-decoration:none; color:white;">
@@ -88,7 +51,7 @@ $totalLaporan = mysqli_num_rows($queryLaporan);
                             <div class="card-body border-top border-dark d-flex align-items-center justify-content-between"
                                 style="--bs-border-opacity: .5;">
                                 <div>Polres</div>
-                                <div>3</div>
+                                <div><?= $polres_hijau ?></div>
 
                             </div>
                     </a>
@@ -104,7 +67,7 @@ $totalLaporan = mysqli_num_rows($queryLaporan);
                         <div class="card-body border-top border-dark d-flex align-items-center justify-content-between"
                             style="--bs-border-opacity: .5;">
                             <div>Polres</div>
-                            <div>3</div>
+                            <div><?= $polres_kuning ?></div>
 
                         </div>
                     </div>
@@ -120,7 +83,7 @@ $totalLaporan = mysqli_num_rows($queryLaporan);
                         <div class="card-body border-top border-dark d-flex align-items-center justify-content-between"
                             style="--bs-border-opacity: .5;">
                             <div>Polres</div>
-                            <div>3</div>
+                            <div><?= $polres_merah ?></div>
 
                         </div>
                     </div>
@@ -136,7 +99,7 @@ $totalLaporan = mysqli_num_rows($queryLaporan);
                         <div class="card-body border-top border-dark d-flex align-items-center justify-content-between"
                             style="--bs-border-opacity: .5;">
                             <div>Persentase</div>
-                            <div>70%</div>
+                            <div><?= number_format($persentase, 2) ?>%</div>
 
                         </div>
                     </div>
@@ -152,7 +115,7 @@ $totalLaporan = mysqli_num_rows($queryLaporan);
                         <div class="card-body border-top border-dark d-flex align-items-center justify-content-between"
                             style="--bs-border-opacity: .5;">
                             <div>Total</div>
-                            <div>42</div>
+                            <div><?= $polres_hijau + $polres_hijau + $polres_merah?></div>
 
                         </div>
                     </div>
@@ -248,19 +211,19 @@ $totalLaporan = mysqli_num_rows($queryLaporan);
                                     label: '',
                                     data: [
                                         <?php
-                                                $jumlah_simelue = mysqli_query($koneksi, "select * from persentase where Persentase");
+                                                $jumlah_simelue = mysqli_query($koneksi, "select * from persentase_polres");
                                                 echo mysqli_num_rows($jumlah_simelue);
                                                 ?>,
                                         <?php
-                                                $jumlah_pidie = mysqli_query($koneksi, "select * from persentase where persentase");
+                                                $jumlah_pidie = mysqli_query($koneksi, "select * from persentase_polres");
                                                 echo mysqli_num_rows($jumlah_pidie);
                                                 ?>,
                                         <?php
-                                                $jumlah_pidie_jaya = mysqli_query($koneksi, "select * from persentase where persentase");
+                                                $jumlah_pidie_jaya = mysqli_query($koneksi, "select * from persentase_polres");
                                                 echo mysqli_num_rows($jumlah_pidie_jaya);
                                                 ?>,
                                         <?php
-                                                $jumlah_bireuen = mysqli_query($koneksi, "select * from persentase where persentase");
+                                                $jumlah_bireuen = mysqli_query($koneksi, "select * from persentase_polres");
                                                 echo mysqli_num_rows($jumlah_bireuen);
                                                 ?>
                                     ],
