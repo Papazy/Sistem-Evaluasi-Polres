@@ -63,16 +63,16 @@ if (isset($_FILES["filecsv"])) {
             $PG         = $_POST['PG'];
             $Min        = $_POST['Min'];
             $Max        = $_POST['Max'];
-            $Tw         = $_POST['Tw'];
+            $Triwulan         = $_POST['Triwulan'];
         }
         try {
             $Polres = "";
             foreach ($data as $row) {
                 $Polres = $row[0];
                 $Persentase = $row[1];
-                mysqli_query($koneksi, "INSERT INTO persentase (Polda, Periode, Persentase, PG, Tw) VALUES ('$Polda', '$Periode', '$Persentase', '$PG', '$Tw')");
+                mysqli_query($koneksi, "INSERT INTO persentase (Polda, Periode, Persentase, PG, Triwulan) VALUES ('$Polda', '$Periode', '$Persentase', '$PG', '$Triwulan')");
             }
-            mysqli_query($koneksi, "INSERT INTO laporan (Polda, Periode, PG, Min, Max , Tw) VALUES ('$Polda','$Periode', '$PG', '$Min', '$Max', '$Tw')");
+            mysqli_query($koneksi, "INSERT INTO laporan (Polda, Periode, PG, Min, Max , Triwulan) VALUES ('$Polda','$Periode', '$PG', '$Min', '$Max', '$Triwulan')");
 
             echo "<script>
                 alert('Data berhasil disimpan');
