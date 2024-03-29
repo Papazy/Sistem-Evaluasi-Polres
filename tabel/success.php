@@ -13,8 +13,42 @@
     require_once "../tamplate/header.php";
     require_once "../tamplate/navbar.php";
     require_once "../tamplate/sidebar.php";
+    
+    $Min = 0;
+    $Max = 0;
+    $queryMinMax = mysqli_query($koneksi, "SELECT Min, Max FROM laporan_polres");
+    while($data = mysqli_fetch_array($queryMinMax)){
+        $Min = $data['Min'];
+        $Max = $data['Max'];
+        break;
+    }
 
     
+    $queryPG = mysqli_query($koneksi, "SELECT DISTINCT Polres FROM persentase_polres");
+    $POLRES_ALL =  array();
+    $i = 0;
+    while($polres = mysqli_fetch_array($queryPG)){
+        $POLRES_ALL[$i] = $polres['Polres'];
+        $i++;
+    }
+    $NILAI_POLRES_ALL = array();
+
+    foreach($POLRES_ALL as $satuan){
+        $queryNilai = mysqli_query($koneksi, "SELECT * FROM persentase_polres WHERE Polres = '$satuan'");
+        $nilai = 0;
+        $jumlah = 0;
+        while($data = mysqli_fetch_array($queryNilai)){
+            $nilai = $data['Persentase'];
+            if ($nilai >=  $Max){
+                $jumlah++;
+            }
+        }
+        $NILAI_POLRES_ALL[] = $jumlah;
+
+    }
+
+    // var_dump($NILAI_POLRES_ALL);
+        
 ?>
 
 <div id="layoutSidenav_content">
@@ -61,7 +95,7 @@
                                 <tr>
                                     <th scope="col">No.</th>
                                     <th scope="col">
-                                        <center>Periode</center>
+                                        <center>Polres</center>
                                     </th>
                                     <th scope="col">
                                         <center>Total Persentase</center>
@@ -70,19 +104,35 @@
                             </thead>
 
                             <tbody>
-                                
+                                <?php
+                                    $i = 0;
+                                    $TOTAL_PG = 0;
+                                    foreach($POLRES_ALL as $polres){
+                                    
+                                        if ($NILAI_POLRES_ALL[$i] == 0){
+                                            $i++;
+                                            continue;
+                                        }    
+                                        $TOTAL_PG += $NILAI_POLRES_ALL[$i];
+                                ?>
 
                                 <tr>
-                                    <th scope="row">1</th>
-                                    <td align="center">1</td>
-                                    <td align="center">1</td>
+                                    <th scope="row"><?=$i+1;?></th>
+                                    <td align="center"><?= $polres;?></td>
+                                    <td align="center"><?= $NILAI_POLRES_ALL[$i]?></td>
                                     <td align="center">
                                         <a href="" class="btn btn-sm btn-primary"><i class="fa-solid fa-magnifying-glass"></i> Show</a>
                                         
                                     </td>
                                 </tr>
 
-                          
+                                <?php $i++;} ?>
+                                <tr>
+                                    <th scope="row">TOTAL</th>
+                                    <td align="center"></td>
+                                    <td align="center"><?= $TOTAL_PG?></td>
+                                    <td align="center"></td>
+                                </tr>
                             </tbody>
 
                         </table>

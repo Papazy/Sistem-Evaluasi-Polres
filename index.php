@@ -33,7 +33,6 @@ $persentase = $polres_hijau / ($polres_kuning + $polres_merah) * 100;
 
 $queryPG = mysqli_query($koneksi, "SELECT DISTINCT Polres FROM persentase_polres");
 $POLRES_ALL =  array();
-$NILAI_POLRES_ALL = array(50, 60, 70, 80, 90, 85, 75, 65, 55, 45, 40, 35, 30, 25, 20, 15, 10, 5, 10, 15, 20, 25, 30);
 $i = 0;
 while($polres = mysqli_fetch_array($queryPG)){
     $POLRES_ALL[$i] = $polres['Polres'];
