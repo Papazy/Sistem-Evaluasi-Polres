@@ -33,10 +33,10 @@
                         <table class="table table-hover" id="datatablesSimple">
                             <thead>
                                 <tr>
-                                <th scope="col">No.</th>
-                                <th scope="col"><center>Program Giat</center></th>
-                                <th scope="col"><center>Judul Kegiatan</center></th>
-                                <th scope="col"><center>Setting</center></th>
+                                    <th scope="col"><center>No.</center></th>
+                                    <th scope="col"><center>PG</center></th>
+                                    <th scope="col"><center>Judul Kegiatan</center></th>
+                                    <th scope="col"><center>Setting</center></th>
                                 </tr>
                             </thead>
 
@@ -48,13 +48,13 @@
                                     while ($data = mysqli_fetch_array($queryKegiatan)) { ?>
 
                                     <tr>
-                                        <th scope="row"><?= $no++ ?></th>
-                                        <td align="center"><?= $data['pg'] ?></td>
-                                        <td align="center"><?= $data['judul'] ?></td>
-                                        <td align="center">
-                                            <a href="" class="btn btn-sm btn-warning"><i class="fa-solid fa-pen" title="Edit"></i></a>
-                                            <a href="" class="btn btn-sm btn-danger"><i class="fa-solid fa-trash" title="Delete"></i></a>
-                                        </td>
+                                        <th scope="row"><center><?= $no++ ?></center></th>
+                                        <td><center><?= $data['pg'] ?></center></td>
+                                        <td class="text-truncate" style="max"><?= $data['judul'] ?></td>
+                                        <td><center>
+                                            <a href="" class="btn btn-sm btn-warning"><i class="fa-solid fa-pen" title="Edit"></i> Edit</a>
+                                            <a href="" class="btn btn-sm btn-danger"><i class="fa-solid fa-trash" title="Delete"></i> Delete</a>
+                                        </center></td>
                                     </tr>
 
                                 <?php } ?>

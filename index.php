@@ -30,16 +30,59 @@ $polres_kuning = cariJumlahPolresKuning();
 $polres_hijau = cariJumlahPolresHijau();
 
 $persentase = $polres_hijau / ($polres_kuning + $polres_merah) * 100;
+
+$queryPG = mysqli_query($koneksi, "SELECT DISTINCT Polres FROM persentase_polres");
+$POLRES_ALL =  array();
+$NILAI_POLRES_ALL = array(50, 60, 70, 80, 90, 85, 75, 65, 55, 45, 40, 35, 30, 25, 20, 15, 10, 5, 10, 15, 20, 25, 30);
+$i = 0;
+while($polres = mysqli_fetch_array($queryPG)){
+    $POLRES_ALL[$i] = $polres['Polres'];
+    $i++;
+}
+$NILAI_POLRES_ALL = array();
+
+foreach($POLRES_ALL as $satuan){
+    $queryNilai = mysqli_query($koneksi, "SELECT * FROM persentase_polres WHERE Polres = '$satuan'");
+    $nilai = 0;
+    $jumlah = 0;
+    while($data = mysqli_fetch_array($queryNilai)){
+        $nilai += (float) $data['Persentase'];
+        $jumlah++;
+    }
+    $NILAI_POLRES_ALL[] = $nilai / $jumlah;
+
+}
+
+$Min = 0;
+$Max = 0;
+$queryMinMax = mysqli_query($koneksi, "SELECT Min, Max FROM laporan_polres");
+while($data = mysqli_fetch_array($queryMinMax)){
+    $Min = $data['Min'];
+    $Max = $data['Max'];
+    break;
+}
+                                     
+$backgroundColorArray = array();
+foreach ($NILAI_POLRES_ALL as $nilai) {
+    if ($nilai <= $Min) {
+        $backgroundColorArray[] = 'rgba(255, 0, 0, 0.5)'; // Merah
+    } elseif ($nilai > $Min && $nilai < $Max) {
+        $backgroundColorArray[] = 'rgba(255, 255, 0, 0.5)'; // Kuning
+    } else {
+        $backgroundColorArray[] = 'rgba(0, 255, 0, 0.5)'; // Hijau
+    }
+}
+
 ?>
 
 <div id="layoutSidenav_content">
     <main>
         <div class="container-fluid px-4">
-            <h1 class="mt-4">Dashboard</h1>
+            <h1 class="">Dashboard</h1>
             <ol class="breadcrumb mb-4">
                 <li class="breadcrumb-item active">Home</li>
             </ol>
-            
+
             <div class="row">
                 <div class="" style="width: 22%; flex:0 0 auto;">
                     <a href="<?= $main_url ?>laporan/gabungan.php" style="text-decoration:none; color:white;">
@@ -158,9 +201,7 @@ $persentase = $polres_hijau / ($polres_kuning + $polres_merah) * 100;
 
                     <body>
                         <style type="text/css">
-                        body {
-                            font-family: "Roboto";
-                        }
+                        
 
                         table {
                             margin: 0px auto;
@@ -172,7 +213,7 @@ $persentase = $polres_hijau / ($polres_kuning + $polres_merah) * 100;
                             <h2>Grafik Persentase Polres<br />- keseluruhan -</h2>
                         </center>
 
-                        <div style="width: 800px;margin: 0px auto;">
+                        <div style="width: 100%; margin: 0px auto; overflow: auto;">
                             <canvas id="myChart"></canvas>
                         </div>
 
@@ -202,48 +243,29 @@ $persentase = $polres_hijau / ($polres_kuning + $polres_merah) * 100;
                         });
 
 
-                        var ctx = document.getElementById("myChart").getContext('2d');
+
+                        var ctx = document.getElementById('myChart').getContext('2d');
                         var myChart = new Chart(ctx, {
                             type: 'bar',
                             data: {
-                                labels: ["simeulue", "pidie", "pidie jaya", "bireuen"],
+                                labels: <?php echo json_encode($POLRES_ALL); ?>,
                                 datasets: [{
-                                    label: '',
-                                    data: [
-                                        <?php
-                                                $jumlah_simelue = mysqli_query($koneksi, "select * from persentase_polres");
-                                                echo mysqli_num_rows($jumlah_simelue);
-                                                ?>,
-                                        <?php
-                                                $jumlah_pidie = mysqli_query($koneksi, "select * from persentase_polres");
-                                                echo mysqli_num_rows($jumlah_pidie);
-                                                ?>,
-                                        <?php
-                                                $jumlah_pidie_jaya = mysqli_query($koneksi, "select * from persentase_polres");
-                                                echo mysqli_num_rows($jumlah_pidie_jaya);
-                                                ?>,
-                                        <?php
-                                                $jumlah_bireuen = mysqli_query($koneksi, "select * from persentase_polres");
-                                                echo mysqli_num_rows($jumlah_bireuen);
-                                                ?>
-                                    ],
-                                    backgroundColor: [
-                                        'rgba(255, 99, 132, 0.2)',
-                                        'rgba(54, 162, 235, 0.2)',
-                                        'rgba(255, 206, 86, 0.2)',
-                                        'rgba(75, 192, 192, 0.2)'
-                                    ],
-                                    borderColor: [
-                                        'rgba(255,99,132,1)',
-                                        'rgba(54, 162, 235, 1)',
-                                        'rgba(255, 206, 86, 1)',
-                                        'rgba(75, 192, 192, 1)'
-                                    ],
+                                    label: 'Nilai',
+                                    data: <?php echo json_encode($NILAI_POLRES_ALL); ?>,
+                                    backgroundColor: <?php echo json_encode($backgroundColorArray); ?>,
+                                    borderColor: 'rgba(54, 162, 235, 1)',
                                     borderWidth: 1
                                 }]
                             },
                             options: {
                                 scales: {
+                                    xAxes: [{
+                                        ticks: {
+                                            autoSkip: false,
+                                            maxRotation: 90,
+                                            minRotation: 90
+                                        }
+                                    }],
                                     yAxes: [{
                                         ticks: {
                                             beginAtZero: true

@@ -31,7 +31,7 @@ function hitungPersentaseMerahDariMinSetiapPeriode() {
             // Simpan jumlah total ke dalam array hasil_per_periode
             $hasil_per_periode[$periode] = $total;
         } else {
-            echo "Error: " . mysqli_error($koneksi);
+            // echo "Error: " . mysqli_error($koneksi);
         }
     }
 
@@ -69,7 +69,7 @@ function hitungPersentaseKuningDariMinSetiapPeriode() {
             // Simpan jumlah total ke dalam array hasil_per_periode
             $hasil_per_periode[$periode] = $total;
         } else {
-            echo "Error: " . mysqli_error($koneksi);
+            // echo "Error: " . mysqli_error($koneksi);
         }
     }
 
@@ -107,7 +107,7 @@ function hitungPersentaseHijauDariMinSetiapPeriode() {
             // Simpan jumlah total ke dalam array hasil_per_periode
             $hasil_per_periode[$periode] = $total;
         } else {
-            echo "Error: " . mysqli_error($koneksi);
+            // echo "Error: " . mysqli_error($koneksi);
         }
     }
 
@@ -131,7 +131,7 @@ $hasil = hitungPersentaseMerahDariMinSetiapPeriode();
 
 // Tampilkan hasil per periode
 foreach ($hasil as $periode => $jumlah) {
-    echo "Jumlah Persentase PG yang <= Min dari periode $periode: $jumlah<br>";
+    // echo "Jumlah Persentase PG yang <= Min dari periode $periode: $jumlah<br>";
 }
 
 $total = jumlahTotalPersentase($hasil);
@@ -152,6 +152,6 @@ function cariJumlahPolresHijau(){
     return $total1;
 }
 
-echo "Total : $total"
+// echo "Total : $total"
 
 ?>

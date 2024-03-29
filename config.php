@@ -9,7 +9,7 @@
     // }
 
     // url induk
-    $main_url = "http://localhost/evaluasi/";
+    $main_url = "http://localhost/Sistem-Evaluasi-Polres-main/";
     if (isset($_SESSION['main_title'])) {
         $main_title = $_SESSION['main_title'];
     } else {
