@@ -114,7 +114,7 @@
                                     <td align="center"><?= $period ?></td>
                                     <td align="center"><?= $PERSENTASE[$i] ?></td>
                                     <td align="center">
-                                        <a href="" class="btn btn-sm btn-primary"><i class="fa-solid fa-magnifying-glass"></i> Show</a>
+                                        <a href="<?= $main_url ?>table/data-periode.php?q=<?= $nama_kota ?>&periode=<?= $period?>" class="btn btn-sm btn-primary"><i class="fa-solid fa-magnifying-glass"></i> Show</a>
                                         
                                     </td>
                                 </tr>
