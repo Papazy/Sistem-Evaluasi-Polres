@@ -13,6 +13,16 @@ require_once "../template/header.php";
 require_once "../template/navbar.php";
 require_once "../template/sidebar.php";
 
+$queryPeriode = mysqli_query($koneksi, "SELECT DISTINCT Periode FROM laporan_polres");
+$PERIODE_ALL = array();
+while($periode = mysqli_fetch_array($queryPeriode)){
+    $PERIODE_ALL[] = $periode["Periode"];
+}
+$periode_select = $PERIODE_ALL[0];
+
+if (isset($_GET['periode'])) {
+    $periode_select = $_GET['periode'];
+}
 $PG_ALL = [
     "A11",
     "A21",
@@ -58,13 +68,19 @@ $PG_ALL = [
                 </div>
             </div>
             <div class="card d-flex flex-column">
-                <div class="card-header">
+                <div class="card-header d-flex align-items-center justify-content-between">
                     <span class="h5 my-2"><i class="fa-solid fa-list"></i> Data Polres</span>
-                    <a href="<?= $main_url ?>laporan/add-laporan.php" class="btn btn-sm btn-primary float-end"><i
-                            class="fa-solid fa-plus"></i> Tambah</a>
-                    <a href="<?= $main_url ?>laporan/cetak-laporan.php" class="btn btn-sm btn-success float-end me-1"><i
-                            class="fa-solid fa-print"></i>
-                        Cetak</a>
+                    <div class="d-flex align-items-center">
+                        <label class="mx-2 ">Periode</label>
+                        <select class="form-select" style="width: 150px;" onchange="location = this.value;">
+                            <?php
+                        foreach ($PERIODE_ALL as $periode) {
+                            $selected = $periode == $periode_select ? "selected" : "";
+                            echo "<option value='?periode={$periode}' {$selected}>{$periode}</option>";
+                        }
+                        ?>
+                        </select>
+                    </div>
                 </div>
                 <div class="card-body overflow-auto">
                     <div class="row mt-3">
@@ -160,7 +176,7 @@ $PG_ALL = [
                                         }
 
                                         // Mengambil data dari database dan mengisi array $dataPolres
-                                        $queryData = mysqli_query($koneksi, "SELECT Polres, PG, Persentase FROM persentase_polres");
+                                        $queryData = mysqli_query($koneksi, "SELECT Polres, PG, Persentase FROM persentase_polres WHERE Periode = '{$periode_select}'");
                                         while ($data = mysqli_fetch_assoc($queryData)) {
                                             $dataPolres[$data['Polres']][$data['PG']] = $data['Persentase'];
                                         }
@@ -216,7 +232,14 @@ $PG_ALL = [
         </div>
     </main>
 
-
+    <script>
+    function updateURL(select) {
+        var selectedPeriode = select.value;
+        var currentURL = new URL(window.location.href);
+        currentURL.searchParams.set('periode', selectedPeriode);
+        window.location.href = currentURL.href;
+    }
+    </script>
 
     <?php
 require_once "../template/footer.php";
