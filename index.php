@@ -12,9 +12,9 @@ require_once "utils.php";
 
 
 $title = "Dashboard - Sistem Evaluasi Polres";
-require_once "tamplate/header.php";
-require_once "tamplate/navbar.php";
-require_once "tamplate/sidebar.php";
+require_once "template/header.php";
+require_once "template/navbar.php";
+require_once "template/sidebar.php";
 
 $queryPolres = mysqli_query($koneksi, "SELECT * FROM polres");
 $totalPolres = mysqli_num_rows($queryPolres);
@@ -84,7 +84,7 @@ foreach ($NILAI_POLRES_ALL as $nilai) {
 
             <div class="row">
                 <div class="" style="width: 22%; flex:0 0 auto;">
-                    <a href="<?= $main_url ?>tabel/success.php" style="text-decoration:none; color:white;">
+                    <a href="<?= $main_url ?>table/success.php" style="text-decoration:none; color:white;">
                         <div class="card bg-success text-white mb-4">
                             <div class="card-body d-flex align-items-center justify-content-between">
                                 <div>Polda</div>
@@ -100,7 +100,7 @@ foreach ($NILAI_POLRES_ALL as $nilai) {
                 </div>
             </div>
             <div class="" style="width: 22%; flex:0 0 auto; ">
-                <a href="<?= $main_url ?>tabel/warning.php" style="text-decoration:none; color:white;">
+                <a href="<?= $main_url ?>table/warning.php" style="text-decoration:none; color:white;">
                     <div class="card bg-warning text-white mb-4">
                         <div class="card-body d-flex align-items-center justify-content-between">
                             <div>Polda</div>
@@ -116,7 +116,7 @@ foreach ($NILAI_POLRES_ALL as $nilai) {
                 </a>
             </div>
             <div class="" style="width: 22%; flex:0 0 auto;">
-                <a href="<?= $main_url ?>tabel/danger.php" style="text-decoration:none; color:white;">
+                <a href="<?= $main_url ?>table/danger.php" style="text-decoration:none; color:white;">
                     <div class="card bg-danger text-white mb-4">
                         <div class="card-body d-flex align-items-center justify-content-between">
                             <div>Polda</div>
@@ -132,7 +132,7 @@ foreach ($NILAI_POLRES_ALL as $nilai) {
                 </a>
             </div>
             <div class="col-xl-2 col-md-4">
-                <a href="<?= $main_url ?>laporan/gabungan.php" style="text-decoration:none; color:white;">
+                <a href="<?= $main_url ?>gabungan/polres.php" style="text-decoration:none; color:white;">
                     <div class="card bg-info text-white mb-4">
                         <div class="card-body d-flex align-items-center justify-content-between">
                             <div>Persentase</div>
@@ -148,7 +148,7 @@ foreach ($NILAI_POLRES_ALL as $nilai) {
                 </a>
             </div>
             <div class="col-xl-2 col-md-4">
-                <a href="<?= $main_url ?>laporan/gabungan.php" style="text-decoration:none; color:white;">
+                <a href="<?= $main_url ?>gabungan/polres.php" style="text-decoration:none; color:white;">
                     <div class="card bg-info text-white mb-4">
                         <div class="card-body d-flex align-items-center justify-content-between">
                             <div>Total</div>
@@ -182,11 +182,11 @@ foreach ($NILAI_POLRES_ALL as $nilai) {
                             </select>
                             <div class="d-inline-flex align-items-center gap-1 border border-dark rounded px-1 py-1"
                                 style="--bs-border-opacity: .25; background-color:white">
-                                <div id="itable" style=" padding:2px 5px; border-radius:5px; cursor:pointer;" onclick="tampilTable()">
+                                <div id="itable" style=" padding:2px 5px; border-radius:5px; cursor:pointer;">
                                     <i class="fa-solid fa-table"></i>
                                 </div>
                                 <div id="ichart"
-                                    style=" padding:2px 5px; border-radius:5px; cursor:pointer; background-color:rgba(0,0,0,0.15)" onclick="tampilChart()">
+                                    style=" padding:2px 5px; border-radius:5px; cursor:pointer; background-color:rgba(0,0,0,0.15)">
                                     <i class="fa-solid fa-chart-simple"></i>
                                 </div>
 
@@ -213,7 +213,7 @@ foreach ($NILAI_POLRES_ALL as $nilai) {
                         <div style="width: 100%; margin: 0px auto; overflow: auto;">
                             <canvas id="myChart" style=""></canvas>
                             <div class="table-chart px-3 py-2" style="display:none">
-                                <?php require_once "tabel/components/table-simple.php"; ?>
+                                <?php require_once "table/components/table-simple.php"; ?>
                             </div>
                         </div>
 
@@ -244,51 +244,54 @@ foreach ($NILAI_POLRES_ALL as $nilai) {
 
 
 
-                            var ctx = document.getElementById('myChart').getContext('2d');
-                            var myChart = new Chart(ctx, {
-                                type: 'bar',
-                                data: {
-                                    labels: <?php echo json_encode($POLRES_ALL); ?>,
-                                    datasets: [{
-                                        label: 'Nilai',
-                                        data: <?php echo json_encode($NILAI_POLRES_ALL); ?>,
-                                        backgroundColor: <?php echo json_encode($backgroundColorArray); ?>,
-                                        borderColor: 'rgba(54, 162, 235, 1)',
-                                        borderWidth: 1
+                        var ctx = document.getElementById('myChart').getContext('2d');
+                        var myChart = new Chart(ctx, {
+                            type: 'bar',
+                            data: {
+                                labels: <?php echo json_encode($POLRES_ALL); ?>,
+                                datasets: [{
+                                    label: 'Nilai',
+                                    data: <?php echo json_encode($NILAI_POLRES_ALL); ?>,
+                                    backgroundColor: <?php echo json_encode($backgroundColorArray); ?>,
+                                    borderColor: 'rgba(54, 162, 235, 1)',
+                                    borderWidth: 1
+                                }]
+                            },
+                            options: {
+                                scales: {
+                                    xAxes: [{
+                                        ticks: {
+                                            autoSkip: false,
+                                            maxRotation: 90,
+                                            minRotation: 90
+                                        }
+                                    }],
+                                    yAxes: [{
+                                        ticks: {
+                                            beginAtZero: true
+                                        }
                                     }]
                                 },
-                                options: {
-                                    scales: {
-                                        xAxes: [{
-                                            ticks: {
-                                                autoSkip: false,
-                                                maxRotation: 90,
-                                                minRotation: 90
-                                            }
-                                        }],
-                                        yAxes: [{
-                                            ticks: {
-                                                beginAtZero: true
-                                            }
-                                        }]
-                                    },
-                                    onClick: (event, elements) => {
-                                        console.log(myChart.data.labels[elements[0]._index]);
-                                        var namaKota = myChart.data.labels[elements[0]._index];
-                                        window.location = "<?php echo $main_url; ?>tabel/data.php?q=" +
-                                            namaKota;
-                                    }
+                                onClick: (event, elements) => {
+                                    console.log(myChart.data.labels[elements[0]._index]);
+                                    var namaKota = myChart.data.labels[elements[0]._index];
+                                    window.location = "<?php echo $main_url; ?>table/data.php?q=" +
+                                        namaKota;
                                 }
+                            }
 
-                            });
-                        
+                        });
 
-                        function tampilChart(){
+                        tableIcon.addEventListener('click', tampilTable);
+                        chartIcon.addEventListener('click', tampilChart);
+
+                        function tampilChart() {
                             var table = document.querySelector('.table-chart');
                             table.style.display = 'none';
                             var chart = document.getElementById('myChart');
                             chart.style.display = 'block';
                         }
+
                         function tampilTable() {
                             var table = document.querySelector('.table-chart');
                             table.style.display = 'block';
@@ -306,6 +309,6 @@ foreach ($NILAI_POLRES_ALL as $nilai) {
 
 <?php
 
-    require_once "tamplate/footer.php";
+    require_once "template/footer.php";
 
     ?>

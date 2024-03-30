@@ -10,9 +10,9 @@
     require_once "../config.php";
 
     $title = "Tambah Kegiatan - Sistem Evaluasi Polres";
-    require_once "../tamplate/header.php";
-    require_once "../tamplate/navbar.php";
-    require_once "../tamplate/sidebar.php";
+    require_once "../template/header.php";
+    require_once "../template/navbar.php";
+    require_once "../template/sidebar.php";
 
 ?>
 
@@ -85,6 +85,6 @@
 
 <?php 
 
-    require_once "../tamplate/footer.php";
+    require_once "../template/footer.php";
 
 ?>

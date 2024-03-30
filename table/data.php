@@ -10,9 +10,9 @@
     require_once "../config.php";
 
     $title = "Polres - Sistem Evaluasi Polres";
-    require_once "../tamplate/header.php";
-    require_once "../tamplate/navbar.php";
-    require_once "../tamplate/sidebar.php";
+    require_once "../template/header.php";
+    require_once "../template/navbar.php";
+    require_once "../template/sidebar.php";
 
     $nama_kota = "";
     if(isset($_GET['q'])) {
@@ -65,7 +65,7 @@
                     </div>
                     <div class="card-body ">
                         <style>
-                        /* Style untuk tabel */
+                        /* Style untuk table */
                         #datatablesSimple {
                             width: 100%;
                             border-collapse: collapse;
@@ -134,6 +134,6 @@
 
 <?php 
 
-    require_once "../tamplate/footer.php";
+    require_once "../template/footer.php";
 
 ?>

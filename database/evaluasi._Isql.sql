@@ -24,7 +24,7 @@ SET time_zone = "+00:00";
 -- --------------------------------------------------------
 
 --
--- Struktur dari tabel `kegiatan`
+-- Struktur dari table `kegiatan`
 --
 
 CREATE TABLE `kegiatan` (
@@ -33,7 +33,7 @@ CREATE TABLE `kegiatan` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Dumping data untuk tabel `kegiatan`
+-- Dumping data untuk table `kegiatan`
 --
 
 INSERT INTO `kegiatan` (`pg`, `judul`) VALUES
@@ -43,7 +43,7 @@ INSERT INTO `kegiatan` (`pg`, `judul`) VALUES
 -- --------------------------------------------------------
 
 --
--- Struktur dari tabel `laporan_polda`
+-- Struktur dari table `laporan_polda`
 --
 
 CREATE TABLE `laporan_polda` (
@@ -59,7 +59,7 @@ CREATE TABLE `laporan_polda` (
 -- --------------------------------------------------------
 
 --
--- Struktur dari tabel `laporan_polres`
+-- Struktur dari table `laporan_polres`
 --
 
 CREATE TABLE `laporan_polres` (
@@ -73,7 +73,7 @@ CREATE TABLE `laporan_polres` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Dumping data untuk tabel `laporan_polres`
+-- Dumping data untuk table `laporan_polres`
 --
 
 INSERT INTO `laporan_polres` (`id`, `Polres`, `PG`, `Min`, `Max`, `Periode`, `Triwulan`) VALUES
@@ -84,7 +84,7 @@ INSERT INTO `laporan_polres` (`id`, `Polres`, `PG`, `Min`, `Max`, `Periode`, `Tr
 -- --------------------------------------------------------
 
 --
--- Struktur dari tabel `persentase_polres`
+-- Struktur dari table `persentase_polres`
 --
 
 CREATE TABLE `persentase_polres` (
@@ -98,7 +98,7 @@ CREATE TABLE `persentase_polres` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Dumping data untuk tabel `persentase_polres`
+-- Dumping data untuk table `persentase_polres`
 --
 
 INSERT INTO `persentase_polres` (`id`, `Polda`, `Polres`, `Periode`, `Persentase`, `PG`, `Triwulan`) VALUES
@@ -175,7 +175,7 @@ INSERT INTO `persentase_polres` (`id`, `Polda`, `Polres`, `Periode`, `Persentase
 -- --------------------------------------------------------
 
 --
--- Struktur dari tabel `polres`
+-- Struktur dari table `polres`
 --
 
 CREATE TABLE `polres` (
@@ -186,7 +186,7 @@ CREATE TABLE `polres` (
 -- --------------------------------------------------------
 
 --
--- Struktur dari tabel `user`
+-- Struktur dari table `user`
 --
 
 CREATE TABLE `user` (
@@ -200,7 +200,7 @@ CREATE TABLE `user` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Dumping data untuk tabel `user`
+-- Dumping data untuk table `user`
 --
 
 INSERT INTO `user` (`id`, `username`, `password`, `nama`, `alamat`, `jabatan`, `foto`) VALUES
@@ -212,65 +212,65 @@ INSERT INTO `user` (`id`, `username`, `password`, `nama`, `alamat`, `jabatan`, `
 --
 
 --
--- Indeks untuk tabel `kegiatan`
+-- Indeks untuk table `kegiatan`
 --
 ALTER TABLE `kegiatan`
   ADD PRIMARY KEY (`pg`);
 
 --
--- Indeks untuk tabel `laporan_polda`
+-- Indeks untuk table `laporan_polda`
 --
 ALTER TABLE `laporan_polda`
   ADD PRIMARY KEY (`id`);
 
 --
--- Indeks untuk tabel `laporan_polres`
+-- Indeks untuk table `laporan_polres`
 --
 ALTER TABLE `laporan_polres`
   ADD PRIMARY KEY (`id`);
 
 --
--- Indeks untuk tabel `persentase_polres`
+-- Indeks untuk table `persentase_polres`
 --
 ALTER TABLE `persentase_polres`
   ADD PRIMARY KEY (`id`);
 
 --
--- Indeks untuk tabel `polres`
+-- Indeks untuk table `polres`
 --
 ALTER TABLE `polres`
   ADD PRIMARY KEY (`nama`);
 
 --
--- Indeks untuk tabel `user`
+-- Indeks untuk table `user`
 --
 ALTER TABLE `user`
   ADD PRIMARY KEY (`id`);
 
 --
--- AUTO_INCREMENT untuk tabel yang dibuang
+-- AUTO_INCREMENT untuk table yang dibuang
 --
 
 --
--- AUTO_INCREMENT untuk tabel `laporan_polda`
+-- AUTO_INCREMENT untuk table `laporan_polda`
 --
 ALTER TABLE `laporan_polda`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
--- AUTO_INCREMENT untuk tabel `laporan_polres`
+-- AUTO_INCREMENT untuk table `laporan_polres`
 --
 ALTER TABLE `laporan_polres`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
--- AUTO_INCREMENT untuk tabel `persentase_polres`
+-- AUTO_INCREMENT untuk table `persentase_polres`
 --
 ALTER TABLE `persentase_polres`
   MODIFY `id` int(100) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=461;
 
 --
--- AUTO_INCREMENT untuk tabel `user`
+-- AUTO_INCREMENT untuk table `user`
 --
 ALTER TABLE `user`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;

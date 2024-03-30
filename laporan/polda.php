@@ -9,25 +9,25 @@ if (!isset($_SESSION['ssLogin'])) {
 
 require_once "../config.php";
 
-$title = "Polres - Sistem Evaluasi Polres";
-require_once "../tamplate/header.php";
-require_once "../tamplate/navbar.php";
-require_once "../tamplate/sidebar.php";
+$title = "Polda - Sistem Evaluasi Polda";
+require_once "../template/header.php";
+require_once "../template/navbar.php";
+require_once "../template/sidebar.php";
 
 ?>
 
 <div id="layoutSidenav_content">
     <main>
         <div class="container-fluid px-4">
-            <h1 class="mt-4">Polres</h1>
+            <h1 class="mt-4">Polda</h1>
             <ol class="breadcrumb mb-4">
                 <li class="breadcrumb-item"><a href="../index.php">Home</a></li>
-                <li class="breadcrumb-item active">Polres</li>
+                <li class="breadcrumb-item active">Polda</li>
             </ol>
             <div class="card">
                 <div class="card-header">
-                    <span class="h5 my-2"><i class="fa-solid fa-list"></i> Data Polres</span>
-                    <a href="<?= $main_url ?>laporan/add-laporan.php" class="btn btn-sm btn-primary float-end"><i class="fa-solid fa-plus"></i> Tambah</a>
+                    <span class="h5 my-2"><i class="fa-solid fa-list"></i> Data Polda</span>
+                    <a href="<?= $main_url ?>polda/add-polda.php" class="btn btn-sm btn-primary float-end"><i class="fa-solid fa-plus"></i> Tambah</a>
                     <a href="<?= $main_url ?>laporan/cetak-laporan.php" class="btn btn-sm btn-success float-end me-1"><i class="fa-solid fa-print"></i> Cetak</a>
                 </div>
                 <div class="card-body">
@@ -36,7 +36,7 @@ require_once "../tamplate/sidebar.php";
                             <tr>
                                 <th scope="col">No.</th>
                                 <th scope="col">
-                                    <center>Polres</center>
+                                    <center>Polda</center>
                                 </th>
                                 <th scope="col">
                                     <center>Periode</center>
@@ -66,30 +66,21 @@ require_once "../tamplate/sidebar.php";
                             <?php
 
                             $no = 1;
-                            $queryLaporan = mysqli_query($koneksi, "SELECT * FROM laporan_polres");
+                            $queryLaporan = mysqli_query($koneksi, "SELECT * FROM laporan_polda");
                             while ($data = mysqli_fetch_array($queryLaporan)) {
                                 $queryPersentase = mysqli_query($koneksi, "SELECT * FROM persentase_polres WHERE Periode = '{$data['Periode']}' AND PG = '{$data['PG']}'");
                                 while ($dataPersentase = mysqli_fetch_array($queryPersentase)) {
-                                    $class = null;
-                                    if((float)$dataPersentase['Persentase'] >= (float) $data["Max"]){
-                                        $class = 'bg-success';
-                                    }elseif((float)$dataPersentase['Persentase'] > (float) $data["Min"]){
-                                        $class = 'bg-warning';
-                                    }else{
-                                        $class = 'bg-danger';
-
-                                    }
                             ?>
                                     <tr>
                                         <th scope="row"><?= $no++ ?></th>
-                                        <td ><?= $dataPersentase['Polres'] ?></td>
+                                        <td align="center"><?= $dataPersentase['Polda'] ?></td>
                                         <td><center><?= $data['Periode'] ?></center></td>
                                         <td><center><?= $data['PG'] ?></center></td>
-                                        <td style="padding:0; margin:0" ><center class="<?= $class ?>" style="width:100%; height:100%; margin:0;"><?= $dataPersentase['Persentase'] . "%" ?></center></td>
+                                        <td><center><?= $dataPersentase['Persentase'] . "%" ?></td>
                                         <td><center><?= $data['Min'] . "%" ?></center></td>
                                         <td><center><?= $data['Max'] . "%" ?></center></td>
                                         <td><center><?= $data['Triwulan'] ?></center></td>
-                                        <td >
+                                        <td align="center">
                                             <a href="" class="btn btn-sm btn-warning"><i class="fa-solid fa-pen" title="Edit"></i> Edit</a>
                                             <a href="" class="btn btn-sm btn-danger"><i class="fa-solid fa-trash" title="Delete"></i> Delete</a>
                                         </td>
@@ -110,6 +101,6 @@ require_once "../tamplate/sidebar.php";
 
     <?php
 
-    require_once "../tamplate/footer.php";
+    require_once "../template/footer.php";
 
     ?>

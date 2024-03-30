@@ -32,7 +32,7 @@
                                         <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
                                             <ul type="none">
                                                 <li>
-                                                    <a class="nav-link" href="<?= $main_url ?>polda/add-polda.php">
+                                                    <a class="nav-link" href="<?= $main_url ?>tambah-data/polda/add-polda.php">
                                                         <div class="sb-nav-link-icon"><i class="fa-solid fa-building-columns"></i></div>
                                                         Polda
                                                     </a>
@@ -40,7 +40,7 @@
                                             </ul>
                                             <ul type="none">
                                                 <li>
-                                                    <a class="nav-link" href="<?= $main_url ?>laporan/add-laporan.php">
+                                                    <a class="nav-link" href="<?= $main_url ?>tambah-data/polres/add-laporan.php">
                                                         <div class="sb-nav-link-icon"><i class="fa-solid fa-landmark-dome"></i></div>
                                                         Polres
                                                     </a>
@@ -58,7 +58,7 @@
                                         <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
                                             <ul type="none">
                                                 <li>
-                                                    <a class="nav-link" href="<?= $main_url ?>polda/polda.php">
+                                                    <a class="nav-link" href="<?= $main_url ?>laporan/polda.php">
                                                         <div class="sb-nav-link-icon"><i class="fa-solid fa-building-columns"></i></div>
                                                         Polda
                                                     </a>
@@ -66,7 +66,7 @@
                                             </ul>
                                             <ul type="none">
                                                 <li>
-                                                    <a class="nav-link" href="<?= $main_url ?>laporan/laporan.php">
+                                                    <a class="nav-link" href="<?= $main_url ?>laporan/polres.php">
                                                         <div class="sb-nav-link-icon"><i class="fa-solid fa-landmark-dome"></i></div>
                                                         Polres
                                                     </a>
@@ -81,7 +81,7 @@
                                         Total
                                     </button>
                                     <div class="collapse" id="total-collapse">
-                                        <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
+                                        <ul class="btn-toggle-nav list-unstyled fw- normal pb-1 small">
                                             <ul type="none">
                                                 <li>
                                                     <a class="nav-link" href="<?= $main_url ?>gabungan/polda.php">

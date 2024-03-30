@@ -9,9 +9,9 @@ if (!isset($_SESSION['ssLogin'])) {
 require_once "../config.php";
 
 $title = "Total - Sistem Evaluasi Polres";
-require_once "../tamplate/header.php";
-require_once "../tamplate/navbar.php";
-require_once "../tamplate/sidebar.php";
+require_once "../template/header.php";
+require_once "../template/navbar.php";
+require_once "../template/sidebar.php";
 
 ?>
 
@@ -136,5 +136,5 @@ require_once "../tamplate/sidebar.php";
 
 
     <?php
-require_once "../tamplate/footer.php";
+require_once "../template/footer.php";
 ?>

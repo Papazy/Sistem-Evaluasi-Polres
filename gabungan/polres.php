@@ -9,9 +9,9 @@ if (!isset($_SESSION['ssLogin'])) {
 require_once "../config.php";
 
 $title = "gabungan - Sistem Evaluasi Polres";
-require_once "../tamplate/header.php";
-require_once "../tamplate/navbar.php";
-require_once "../tamplate/sidebar.php";
+require_once "../template/header.php";
+require_once "../template/navbar.php";
+require_once "../template/sidebar.php";
 
 $PG_ALL = [
     "A11",
@@ -165,7 +165,7 @@ $PG_ALL = [
                                             $dataPolres[$data['Polres']][$data['PG']] = $data['Persentase'];
                                         }
 
-                                        // Menyusun data Polres berdasarkan PG ke dalam tabel
+                                        // Menyusun data Polres berdasarkan PG ke dalam table
                                         foreach ($dataPolres as $polres => $pg) {
                                             $total = 0;
                                             $count = 0;
@@ -219,5 +219,5 @@ $PG_ALL = [
 
 
     <?php
-require_once "../tamplate/footer.php";
+require_once "../template/footer.php";
 ?>
