@@ -182,11 +182,11 @@ foreach ($NILAI_POLRES_ALL as $nilai) {
                             </select>
                             <div class="d-inline-flex align-items-center gap-1 border border-dark rounded px-1 py-1"
                                 style="--bs-border-opacity: .25; background-color:white">
-                                <div id="itable" style=" padding:2px 5px; border-radius:5px; cursor:pointer;">
+                                <div id="itable" style=" padding:2px 5px; border-radius:5px; cursor:pointer;" onclick="tampilTable()">
                                     <i class="fa-solid fa-table"></i>
                                 </div>
                                 <div id="ichart"
-                                    style=" padding:2px 5px; border-radius:5px; cursor:pointer; background-color:rgba(0,0,0,0.15)">
+                                    style=" padding:2px 5px; border-radius:5px; cursor:pointer; background-color:rgba(0,0,0,0.15)" onclick="tampilChart()">
                                     <i class="fa-solid fa-chart-simple"></i>
                                 </div>
 
@@ -200,8 +200,6 @@ foreach ($NILAI_POLRES_ALL as $nilai) {
 
                     <body>
                         <style type="text/css">
-                        
-
                         table {
                             margin: 0px auto;
                         }
@@ -213,7 +211,10 @@ foreach ($NILAI_POLRES_ALL as $nilai) {
                         </center>
 
                         <div style="width: 100%; margin: 0px auto; overflow: auto;">
-                            <canvas id="myChart"></canvas>
+                            <canvas id="myChart" style=""></canvas>
+                            <div class="table-chart px-3 py-2" style="display:none">
+                                <?php require_once "tabel/components/table-simple.php"; ?>
+                            </div>
                         </div>
 
                         <br />
@@ -243,44 +244,57 @@ foreach ($NILAI_POLRES_ALL as $nilai) {
 
 
 
-                        var ctx = document.getElementById('myChart').getContext('2d');
-                        var myChart = new Chart(ctx, {
-                            type: 'bar',
-                            data: {
-                                labels: <?php echo json_encode($POLRES_ALL); ?>,
-                                datasets: [{
-                                    label: 'Nilai',
-                                    data: <?php echo json_encode($NILAI_POLRES_ALL); ?>,
-                                    backgroundColor: <?php echo json_encode($backgroundColorArray); ?>,
-                                    borderColor: 'rgba(54, 162, 235, 1)',
-                                    borderWidth: 1
-                                }]
-                            },
-                            options: {
-                                scales: {
-                                    xAxes: [{
-                                        ticks: {
-                                            autoSkip: false,
-                                            maxRotation: 90,
-                                            minRotation: 90
-                                        }
-                                    }],
-                                    yAxes: [{
-                                        ticks: {
-                                            beginAtZero: true
-                                        }
+                            var ctx = document.getElementById('myChart').getContext('2d');
+                            var myChart = new Chart(ctx, {
+                                type: 'bar',
+                                data: {
+                                    labels: <?php echo json_encode($POLRES_ALL); ?>,
+                                    datasets: [{
+                                        label: 'Nilai',
+                                        data: <?php echo json_encode($NILAI_POLRES_ALL); ?>,
+                                        backgroundColor: <?php echo json_encode($backgroundColorArray); ?>,
+                                        borderColor: 'rgba(54, 162, 235, 1)',
+                                        borderWidth: 1
                                     }]
                                 },
-                                onClick: (event, elements) =>{
-                                    console.log(myChart.data.labels[elements[0]._index]);
-                                    var namaKota = myChart.data.labels[elements[0]._index];
-                                    window.location = "<?php echo $main_url; ?>tabel/data.php?q="+ namaKota;
+                                options: {
+                                    scales: {
+                                        xAxes: [{
+                                            ticks: {
+                                                autoSkip: false,
+                                                maxRotation: 90,
+                                                minRotation: 90
+                                            }
+                                        }],
+                                        yAxes: [{
+                                            ticks: {
+                                                beginAtZero: true
+                                            }
+                                        }]
+                                    },
+                                    onClick: (event, elements) => {
+                                        console.log(myChart.data.labels[elements[0]._index]);
+                                        var namaKota = myChart.data.labels[elements[0]._index];
+                                        window.location = "<?php echo $main_url; ?>tabel/data.php?q=" +
+                                            namaKota;
+                                    }
                                 }
-                            }
 
-                        });
-
+                            });
                         
+
+                        function tampilChart(){
+                            var table = document.querySelector('.table-chart');
+                            table.style.display = 'none';
+                            var chart = document.getElementById('myChart');
+                            chart.style.display = 'block';
+                        }
+                        function tampilTable() {
+                            var table = document.querySelector('.table-chart');
+                            table.style.display = 'block';
+                            var chart = document.getElementById('myChart');
+                            chart.style.display = 'none';
+                        }
                         </script>
                     </body>
                     <div class="card-body"><canvas id="myBarChart" height="85"></canvas></div>
