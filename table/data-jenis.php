@@ -56,14 +56,7 @@
     }
 
     $Breadcumb = ($jenis == "danger") ? "Tidak Lulus" : (($jenis == "warning") ? "Cukup" : "Lulus");
-    // $url_header = "";
-    // if($jenis == "danger"){
-    //     $url_header = "../table"
-    // }else if($jenis == "warning"){
-    //     $class = "bg-warning";
-    // }else if($jenis == "success"){
-    //     $class = "bg-success";
-    // }
+
 
 
 ?>
