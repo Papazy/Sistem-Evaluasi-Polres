@@ -40,15 +40,21 @@ while($polres = mysqli_fetch_array($queryPG)){
 }
 $NILAI_POLRES_ALL = array();
 
+$TRIWULAN_SELECTED = 1;
+if(isset($_GET['triwulan'])){
+    $TRIWULAN_SELECTED = $_GET['triwulan'];
+}
 foreach($POLRES_ALL as $satuan){
-    $queryNilai = mysqli_query($koneksi, "SELECT * FROM persentase_polres WHERE Polres = '$satuan'");
+    $queryNilai = mysqli_query($koneksi, "SELECT * FROM persentase_polres WHERE Polres = '$satuan' AND Triwulan = '$TRIWULAN_SELECTED'");
     $nilai = 0;
     $jumlah = 0;
     while($data = mysqli_fetch_array($queryNilai)){
         $nilai += (float) $data['Persentase'];
         $jumlah++;
     }
-    $NILAI_POLRES_ALL[] = $nilai / $jumlah;
+    if($jumlah != 0){
+        $NILAI_POLRES_ALL[] = $nilai / $jumlah;
+    }
 
 }
 
@@ -71,7 +77,6 @@ foreach ($NILAI_POLRES_ALL as $nilai) {
         $backgroundColorArray[] = 'rgba(0, 255, 0, 0.5)'; // Hijau
     }
 }
-
 ?>
 
 <div id="layoutSidenav_content">
@@ -174,11 +179,11 @@ foreach ($NILAI_POLRES_ALL as $nilai) {
                             Capaian Polres
                         </div>
                         <div class="d-inline-flex align-items-center gap-2">
-                            <select class="form-select" name="triwulan" id="triwulan">
-                                <option value="1">Triwulan 1</option>
-                                <option value="2">Triwulan 2</option>
-                                <option value="3">Triwulan 3</option>
-                                <option value="4">Triwulan 4</option>
+                            <select class="form-select" name="triwulan" id="triwulan" onchange="updateTriwulan(this.value)">
+                                <option value="1" <?php if($TRIWULAN_SELECTED == "1" ) echo 'selected';?>>Triwulan 1</option>
+                                <option value="2" <?php if($TRIWULAN_SELECTED == "2" ) echo 'selected';?>>Triwulan 2</option>
+                                <option value="3" <?php if($TRIWULAN_SELECTED == "3" ) echo 'selected';?>>Triwulan 3</option>
+                                <option value="4" <?php if($TRIWULAN_SELECTED == "4" ) echo 'selected';?>>Triwulan 4</option>
                             </select>
                             <div class="d-inline-flex align-items-center gap-1 border border-dark rounded px-1 py-1"
                                 style="--bs-border-opacity: .25; background-color:white">
@@ -297,6 +302,10 @@ foreach ($NILAI_POLRES_ALL as $nilai) {
                             table.style.display = 'block';
                             var chart = document.getElementById('myChart');
                             chart.style.display = 'none';
+                        }
+
+                        function updateTriwulan(triwulan) {
+                            window.location = "<?php echo $main_url; ?>index.php?triwulan=" + triwulan;
                         }
                         </script>
                     </body>
