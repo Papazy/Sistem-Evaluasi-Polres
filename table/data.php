@@ -55,7 +55,7 @@
             <h1 class="mt-4">Polres <?= $nama_kota; ?></h1>
             <ol class="breadcrumb mb-4">
                 <li class="breadcrumb-item"><a href="../index.php">Home</a></li>
-                <li class="breadcrumb-item active">Data / <?= $nama_kota; ?></li>
+                <li class="breadcrumb-item active"><a href="../table/data.php?q=<?= $nama_kota?>"><?= $nama_kota; ?></a></li>
             </ol>
           
                 <div class="card w-75">

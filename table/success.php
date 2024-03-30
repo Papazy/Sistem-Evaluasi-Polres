@@ -54,15 +54,16 @@
 <div id="layoutSidenav_content">
     <main>
         <div class="container-fluid px-4">
-            <h1 class="mt-4">Data Polres Hijau</h1>
+            <h1 class="mt-4">Data Polres</h1>
             <ol class="breadcrumb mb-4">
-                <li class="breadcrumb-item"><a href="../index.php">Home</a></li>
-                <li class="breadcrumb-item active">Data /</li>
+            <li class="breadcrumb-item"><a style="text-decoration: none;" href="../index.php">Home</a></li>
+                <li class="breadcrumb-item active"><a style="text-decoration: none;" href="../table/success.php">Lulus /<a></li>
+                
             </ol>
           
                 <div class="card w-75">
                     <div class="card-header">
-                        <span class="h5 my-2"><i class="fa-solid fa-list"></i> Data Polres</span>
+                        <span class="h5 my-2"><i class="fa-solid fa-list"></i> Kategori Lulus</span>
 
                     </div>
                     <div class="card-body ">
@@ -106,6 +107,7 @@
                             <tbody>
                                 <?php
                                     $i = 0;
+                                    $no = 1;
                                     $TOTAL_PG = 0;
                                     foreach($POLRES_ALL as $polres){
                                     
@@ -117,11 +119,11 @@
                                 ?>
 
                                 <tr>
-                                    <th scope="row"><?=$i+1;?></th>
+                                    <th scope="row"><?=$no++;?></th>
                                     <td align="center"><?= $polres;?></td>
                                     <td align="center"><?= $NILAI_POLRES_ALL[$i]?></td>
                                     <td align="center">
-                                        <a href="" class="btn btn-sm btn-primary"><i class="fa-solid fa-magnifying-glass"></i> Show</a>
+                                    <a href="<?= $main_url?>table/data-jenis.php?q=success&p=<?=$polres?>" class="btn btn-sm btn-primary"><i class="fa-solid fa-magnifying-glass"></i> Show</a>
                                         
                                     </td>
                                 </tr>
