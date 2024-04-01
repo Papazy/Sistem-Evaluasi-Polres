@@ -91,7 +91,7 @@ if (isset($_FILES["filecsv"])) {
 }
 
 // Setelah kode diatas di proses, pindah ke halaman index.php
-header("Location: laporan.php");
+header("Location: ../../laporan/polres.php");
 exit;
 
 ?>

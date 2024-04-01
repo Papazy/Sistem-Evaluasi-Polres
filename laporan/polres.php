@@ -28,7 +28,7 @@ require_once "../template/sidebar.php";
             <div class="card">
                 <div class="card-header">
                     <span class="h5 my-2"><i class="fa-solid fa-list"></i> Data Polres</span>
-                    <a href="<?= $main_url ?>laporan/add-laporan.php" class="btn btn-sm btn-primary float-end"><i
+                    <a href="<?= $main_url ?>tambah-data/polres/add-laporan.php" class="btn btn-sm btn-primary float-end"><i
                             class="fa-solid fa-plus"></i> Tambah</a>
                     <a href="<?= $main_url ?>laporan/cetak-laporan.php" class="btn btn-sm btn-success float-end me-1"><i
                             class="fa-solid fa-print"></i> Cetak</a>

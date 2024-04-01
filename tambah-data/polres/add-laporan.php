@@ -22,7 +22,7 @@ require_once "../../template/sidebar.php";
             <h1 class="mt-4">Tambah Polres</h1>
             <ol class="breadcrumb mb-4">
                 <li class="breadcrumb-item"><a href="../../index.php">Home</a></li>
-                <li class="breadcrumb-item"><a href="laporan.php">Polres</a></li>
+                <li class="breadcrumb-item"><a href="<?= $main_url?>laporan/polres.php">Polres</a></li>
                 <li class="breadcrumb-item active">Tambah Polres</li>
             </ol>
             <form action="proses-laporan.php" method="POST" enctype="multipart/form-data">
@@ -62,6 +62,7 @@ require_once "../../template/sidebar.php";
                                             <option value="C72">C72</option>
                                             <option value="C81">C81</option>
                                             <option value="C82">C82</option>
+                                            <option value="C91">C91</option>
                                             <option value="D101">D101</option>
                                             <option value="D102">D102</option>
                                             <option value="D103">D103</option>
