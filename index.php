@@ -13,7 +13,7 @@ require_once "utils.php";
 
 $title = "Dashboard - Sistem Evaluasi Polres";
 require_once "template/header.php";
-require_once "template/navbar.php";
+// require_once "template/navbar.php";
 require_once "template/sidebar.php";
 
 $queryPolres = mysqli_query($koneksi, "SELECT * FROM polres");
@@ -216,10 +216,17 @@ foreach ($NILAI_POLRES_ALL as $nilai) {
                         </center>
 
                         <div style="width: 100%; margin: 0px auto; overflow: auto;">
+                            <?php if(count($NILAI_POLRES_ALL)) { ?>
                             <canvas id="myChart" style=""></canvas>
                             <div class="table-chart px-3 py-2" style="display:none">
                                 <?php require_once "table/components/table-simple.php"; ?>
                             </div>
+                            <?php }else{ ?>
+                            <div class="alert alert-danger" role="alert">
+                                Data tidak ditemukan
+                            </div>
+                            <?php } ?>
+                            
                         </div>
 
                         <br />
@@ -281,7 +288,7 @@ foreach ($NILAI_POLRES_ALL as $nilai) {
                                     console.log(myChart.data.labels[elements[0]._index]);
                                     var namaKota = myChart.data.labels[elements[0]._index];
                                     window.location = "<?php echo $main_url; ?>table/data.php?q=" +
-                                        namaKota;
+                                        namaKota + "&triwulan=<?= $TRIWULAN_SELECTED ?>";
                                 }
                             }
 

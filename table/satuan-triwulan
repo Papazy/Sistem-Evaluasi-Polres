@@ -23,8 +23,6 @@
     $PERIODE = array();
     $PERSENTASE = array();
 
-    $TRIWULAN_SELECTED = isset($_GET['triwulan']) ? $_GET['triwulan'] : 1;
-
     $query = mysqli_query($koneksi, "SELECT DISTINCT Periode FROM persentase_polres WHERE Polres = '$nama_kota'");
     while($data = mysqli_fetch_array($query)){
         // var_dump($data["Periode"]);
@@ -57,7 +55,6 @@
             <h1 class="mt-4">Polres <?= $nama_kota; ?></h1>
             <ol class="breadcrumb mb-4">
             <li class="breadcrumb-item"><a href="../index.php">Home</a></li>
-                <li class="breadcrumb-item"><a href="../index.php">Triwulan <?=$TRIWULAN_SELECTED?></a></li>
                 <li class="breadcrumb-item "><a href="../table/data.php?q=<?= $nama_kota?>"><?= $nama_kota; ?></a></li>
                 <li class="breadcrumb-item active"><a href="../table/data-periode.php?q=<?= $nama_kota?>&periode=<?=$periode_select;?>"><?= $periode_select; ?></a></li>
             </ol>

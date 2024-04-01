@@ -19,6 +19,7 @@
         // Ambil nilai dari parameter q
         $nama_kota = $_GET['q'];
     }
+    $TRIWULAN_SELECTED = isset($_GET['triwulan']) ? $_GET['triwulan'] : 1;
     
     $PERIODE = array();
     $PERSENTASE = array();
@@ -32,12 +33,15 @@
     foreach ($PERIODE as $period){
         $total = 0;
         $count = 0;
-        $query = mysqli_query($koneksi, "SELECT Persentase FROM persentase_polres WHERE Polres = '$nama_kota' AND Periode = '$period'");
+        $query = mysqli_query($koneksi, "SELECT Persentase FROM persentase_polres WHERE Polres = '$nama_kota' AND Periode = '$period' AND Triwulan = '$TRIWULAN_SELECTED'");
         while($data = mysqli_fetch_array($query)){
             // var_dump($data["Persentase"]);
             // var_dump($data["Persentase"]);
             $total = $total + (float)$data["Persentase"];
             $count++;
+        }
+        if ($count == 0){
+            $count = 1;
         }
         $PERSENTASE[] = ($total/$count);
     }
@@ -55,6 +59,7 @@
             <h1 class="mt-4">Polres <?= $nama_kota; ?></h1>
             <ol class="breadcrumb mb-4">
                 <li class="breadcrumb-item"><a href="../index.php">Home</a></li>
+                <li class="breadcrumb-item"><a href="../index.php">Triwulan <?=$TRIWULAN_SELECTED?></a></li>
                 <li class="breadcrumb-item active"><a href="../table/data.php?q=<?= $nama_kota?>"><?= $nama_kota; ?></a></li>
             </ol>
           
@@ -104,22 +109,28 @@
                             <tbody>
                                 <?php 
                             $i = 0;
+                            $no = 1;
                             
                             foreach($PERIODE as $period){
-                                
+                                // print_r('$PERSENTASE[$i]');
+                                // print_r($PERSENTASE[$i]);
+                                if($PERSENTASE[$i] == 0){
+                                    $i++;
+                                    continue;
+                                }
                              ?>
 
                                 <tr>
-                                    <th scope="row"><?= $i +1 ?></th>
+                                    <th scope="row"><?= $no ?></th>
                                     <td align="center"><?= $period ?></td>
                                     <td align="center"><?= $PERSENTASE[$i] ?></td>
                                     <td align="center">
-                                        <a href="<?= $main_url ?>table/data-periode.php?q=<?= $nama_kota ?>&periode=<?= $period?>" class="btn btn-sm btn-primary"><i class="fa-solid fa-magnifying-glass"></i> Show</a>
+                                        <a href="<?= $main_url ?>table/data-periode.php?q=<?= $nama_kota ?>&periode=<?= $period?>&triwulan=<?= $TRIWULAN_SELECTED?>" class="btn btn-sm btn-primary"><i class="fa-solid fa-magnifying-glass"></i> Show</a>
                                         
                                     </td>
                                 </tr>
 
-                                <?php $i++; } ?>
+                                <?php $i++; $no++; } ?>
                             </tbody>
 
                         </table>

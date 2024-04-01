@@ -138,19 +138,16 @@ foreach ($hasil as $periode => $jumlah) {
 $total = jumlahTotalPersentase($hasil);
 
 function cariJumlahPolresMerah(){
-    global $koneksi;
     $hasil1 = hitungPersentaseMerahDariMinSetiapPeriode();
     $total1 = jumlahTotalPersentase($hasil1);
     return $total1;
 }
 function cariJumlahPolresKuning(){
-    global $koneksi;
     $hasil1 = hitungPersentaseKuningDariMinSetiapPeriode();
     $total1 = jumlahTotalPersentase($hasil1);
     return $total1;
 }
 function cariJumlahPolresHijau(){
-    global $koneksi;
     $hasil1 = hitungPersentaseHijauDariMinSetiapPeriode();
     $total1 = jumlahTotalPersentase($hasil1);
     return $total1;
