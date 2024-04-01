@@ -4,8 +4,9 @@ require_once "config.php";
 
 
 function hitungPersentaseMerahDariMinSetiapPeriode() {
+    global $koneksi;
     // Query untuk mendapatkan setiap periode yang unik
-    $koneksi = mysqli_connect("localhost", "root", "", "evaluasi");
+    
     $query_periode = "SELECT DISTINCT Periode FROM persentase_polres";
     $result_periode = mysqli_query($koneksi, $query_periode);
 
@@ -35,15 +36,15 @@ function hitungPersentaseMerahDariMinSetiapPeriode() {
         }
     }
 
-    // Tutup koneksi
-    mysqli_close($koneksi);
+    
 
     // Kembalikan array dengan hasil per periode
     return $hasil_per_periode;
 }
 function hitungPersentaseKuningDariMinSetiapPeriode() {
+    global $koneksi;
     // Query untuk mendapatkan setiap periode yang unik
-    $koneksi = mysqli_connect("localhost", "root", "", "evaluasi");
+    
     $query_periode = "SELECT DISTINCT Periode FROM persentase_polres";
     $result_periode = mysqli_query($koneksi, $query_periode);
 
@@ -73,15 +74,15 @@ function hitungPersentaseKuningDariMinSetiapPeriode() {
         }
     }
 
-    // Tutup koneksi
-    mysqli_close($koneksi);
+    
 
     // Kembalikan array dengan hasil per periode
     return $hasil_per_periode;
 }
 function hitungPersentaseHijauDariMinSetiapPeriode() {
+    global $koneksi;
     // Query untuk mendapatkan setiap periode yang unik
-    $koneksi = mysqli_connect("localhost", "root", "", "evaluasi");
+    
     $query_periode = "SELECT DISTINCT Periode FROM persentase_polres";
     $result_periode = mysqli_query($koneksi, $query_periode);
 
@@ -111,14 +112,14 @@ function hitungPersentaseHijauDariMinSetiapPeriode() {
         }
     }
 
-    // Tutup koneksi
-    mysqli_close($koneksi);
+    
 
     // Kembalikan array dengan hasil per periode
     return $hasil_per_periode;
 }
 
 function jumlahTotalPersentase($arr){
+    global $koneksi;
     $total = 0;
     foreach($arr as $ar => $jumlah){
         $total = $total + $jumlah;
@@ -137,16 +138,19 @@ foreach ($hasil as $periode => $jumlah) {
 $total = jumlahTotalPersentase($hasil);
 
 function cariJumlahPolresMerah(){
+    global $koneksi;
     $hasil1 = hitungPersentaseMerahDariMinSetiapPeriode();
     $total1 = jumlahTotalPersentase($hasil1);
     return $total1;
 }
 function cariJumlahPolresKuning(){
+    global $koneksi;
     $hasil1 = hitungPersentaseKuningDariMinSetiapPeriode();
     $total1 = jumlahTotalPersentase($hasil1);
     return $total1;
 }
 function cariJumlahPolresHijau(){
+    global $koneksi;
     $hasil1 = hitungPersentaseHijauDariMinSetiapPeriode();
     $total1 = jumlahTotalPersentase($hasil1);
     return $total1;

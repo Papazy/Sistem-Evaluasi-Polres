@@ -29,7 +29,7 @@ $polres_merah = cariJumlahPolresMerah();
 $polres_kuning = cariJumlahPolresKuning();
 $polres_hijau = cariJumlahPolresHijau();
 
-$persentase = $polres_hijau / ($polres_kuning + $polres_merah) * 100;
+$persentase = $polres_hijau / ($polres_hijau + $polres_kuning + $polres_merah) * 100;
 
 $queryPG = mysqli_query($koneksi, "SELECT DISTINCT Polres FROM persentase_polres");
 $POLRES_ALL =  array();
@@ -141,7 +141,7 @@ foreach ($NILAI_POLRES_ALL as $nilai) {
                     <div class="card bg-info text-white mb-4">
                         <div class="card-body d-flex align-items-center justify-content-between">
                             <div>Persentase</div>
-                            <div>20%</div>
+                            <div>33%</div>
                         </div>
                         <div class="card-body border-top border-dark d-flex align-items-center justify-content-between"
                             style="--bs-border-opacity: .5;">
@@ -157,7 +157,7 @@ foreach ($NILAI_POLRES_ALL as $nilai) {
                     <div class="card bg-info text-white mb-4">
                         <div class="card-body d-flex align-items-center justify-content-between">
                             <div>Total</div>
-                            <div>34</div>
+                            <div>9</div>
                         </div>
                         <div class="card-body border-top border-dark d-flex align-items-center justify-content-between"
                             style="--bs-border-opacity: .5;">

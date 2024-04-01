@@ -2,12 +2,6 @@
 
     $koneksi = mysqli_connect("localhost", "root", "", "evaluasi");
 
-    // if (mysqli_connect_errno()) {
-    //     echo "Gagal koneksi ke databases";
-    // } else {
-    //     echo "Koneksi berhasil";
-    // }
-
     // url induk
     $main_url = "http://localhost/Sistem-Evaluasi-Polres-main/";
     if (isset($_SESSION['main_title'])) {
