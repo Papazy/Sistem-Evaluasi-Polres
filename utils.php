@@ -16,11 +16,16 @@ function hitungPersentaseMerahDariMinSetiapPeriode() {
     // Loop melalui setiap periode
     while ($row_periode = mysqli_fetch_assoc($result_periode)) {
         $periode = $row_periode['Periode'];
+        $queryMinMax = mysqli_query($koneksi, "SELECT Min, Max FROM laporan_polres WHERE Periode = '$periode'");
+        while($data = mysqli_fetch_array($queryMinMax)){
+            $Min = $data['Min'];
+            $Max = $data['Max'];
+            break;
+        }
 
         // Query untuk menghitung jumlah data yang memenuhi kriteria untuk periode tertentu
         $query_total_merah = "SELECT COUNT(*) AS total FROM persentase_polres pp
-                        INNER JOIN laporan_polres lp ON pp.PG = lp.PG
-                        WHERE pp.Periode = '$periode' AND pp.Persentase <= lp.Min";
+                        WHERE pp.Periode = '$periode' AND pp.Persentase <= ".$Min."";
 
         $result_total = mysqli_query($koneksi, $query_total_merah);
 
@@ -54,11 +59,16 @@ function hitungPersentaseKuningDariMinSetiapPeriode() {
     // Loop melalui setiap periode
     while ($row_periode = mysqli_fetch_assoc($result_periode)) {
         $periode = $row_periode['Periode'];
+        $queryMinMax = mysqli_query($koneksi, "SELECT Min, Max FROM laporan_polres WHERE Periode = '$periode'");
+        while($data = mysqli_fetch_array($queryMinMax)){
+            $Min = $data['Min'];
+            $Max = $data['Max'];
+            break;
+        }
 
         // Query untuk menghitung jumlah data yang memenuhi kriteria untuk periode tertentu
         $query_total_merah = "SELECT COUNT(*) AS total FROM persentase_polres pp
-                        INNER JOIN laporan_polres lp ON pp.PG = lp.PG
-                        WHERE pp.Periode = '$periode' AND pp.Persentase < lp.Max AND pp.Persentase > lp.Min";
+                        WHERE pp.Periode = '$periode' AND pp.Persentase < ".$Max." AND pp.Persentase > ".$Min."";
 
         $result_total = mysqli_query($koneksi, $query_total_merah);
 
@@ -92,11 +102,16 @@ function hitungPersentaseHijauDariMinSetiapPeriode() {
     // Loop melalui setiap periode
     while ($row_periode = mysqli_fetch_assoc($result_periode)) {
         $periode = $row_periode['Periode'];
+        $queryMinMax = mysqli_query($koneksi, "SELECT Min, Max FROM laporan_polres WHERE Periode = '$periode'");
+        while($data = mysqli_fetch_array($queryMinMax)){
+            $Min = $data['Min'];
+            $Max = $data['Max'];
+            break;
+        }
 
         // Query untuk menghitung jumlah data yang memenuhi kriteria untuk periode tertentu
         $query_total_merah = "SELECT COUNT(*) AS total FROM persentase_polres pp
-                        INNER JOIN laporan_polres lp ON pp.PG = lp.PG
-                        WHERE pp.Periode = '$periode' AND pp.Persentase >= lp.Max";
+                        WHERE pp.Periode = '$periode' AND pp.Persentase >= ".$Max."";
 
         $result_total = mysqli_query($koneksi, $query_total_merah);
 
@@ -123,7 +138,7 @@ function hitungPersentaseMerahDariMinSetiapPeriode_POLDA() {
     
     $query_periode = "SELECT DISTINCT Periode FROM persentase_polda";
     $result_periode = mysqli_query($koneksi, $query_periode);
-
+    
     // Inisialisasi array untuk menyimpan hasil per periode
     $hasil_per_periode = array();
 
@@ -131,10 +146,18 @@ function hitungPersentaseMerahDariMinSetiapPeriode_POLDA() {
     while ($row_periode = mysqli_fetch_assoc($result_periode)) {
         $periode = $row_periode['Periode'];
 
+        
+        $queryMinMax = mysqli_query($koneksi, "SELECT Min, Max FROM laporan_polda WHERE Periode = '$periode'");
+        while($data = mysqli_fetch_array($queryMinMax)){
+            $Min = $data['Min'];
+            $Max = $data['Max'];
+            break;
+        }
+
         // Query untuk menghitung jumlah data yang memenuhi kriteria untuk periode tertentu
         $query_total_merah = "SELECT COUNT(*) AS total FROM persentase_polda pp
-                        INNER JOIN laporan_polda lp ON pp.PG = lp.PG
-                        WHERE pp.Periode = '$periode' AND pp.Persentase <= lp.Min";
+                            
+                        WHERE pp.Periode = '$periode' AND pp.Persentase <= ".$Min."";
 
         $result_total = mysqli_query($koneksi, $query_total_merah);
 
@@ -168,11 +191,17 @@ function hitungPersentaseKuningDariMinSetiapPeriode_POLDA() {
     // Loop melalui setiap periode
     while ($row_periode = mysqli_fetch_assoc($result_periode)) {
         $periode = $row_periode['Periode'];
+        $queryMinMax = mysqli_query($koneksi, "SELECT Min, Max FROM laporan_polda WHERE Periode = '$periode'");
+        while($data = mysqli_fetch_array($queryMinMax)){
+            $Min = $data['Min'];
+            $Max = $data['Max'];
+            break;
+        }
 
         // Query untuk menghitung jumlah data yang memenuhi kriteria untuk periode tertentu
         $query_total_merah = "SELECT COUNT(*) AS total FROM persentase_polda pp
-                        INNER JOIN laporan_polda lp ON pp.PG = lp.PG
-                        WHERE pp.Periode = '$periode' AND pp.Persentase < lp.Max AND pp.Persentase > lp.Min";
+                            
+                        WHERE pp.Periode = '$periode' AND pp.Persentase < ".$Max." AND pp.Persentase > ".$Min."";
 
         $result_total = mysqli_query($koneksi, $query_total_merah);
 
@@ -206,11 +235,17 @@ function hitungPersentaseHijauDariMinSetiapPeriode_POLDA() {
     // Loop melalui setiap periode
     while ($row_periode = mysqli_fetch_assoc($result_periode)) {
         $periode = $row_periode['Periode'];
+        $queryMinMax = mysqli_query($koneksi, "SELECT Min, Max FROM laporan_polda WHERE Periode = '$periode'");
+        while($data = mysqli_fetch_array($queryMinMax)){
+            $Min = $data['Min'];
+            $Max = $data['Max'];
+            break;
+        }
 
         // Query untuk menghitung jumlah data yang memenuhi kriteria untuk periode tertentu
         $query_total_merah = "SELECT COUNT(*) AS total FROM persentase_polda pp
-                        INNER JOIN laporan_polda lp ON pp.PG = lp.PG
-                        WHERE pp.Periode = '$periode' AND pp.Persentase >= lp.Max";
+                            
+                        WHERE pp.Periode = '$periode' AND pp.Persentase >= ".$Max."";
 
         $result_total = mysqli_query($koneksi, $query_total_merah);
 
@@ -233,12 +268,12 @@ function hitungPersentaseHijauDariMinSetiapPeriode_POLDA() {
 }
 
 function jumlahTotalPersentase($arr){
-    // print_r("Eksukusi Jumlah <br>");
+    print_r("Eksukusi Jumlah <br>");
     global $koneksi;
     $total = 0;
     foreach($arr as $ar => $jumlah){
-        // var_dump($jumlah);
-        // print_r("<br>");
+        var_dump($jumlah);
+        print_r("<br>");
         $total = $total + $jumlah;
     }
     return $total;
