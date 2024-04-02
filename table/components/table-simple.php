@@ -24,7 +24,7 @@
                             foreach($POLRES_ALL as $satuan){
                                 // var_dump('$satuan');
                                 // var_dump($satuan);
-                                $queryPersentase = mysqli_query($koneksi, "SELECT persentase FROM persentase_polres WHERE Polres = '{$satuan}' AND Triwulan = '{$TRIWULAN_SELECTED}'");
+                                $queryPersentase = mysqli_query($koneksi, "SELECT persentase FROM persentase_polres WHERE Polres = '{$satuan}' AND Periode = '{$periode_select}'");
                                 $persen = 0;
                                 $count = 0;
                                 while($dataPersentase = mysqli_fetch_array($queryPersentase)){
@@ -43,7 +43,7 @@
                     <?= $persen . "%" ?></center>
             </td>
             <td><center>
-            <a href="<?php echo $main_url; ?>table/data.php?q=<?=$satuan?>&triwulan=<?= $TRIWULAN_SELECTED ?>" class="btn btn-sm btn-primary"><i class="fa-solid fa-magnifying-glass"></i> Show</a></td>
+            <a href="<?php echo $main_url; ?>table/data-periode.php?q=<?=$satuan?>&periode=<?= $periode_select?>&triwulan=<?= $TRIWULAN_SELECTED ?>" class="btn btn-sm btn-primary"><i class="fa-solid fa-magnifying-glass"></i> Show</a></td>
                             </center>
             </td>
         </tr>

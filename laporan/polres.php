@@ -96,7 +96,7 @@ require_once "../template/sidebar.php";
                                     }
                             ?>
                             <tr>
-                                <th scope="row"><?= $no++ ?></th>
+                                <td><?= $no++?></td>
                                 <td><?= $dataPersentase['Polres'] ?></td>
                                 <td>
                                     <center><?= date('d-m-Y', strtotime($data['Periode'])) ?></center>
