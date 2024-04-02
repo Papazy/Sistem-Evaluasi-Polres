@@ -233,23 +233,26 @@ function hitungPersentaseHijauDariMinSetiapPeriode_POLDA() {
 }
 
 function jumlahTotalPersentase($arr){
+    print_r("Eksukusi Jumlah <br>");
     global $koneksi;
     $total = 0;
     foreach($arr as $ar => $jumlah){
+        var_dump($jumlah);
+        print_r("<br>");
         $total = $total + $jumlah;
     }
     return $total;
 }
 
 // Contoh pemanggilan fungsi untuk menghitung jumlah Persentase PG yang <= Min untuk setiap periode
-$hasil = hitungPersentaseMerahDariMinSetiapPeriode();
+// $hasil = hitungPersentaseMerahDariMinSetiapPeriode();
 
 // Tampilkan hasil per periode
-foreach ($hasil as $periode => $jumlah) {
-    // echo "Jumlah Persentase PG yang <= Min dari periode $periode: $jumlah<br>";
-}
+// foreach ($hasil as $periode => $jumlah) {
+//     // echo "Jumlah Persentase PG yang <= Min dari periode $periode: $jumlah<br>";
+// }
 
-$total = jumlahTotalPersentase($hasil);
+// $total = jumlahTotalPersentase($hasil);
 
 function cariJumlahPolresMerah(){
     $hasil1 = hitungPersentaseMerahDariMinSetiapPeriode();

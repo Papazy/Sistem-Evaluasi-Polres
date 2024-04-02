@@ -14,11 +14,19 @@
     require_once "../template/navbar.php";
     require_once "../template/sidebar.php";
 
-    $nama_kota = $_GET["p"];
-    $jenis = $_GET["q"];
+    $jenis = "polres";
+    if(isset($_GET['j'])){
+        $jenis = $_GET['j'];
+    }
+    $title_jenis = $jenis == "polres" ? "Polres" : "Polda";
+    $satuan = $jenis == "polres" ? "Polres" : "Satker";
 
-    $queryData = mysqli_query($koneksi, "SELECT * FROM persentase_polres WHERE Polres = '$nama_kota'");
-    $queryPeriodeData = mysqli_query($koneksi, "SELECT DISTINCT Periode FROM persentase_polres WHERE Polres = '$nama_kota'");
+
+    $nama_kota = $_GET["p"];
+    $class = $_GET["q"];
+
+    $queryData = mysqli_query($koneksi, "SELECT * FROM persentase_".$jenis." WHERE ".$satuan." = '{$nama_kota}'");
+    $queryPeriodeData = mysqli_query($koneksi, "SELECT DISTINCT Periode FROM persentase_".$jenis." WHERE ".$satuan." = '{$nama_kota}'");
     $dataPersentase = array();
 
     $countDataPeriode = array();
@@ -26,26 +34,26 @@
     while($periode = mysqli_fetch_array($queryPeriodeData)){
         $Min = 0;
         $Max = 0;
-        $queryMinMax = mysqli_query($koneksi, "SELECT Min, Max FROM laporan_polres");
+        $queryMinMax = mysqli_query($koneksi, "SELECT Min, Max FROM laporan_".$jenis." WHERE Periode = '{$periode['Periode']}'");
         while($data = mysqli_fetch_array($queryMinMax)){
             $Min = $data['Min'];
             $Max = $data['Max'];
             break;
         }
         $periode_select = $periode['Periode'];
-        $queryData = mysqli_query($koneksi, "SELECT * FROM persentase_polres WHERE Polres = '$nama_kota' AND Periode = '$periode_select'");
+        $queryData = mysqli_query($koneksi, "SELECT * FROM persentase_".$jenis." WHERE ".$satuan." = '{$nama_kota}' AND Periode = '$periode_select'");
         $count = 0;
         while($data = mysqli_fetch_array($queryData)){
             $nilai = $data['Persentase'];
-            if ($jenis == "danger"){
+            if ($class == "danger"){
                 if ($nilai <  $Min){
                     $count++;
                 }
-            } else if ($jenis == "warning"){
+            } else if ($class == "warning"){
                 if ($nilai >= $Min && $nilai <= $Max){
                     $count++;
                 }
-            } else if ($jenis == "success"){
+            } else if ($class == "success"){
                 if ($nilai > $Max){
                     $count++;
                 }
@@ -55,7 +63,7 @@
         $countDataPeriode[] = $count;
     }
 
-    $Breadcumb = ($jenis == "danger") ? "Tidak Lulus" : (($jenis == "warning") ? "Cukup" : "Lulus");
+    $Breadcumb = ($class == "danger") ? "Tidak Lulus" : (($class == "warning") ? "Cukup" : "Lulus");
 
 
 
@@ -64,13 +72,14 @@
 <div id="layoutSidenav_content">
     <main>
         <div class="container-fluid px-4">
-            <h1 class="mt-4">Polres <?= $nama_kota; ?></h1>
+            <h1 class="mt-4"><?=$title_jenis?> <?= $nama_kota; ?></h1>
             <ol class="breadcrumb mb-4">
                 <li class="breadcrumb-item"><a style="text-decoration: none;" href="../index.php">Home</a></li>
+                <li class="breadcrumb-item active"><a style="text-decoration: none;" href="../index.php"><?=$title_jenis?> </a></li>
                 <li class="breadcrumb-item"><a style="text-decoration: none;"
-                        href="../table/<?= $jenis ?>.php"><?= $Breadcumb ?></a></li>
+                        href="../table/<?= $class ?>.php?j=<?=$jenis?>"><?= $Breadcumb ?></a></li>
                 <li class="breadcrumb-item active"><a style="text-decoration: none;"
-                        href="../table/data-jenis.php?q=<?= $jenis ?>&p=<?=$nama_kota?>"><?= $nama_kota ?></a></li>
+                        href="../table/data-jenis.php?j=<?=$jenis?>&q=<?= $class ?>&p=<?=$nama_kota?>"><?= $nama_kota ?></a></li>
 
 
             </ol>
@@ -139,7 +148,7 @@
                                 </td>
                                 <td>
                                     <center>
-                                        <a href="<?= $main_url?>table/data-satuan.php?q=<?= $jenis?>&p=<?=$nama_kota?>&periode=<?=$periode?>"
+                                        <a href="<?= $main_url?>table/data-satuan.php?j=<?= $jenis?>&q=<?= $class?>&p=<?=$nama_kota?>&periode=<?=$periode?>"
                                             class="btn btn-sm btn-primary"><i class="fa-solid fa-magnifying-glass"></i>
                                             Show</a>
                                     </center>

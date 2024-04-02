@@ -110,28 +110,32 @@ foreach ($NILAI_POLRES_ALL as $nilai) {
 
             <div class="row">
                 <div class="" style="width: 22%; flex:0 0 auto;">
-                    <a href="<?= $main_url ?>table/success.php" style="text-decoration:none; color:white;">
-                        <div class="card bg-success text-white mb-4">
-                            <div class="card-body d-flex align-items-center justify-content-between">
-                                <div>Polda</div>
-                                <div><?= $polda_hijau ?></div>
-                            </div>
+                    <div class="card bg-success text-white mb-4">
+                        <a href="<?= $main_url ?>table/success.php?j=polda" style="text-decoration:none; color:white;">
+                        <div class="card-body d-flex align-items-center justify-content-between">
+                            <div>Polda</div>
+                            <div><?= $polda_hijau ?></div>
+                        </div>
+                    </a>
+                        <a href="<?= $main_url ?>table/success.php?j=polres" style="text-decoration:none; color:white;">
                             <div class="card-body border-top border-dark d-flex align-items-center justify-content-between"
                                 style="--bs-border-opacity: .5;">
                                 <div>Polres</div>
                                 <div><?= $polres_hijau ?></div>
 
                             </div>
-                    </a>
+                        </a>
                 </div>
             </div>
             <div class="" style="width: 22%; flex:0 0 auto; ">
-                <a href="<?= $main_url ?>table/warning.php" style="text-decoration:none; color:white;">
+                <a href="<?= $main_url ?>table/warning.php?j=polda" style="text-decoration:none; color:white;">
                     <div class="card bg-warning text-white mb-4">
                         <div class="card-body d-flex align-items-center justify-content-between">
                             <div>Polda</div>
                             <div><?= $polda_kuning ?></div>
                         </div>
+                    </a>
+                        <a href="<?= $main_url ?>table/warning.php?j=polres" style="text-decoration:none; color:white;">
                         <div class="card-body border-top border-dark d-flex align-items-center justify-content-between"
                             style="--bs-border-opacity: .5;">
                             <div>Polres</div>
@@ -142,12 +146,14 @@ foreach ($NILAI_POLRES_ALL as $nilai) {
                 </a>
             </div>
             <div class="" style="width: 22%; flex:0 0 auto;">
-                <a href="<?= $main_url ?>table/danger.php" style="text-decoration:none; color:white;">
+                <a href="<?= $main_url ?>table/danger.php?j=polda" style="text-decoration:none; color:white;">
                     <div class="card bg-danger text-white mb-4">
                         <div class="card-body d-flex align-items-center justify-content-between">
                             <div>Polda</div>
                             <div><?= $polda_merah ?></div>
                         </div>
+                    </a>
+                    <a href="<?= $main_url ?>table/danger.php?j=polres" style="text-decoration:none; color:white;">
                         <div class="card-body border-top border-dark d-flex align-items-center justify-content-between"
                             style="--bs-border-opacity: .5;">
                             <div>Polres</div>
