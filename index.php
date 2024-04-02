@@ -15,6 +15,15 @@ $TRIWULAN_SELECTED = 1;
 if(isset($_GET['triwulan'])){
     $TRIWULAN_SELECTED = $_GET['triwulan'];
 }
+
+$DAERAH = "Polres";
+if(isset($_GET['d'])){
+    $DAERAH = $_GET['d'];
+}
+$jenis = $DAERAH == "Polda" ? "polda" : "polres";
+$satker = $DAERAH == "Polda" ? "Satker" : "Polres";
+
+
 $start_date = '';
 $end_date = '';
 switch ($TRIWULAN_SELECTED) {
@@ -43,7 +52,7 @@ switch ($TRIWULAN_SELECTED) {
 
 $title = "Dashboard - Sistem Evaluasi Polres";
 require_once "template/header.php";
-require_once "template/navbar.php";
+// require_once "template/navbar.php";
 require_once "template/sidebar.php";
 
 $queryPolres = mysqli_query($koneksi, "SELECT * FROM polres");
@@ -52,12 +61,12 @@ $totalPolres = mysqli_num_rows($queryPolres);
 $queryKegiatan = mysqli_query($koneksi, "SELECT * FROM kegiatan");
 $totalKegiatan = mysqli_num_rows($queryKegiatan);
 
-$queryLaporan = mysqli_query($koneksi, "SELECT * FROM laporan_polres");
+$queryLaporan = mysqli_query($koneksi, "SELECT * FROM laporan_".$jenis."");
 $totalLaporan = mysqli_num_rows($queryLaporan);
 
 // Fitur Periode 
 
-$queryPeriode = mysqli_query($koneksi, "SELECT DISTINCT Periode FROM laporan_polres WHERE Periode >= '$start_date' AND Periode <= '$end_date' ");
+$queryPeriode = mysqli_query($koneksi, "SELECT DISTINCT Periode FROM laporan_".$jenis." WHERE Periode >= '$start_date' AND Periode <= '$end_date' ");
 $PERIODE_ALL = array();
 while($periode = mysqli_fetch_array($queryPeriode)){
     $PERIODE_ALL[] = $periode["Periode"];
@@ -101,18 +110,18 @@ if($polda_hijau == 0 && $polda_kuning == 0 && $polda_merah == 0){
 }
 
 
-$queryPG = mysqli_query($koneksi, "SELECT DISTINCT Polres FROM persentase_polres");
+$queryPG = mysqli_query($koneksi, "SELECT DISTINCT ".$satker." FROM persentase_".$jenis."");
 $POLRES_ALL =  array();
 $i = 0;
 while($polres = mysqli_fetch_array($queryPG)){
-    $POLRES_ALL[$i] = $polres['Polres'];
+    $POLRES_ALL[$i] = $polres[$satker];
     $i++;
 }
 $NILAI_POLRES_ALL = array();
 
 
 foreach($POLRES_ALL as $satuan){
-    $queryNilai = mysqli_query($koneksi, "SELECT * FROM persentase_polres WHERE Polres = '$satuan' AND Periode = '{$periode_select}'");
+    $queryNilai = mysqli_query($koneksi, "SELECT * FROM persentase_".$jenis." WHERE ".$satker." = '$satuan' AND Periode = '{$periode_select}'");
     $nilai = 0;
     $jumlah = 0;
     while($data = mysqli_fetch_array($queryNilai)){
@@ -127,7 +136,7 @@ foreach($POLRES_ALL as $satuan){
 
 $Min = 0;
 $Max = 0;
-$queryMinMax = mysqli_query($koneksi, "SELECT Min, Max FROM laporan_polres");
+$queryMinMax = mysqli_query($koneksi, "SELECT Min, Max FROM laporan_".$jenis."");
 while($data = mysqli_fetch_array($queryMinMax)){
     $Min = $data['Min'];
     $Max = $data['Max'];
@@ -251,14 +260,19 @@ foreach ($NILAI_POLRES_ALL as $nilai) {
             <div class="card-header d-flex justify-content-between">
                 <div class="d-inline-flex align-items-center">
                     <i class="fas fa-chart-bar me-1"></i>
-                    Capaian Polres
+                    Capaian
+                    <select class="form-select ms-2" name="triwulan" id="triwulan" onchange="updateDaerah(this.value)">
+                        <option value="Polda" <?php if($DAERAH == "Polda" ) echo 'selected';?>>Polda</option>
+                        <option value="Polres" <?php if($DAERAH == "Polres" ) echo 'selected';?>>Polres</option>
+                  
+                    </select>
                 </div>
                 <div class="d-inline-flex align-items-center gap-2">
                     <select class="form-select" name="triwulan" id="triwulan" onchange="updateTriwulan(this.value)">
-                        <option value="1" <?php if($TRIWULAN_SELECTED == "1" ) echo 'selected';?>>Triwulan 1</option>
-                        <option value="2" <?php if($TRIWULAN_SELECTED == "2" ) echo 'selected';?>>Triwulan 2</option>
-                        <option value="3" <?php if($TRIWULAN_SELECTED == "3" ) echo 'selected';?>>Triwulan 3</option>
-                        <option value="4" <?php if($TRIWULAN_SELECTED == "4" ) echo 'selected';?>>Triwulan 4</option>
+                        <option value="1&d=<?=$DAERAH;?>" <?php if($TRIWULAN_SELECTED == "1" ) echo 'selected';?>>Triwulan 1</option>
+                        <option value="2&d=<?=$DAERAH;?>" <?php if($TRIWULAN_SELECTED == "2" ) echo 'selected';?>>Triwulan 2</option>
+                        <option value="3&d=<?=$DAERAH;?>" <?php if($TRIWULAN_SELECTED == "3" ) echo 'selected';?>>Triwulan 3</option>
+                        <option value="4&d=<?=$DAERAH;?>" <?php if($TRIWULAN_SELECTED == "4" ) echo 'selected';?>>Triwulan 4</option>
                     </select>
 
                     <select class="form-select" style="width: 150px;" onchange="updatePeriode(this.value)">
@@ -356,36 +370,34 @@ foreach ($NILAI_POLRES_ALL as $nilai) {
                         }]
                     },
                     options: {
-                        layout:{
-                            padding:35
-                        },
+                       
                         scales: {
-                            xAxes: [{
+                            x: [{
                                 ticks: {
                                     autoSkip: false,
                                     maxRotation: 90,
                                     minRotation: 90
                                 }
                             }],
-                            yAxes: [{
+                            y: [{
                                 ticks: {
                                     beginAtZero: true,
-                                    steps: 10,
-                                    stepValue: 5,
-                                    max: 100
                                 }
                             }]
                         },
+                        layout:{
+                            padding:35
+                        },
                         onClick: (event, elements) => {
-                            console.log(myChart.data.labels[elements[0]._index]);
-                            var namaKota = myChart.data.labels[elements[0]._index];
+                            console.log(myChart.data.labels[elements[0].index]);
+                            var namaKota = myChart.data.labels[elements[0].index];
+
                             window.location = "<?php echo $main_url; ?>table/data-periode.php?q=" +
                                 namaKota +
                                 "&periode=<?=$periode_select?>&triwulan=<?= $TRIWULAN_SELECTED ?>";
                         },
                         plugins: {
                             legend: {
-                                display: false,
                                 position: 'bottom'
                             },
                             datalabels: {
@@ -427,6 +439,9 @@ foreach ($NILAI_POLRES_ALL as $nilai) {
 
                 function updateTriwulan(triwulan) {
                     window.location = "<?php echo $main_url; ?>index.php?triwulan=" + triwulan;
+                }
+                function updateDaerah(daerah) {
+                    window.location = "<?php echo $main_url; ?>index.php?d=" + daerah;
                 }
 
                 function updatePeriode(periode) {

@@ -77,17 +77,27 @@ require_once "../template/sidebar.php";
                         </thead>
 
                         <tbody>
-                            <?php
+                        <?php
+                            
 
                             $no = 1;
-                            $queryLaporan = mysqli_query($koneksi, "SELECT * FROM laporan_polda");
-                            while ($data = mysqli_fetch_array($queryLaporan)) {
-                                $queryPersentase = mysqli_query($koneksi, "SELECT * FROM persentase_polda WHERE Periode = '{$data['Periode']}' AND PG = '{$data['PG']}'");
+                          
+                                $queryPersentase = mysqli_query($koneksi, "SELECT * FROM persentase_polda");
+                                $dataMin = 0;
+                                $dataMax = 0;
                                 while ($dataPersentase = mysqli_fetch_array($queryPersentase)) {
+                                    $Polres = $dataPersentase["Satker"];
+                                    $PG = $dataPersentase["PG"];
+                                    $Periode = $dataPersentase["Periode"];
+                                    $queryMaxMin = mysqli_query($koneksi, "SELECT Max, Min FROM laporan_polda WHERE PG = '{$PG}' AND Periode = '{$Periode}'");
+                                    $dataMinMax = mysqli_fetch_array($queryMaxMin);
+                                    $dataMin = $dataMinMax["Min"];
+                                    $dataMax = $dataMinMax["Max"];
+
                                     $class = null;
-                                    if((float)$dataPersentase['Persentase'] >= (float) $data["Max"]){
+                                    if((float)$dataPersentase['Persentase'] >= (float) $dataMax){
                                         $class = 'bg-success';
-                                    }elseif((float)$dataPersentase['Persentase'] > (float) $data["Min"]){
+                                    }elseif((float)$dataPersentase['Persentase'] > (float) $dataMin){
                                         $class = 'bg-warning';
                                     }else{
                                         $class = 'bg-danger';
@@ -95,29 +105,29 @@ require_once "../template/sidebar.php";
                                     }
                             ?>
                             <tr>
-                                <th scope="row"><?= $no++ ?></th>
-                                <td align="center"><?= $dataPersentase['Satker'] ?></td>
+                                <td></td>
+                                <td><?= $dataPersentase['Satker'] ?></td>
                                 <td>
-                                    <center><?= $data['Periode'] ?></center>
+                                    <center><?= date('d-m-Y', strtotime($dataPersentase['Periode'])) ?></center>
                                 </td>
                                 <td>
-                                    <center><?= $data['PG'] ?></center>
+                                    <center><?= $dataPersentase['PG'] ?></center>
                                 </td>
                                 <td style="padding:0; margin:0">
                                     <center class="<?= $class ?>" style="width:100%; height:100%; margin:0;">
                                         <?= $dataPersentase['Persentase'] . "%" ?></center>
                                 </td>
                                 <td>
-                                    <center><?= $data['Min'] . "%" ?></center>
+                                    <center><?= $dataMin . "%" ?></center>
                                 </td>
                                 <td>
-                                    <center><?= $data['Max'] . "%" ?></center>
+                                    <center><?= $dataMax . "%" ?></center>
                                 </td>
                                 <td>
-                                    <center><?= $data['Triwulan'] ?></center>
+                                    <center><?= $dataPersentase['Triwulan'] ?></center>
                                 </td>
-                                <td align="center">
-                                <button type="button" class="btn btn-sm btn-warning editButton" id="editButton"
+                                <td>
+                                    <button type="button" class="btn btn-sm btn-warning editButton" id="editButton"
                                         data-id="<?=$dataPersentase['id'] ?>"><i class="fa-solid fa-pen"
                                             title="Edit"></i>
                                         Edit</button>
@@ -127,11 +137,12 @@ require_once "../template/sidebar.php";
                                         data-id="<?=$dataPersentase['id'] ?>"><i class="fa-solid fa-trash"
                                             title="Delete"></i>
                                         Delete</button>
+
                                 </td>
                             </tr>
 
                             <?php }
-                            } ?>
+                             ?>
                         </tbody>
 
                     </table>
