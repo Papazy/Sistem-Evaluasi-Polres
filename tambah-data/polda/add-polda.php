@@ -69,27 +69,20 @@ require_once "../../template/sidebar.php";
                                     <div class="col-sm-9" style="margin-left: -45px;">
                                         <select name="PG" id="PG" class="form-select border-0 border-bottom">
                                             <option value="" selected>-- Pilih --</option>
-                                            <option value="A11">A11</option>
-                                            <option value="A21">A21</option>
-                                            <option value="A41">A41</option>
-                                            <option value="C71">C72</option>
-                                            <option value="C81">C81</option>
-                                            <option value="C82">C82</option>
-                                            <option value="D101">D101</option>
-                                            <option value="D102">D102</option>
-                                            <option value="D103">D103</option>
-                                            <option value="D104">D104</option>
-                                            <option value="D111">D111</option>
-                                            <option value="D112">D112</option>
-                                            <option value="D121">D121</option>
-                                            <option value="D122">D122</option>
-                                            <option value="E131">E131</option>
-                                            <option value="E132">E132</option>
-                                            <option value="E141">E141</option>
-                                            <option value="E142">E142</option>
-                                            <option value="E151">E151</option>
-                                            <option value="E152">E152</option>
-                                            <option value="G161">G161</option>
+                                            <option value="PAG1">PAG1</option>
+                                            <option value="PAG2">PAG2</option>
+                                            <option value="PCG7">PCG7</option>
+                                            <option value="PCG8">PCG8</option>
+                                            <option value="PCG9.1">PCG9.1</option>
+                                            <option value="PCG9.2">PCG9.2</option>
+                                            <option value="PCG9.3">PCG9.3</option>
+                                            <option value="PCG9.4">PCG9.4</option>
+                                            <option value="PDG10">PDG10</option>
+                                            <option value="PDG11">PDG11</option>
+                                            <option value="PEG13">PEG13</option>
+                                            <option value="PEG14">PEG14</option>
+                                            <option value="PFG15">PFG15</option>
+                                            <option value="PGG16">PGG16</option>
                                         </select>
                                     </div>
                                 </div>
