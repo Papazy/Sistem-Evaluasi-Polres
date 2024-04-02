@@ -13,7 +13,7 @@ require_once "utils.php";
 
 $title = "Dashboard - Sistem Evaluasi Polres";
 require_once "template/header.php";
-require_once "template/navbar.php";
+// require_once "template/navbar.php";
 require_once "template/sidebar.php";
 
 $queryPolres = mysqli_query($koneksi, "SELECT * FROM polres");
@@ -25,11 +25,18 @@ $totalKegiatan = mysqli_num_rows($queryKegiatan);
 $queryLaporan = mysqli_query($koneksi, "SELECT * FROM laporan_polres");
 $totalLaporan = mysqli_num_rows($queryLaporan);
 
+$polres_merah = 0;
+$polres_kuning = 0;
+$polres_hijau = 0;
+
 $polres_merah = cariJumlahPolresMerah();
 $polres_kuning = cariJumlahPolresKuning();
 $polres_hijau = cariJumlahPolresHijau();
-
-$persentase = $polres_hijau / ($polres_hijau + $polres_kuning + $polres_merah) * 100;
+if($polres_hijau == 0 && $polres_kuning == 0 && $polres_merah == 0){
+    $persentase = 0;
+}else{
+    $persentase = $polres_hijau / ($polres_hijau + $polres_kuning + $polres_merah) * 100;
+}
 
 $queryPG = mysqli_query($koneksi, "SELECT DISTINCT Polres FROM persentase_polres");
 $POLRES_ALL =  array();
