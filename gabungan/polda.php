@@ -18,8 +18,10 @@ $PERIODE_ALL = array();
 while($periode = mysqli_fetch_array($queryPeriode)){
     $PERIODE_ALL[] = $periode["Periode"];
 }
-$periode_select = $PERIODE_ALL[count($PERIODE_ALL) - 1];
-
+$periode_select =0;
+if(count($PERIODE_ALL) > 0){
+    $periode_select = $PERIODE_ALL[count($PERIODE_ALL) - 1];
+}
 if (isset($_GET['periode'])) {
     $periode_select = $_GET['periode'];
 }
