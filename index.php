@@ -25,6 +25,7 @@ $totalKegiatan = mysqli_num_rows($queryKegiatan);
 $queryLaporan = mysqli_query($koneksi, "SELECT * FROM laporan_polres");
 $totalLaporan = mysqli_num_rows($queryLaporan);
 
+// POLRES
 $polres_merah = 0;
 $polres_kuning = 0;
 $polres_hijau = 0;
@@ -36,6 +37,19 @@ if($polres_hijau == 0 && $polres_kuning == 0 && $polres_merah == 0){
     $persentase = 0;
 }else{
     $persentase = $polres_hijau / ($polres_hijau + $polres_kuning + $polres_merah) * 100;
+}
+// POLDA
+$polda_merah = 0;
+$polda_kuning = 0;
+$polda_hijau = 0;
+
+$polda_merah = cariJumlahPoldaMerah();
+$polda_kuning = cariJumlahPoldaKuning();
+$polda_hijau = cariJumlahPoldaHijau();
+if($polda_hijau == 0 && $polda_kuning == 0 && $polda_merah == 0){
+    $persentase_polda = 0;
+}else{
+    $persentase_polda = $polda_hijau / ($polda_hijau + $polda_kuning + $polda_merah) * 100;
 }
 
 $queryPG = mysqli_query($koneksi, "SELECT DISTINCT Polres FROM persentase_polres");
@@ -100,7 +114,7 @@ foreach ($NILAI_POLRES_ALL as $nilai) {
                         <div class="card bg-success text-white mb-4">
                             <div class="card-body d-flex align-items-center justify-content-between">
                                 <div>Polda</div>
-                                <div>3</div>
+                                <div><?= $polda_hijau ?></div>
                             </div>
                             <div class="card-body border-top border-dark d-flex align-items-center justify-content-between"
                                 style="--bs-border-opacity: .5;">
@@ -116,7 +130,7 @@ foreach ($NILAI_POLRES_ALL as $nilai) {
                     <div class="card bg-warning text-white mb-4">
                         <div class="card-body d-flex align-items-center justify-content-between">
                             <div>Polda</div>
-                            <div>3</div>
+                            <div><?= $polda_kuning ?></div>
                         </div>
                         <div class="card-body border-top border-dark d-flex align-items-center justify-content-between"
                             style="--bs-border-opacity: .5;">
@@ -132,7 +146,7 @@ foreach ($NILAI_POLRES_ALL as $nilai) {
                     <div class="card bg-danger text-white mb-4">
                         <div class="card-body d-flex align-items-center justify-content-between">
                             <div>Polda</div>
-                            <div>3</div>
+                            <div><?= $polda_merah ?></div>
                         </div>
                         <div class="card-body border-top border-dark d-flex align-items-center justify-content-between"
                             style="--bs-border-opacity: .5;">
@@ -148,7 +162,7 @@ foreach ($NILAI_POLRES_ALL as $nilai) {
                     <div class="card bg-info text-white mb-4">
                         <div class="card-body d-flex align-items-center justify-content-between">
                             <div>Persentase</div>
-                            <div>33%</div>
+                            <div><?= number_format($persentase_polda, 2) ?>%</div>
                         </div>
                         <div class="card-body border-top border-dark d-flex align-items-center justify-content-between"
                             style="--bs-border-opacity: .5;">
@@ -164,7 +178,7 @@ foreach ($NILAI_POLRES_ALL as $nilai) {
                     <div class="card bg-info text-white mb-4">
                         <div class="card-body d-flex align-items-center justify-content-between">
                             <div>Total</div>
-                            <div>9</div>
+                            <div><?= $polda_hijau + $polda_hijau + $polda_merah?></div>
                         </div>
                         <div class="card-body border-top border-dark d-flex align-items-center justify-content-between"
                             style="--bs-border-opacity: .5;">
