@@ -233,12 +233,12 @@ function hitungPersentaseHijauDariMinSetiapPeriode_POLDA() {
 }
 
 function jumlahTotalPersentase($arr){
-    print_r("Eksukusi Jumlah <br>");
+    // print_r("Eksukusi Jumlah <br>");
     global $koneksi;
     $total = 0;
     foreach($arr as $ar => $jumlah){
-        var_dump($jumlah);
-        print_r("<br>");
+        // var_dump($jumlah);
+        // print_r("<br>");
         $total = $total + $jumlah;
     }
     return $total;
