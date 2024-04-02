@@ -1,6 +1,6 @@
 <?php 
 
-    $koneksi = mysqli_connect("localhost", "root", "", "evaluasi1");
+    $koneksi = mysqli_connect("localhost", "root", "", "evaluasi");
 
     // url induk
     $main_url = "http://localhost/Sistem-Evaluasi-Polres-main/";
