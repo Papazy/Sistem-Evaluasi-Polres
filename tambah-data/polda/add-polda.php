@@ -29,7 +29,7 @@ require_once "../../template/sidebar.php";
                 <div class="card">
                     <div class="card-header">
                         <span class="h5 my-2"><i class="fa-regular fa-square-plus"></i> Form Polda</span>
-                        <button type="submit" name="simpan" class="btn btn-primary float-end"><i class="fa-solid fa-floppy-disk"></i> Simpan</button>
+                        <button type="submit" name="submit" class="btn btn-primary float-end"><i class="fa-solid fa-floppy-disk"></i> Simpan</button>
                         <button type="reset" name="reset" class="btn btn-danger float-end me-1"><i class="fa-solid fa-rotate-left"></i> Reset</button>
                     </div>
                     <div class="card-body">
@@ -40,7 +40,7 @@ require_once "../../template/sidebar.php";
                                     <label for="PG" class="col-sm-2 col-form-label">Polda</label>
                                     <label for="PG" class="col-sm-1 col-form-label">:</label>
                                     <div class="col-sm-9" style="margin-left: -45px;">
-                                        <select name="PG" id="PG" class="form-select border-0 border-bottom">
+                                        <select name="Polda" id="Polda" class="form-select border-0 border-bottom">
                                             <option value="" selected>-- Pilih --</option>
                                             <option value="BID HUMAS">BID HUMAS</option>
                                             <option value="RO SDM">RO SDM</option>
@@ -94,6 +94,14 @@ require_once "../../template/sidebar.php";
                                     </div>
                                 </div>
                                 <div class="mb-3 row">
+                                    <label for="Min" class="col-sm-2 col-form-label">Persentase</label>
+                                    <label for="Min" class="col-sm-1 col-form-label">:</label>
+                                    <div class="col-sm-9" style="margin-left: -45px;">
+                                    <!-- Type float -->
+                                    <input type="number" step="0.01" name="Persentase" class="form-control-plaintext border-bottom" id="Persentase" value="" required>
+                                    </div>
+                                </div>
+                                <div class="mb-3 row">
                                     <label for="Min" class="col-sm-2 col-form-label">Min</label>
                                     <label for="Min" class="col-sm-1 col-form-label">:</label>
                                     <div class="col-sm-9" style="margin-left: -45px;">
@@ -111,11 +119,12 @@ require_once "../../template/sidebar.php";
                                     <label for="Tw" class="col-sm-2 col-form-label">Triwulan</label>
                                     <label for="Tw" class="col-sm-1 col-form-label">:</label>
                                     <div class="col-sm-9" style="margin-left: -45px;">
-                                        <select name="Tw" id="Tw" class="form-select border-0 border-bottom">
+                                        <select name="Triwulan" id="Tw" class="form-select border-0 border-bottom">
                                             <option value="" selected>-- Pilih --</option>
                                             <option value="1">1</option>
                                             <option value="2">2</option>
                                             <option value="3">3</option>
+                                            <option value="4">4</option>
                                         </select>
                                     </div>
 

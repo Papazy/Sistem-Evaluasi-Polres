@@ -11,14 +11,25 @@ require_once "../config.php";
 
 $title = "Polres - Sistem Evaluasi Polres";
 require_once "../template/header.php";
-require_once "../template/navbar.php";
+// require_once "../template/navbar.php";
 require_once "../template/sidebar.php";
 
 ?>
 
 <div id="layoutSidenav_content">
-
     <main>
+        <!-- Modal Edit-->
+        <form method="POST" action="edit_polres.php">
+            <div class="modal fade" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true" id="modalEdit">
+            </div>
+        </form>
+
+        <!-- Modal Delete -->
+        <form method="POST" action="hapus_polres.php">
+            <div class="modal fade" id="modalHapus" tabindex="-1" aria-labelledby="modalHapusLabel" aria-hidden="true">
+            </div>
+        </form>
+
         <div class="container-fluid px-4">
             <h1 class="mt-4">Polres</h1>
             <ol class="breadcrumb mb-4">
@@ -28,10 +39,11 @@ require_once "../template/sidebar.php";
             <div class="card">
                 <div class="card-header">
                     <span class="h5 my-2"><i class="fa-solid fa-list"></i> Data Polres</span>
-                    <a href="<?= $main_url ?>tambah-data/polres/add-laporan.php" class="btn btn-sm btn-primary float-end"><i
-                            class="fa-solid fa-plus"></i> Tambah</a>
+                    <a href="<?= $main_url ?>tambah-data/polres/add-laporan.php"
+                        class="btn btn-sm btn-primary float-end"><i class="fa-solid fa-plus"></i> Tambah</a>
                     <a href="<?= $main_url ?>laporan/cetak-laporan.php" class="btn btn-sm btn-success float-end me-1"><i
-                            class="fa-solid fa-print"></i> Cetak</a>
+                            class="fa-solid fa-print"></i>
+                        Cetak</a>
                 </div>
                 <div class="card-body">
                     <table class="table table-hover" id="datatablesSimple">
@@ -87,7 +99,7 @@ require_once "../template/sidebar.php";
                                 <th scope="row"><?= $no++ ?></th>
                                 <td><?= $dataPersentase['Polres'] ?></td>
                                 <td>
-                                    <center><?= $data['Periode'] ?></center>
+                                    <center><?= date('d-m-Y', strtotime($data['Periode'])) ?></center>
                                 </td>
                                 <td>
                                     <center><?= $data['PG'] ?></center>
@@ -106,20 +118,94 @@ require_once "../template/sidebar.php";
                                     <center><?= $data['Triwulan'] ?></center>
                                 </td>
                                 <td>
-                                    <button type="button" class="btn btn-sm btn-warning" data-bs-toggle="modal"
-                                        data-bs-target="#modalEdit<?=$dataPersentase['id'] ?>"><i
-                                            class="fa-solid fa-pen" title="Edit"></i>
+                                    <button type="button" class="btn btn-sm btn-warning editButton" id="editButton"
+                                        data-id="<?=$dataPersentase['id'] ?>"><i class="fa-solid fa-pen"
+                                            title="Edit"></i>
                                         Edit</button>
 
-                                    <button type="button" class="btn btn-sm btn-danger" data-bs-toggle="modal"
-                                            data-bs-target="#modalHapus<?=$dataPersentase['id'];?>"><i class="fa-solid fa-trash"
+                                    <button type="button" class="btn btn-sm btn-danger deleteButton"
+                                        data-bs-toggle="modal" data-bs-target="#modalHapus<?=$dataPersentase['id'];?>"
+                                        data-id="<?=$dataPersentase['id'] ?>"><i class="fa-solid fa-trash"
                                             title="Delete"></i>
                                         Delete</button>
 
                                 </td>
                             </tr>
 
-                            <!-- Modal Edit -->
+                            <?php }
+                            } ?>
+                        </tbody>
+
+                    </table>
+
+
+
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"
+        integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+    <script>
+    $(document).ready(function() {
+
+        $('.editButton').click(function() {
+
+            var id = $(this).data('id');
+            // console.log(userid);
+            // AJAX request
+            $.ajax({
+                url: 'modal_edit_polres.php',
+                type: 'post',
+                data: {
+                    id: id
+                },
+                success: function(response) {
+                    // Add response in Modal body
+                    $('#modalEdit').html(response);
+
+                    // Display Modal
+                    $('#modalEdit').modal('show');
+                }
+            });
+        });
+        $('.deleteButton').click(function() {
+
+            var id = $(this).data('id');
+            $.ajax({
+                url: 'modal_hapus_polres.php',
+                type: 'post',
+                data: {
+                    id: id
+                },
+                success: function(response) {
+                    // Add response in Modal body
+                    $('#modalHapus').html(response);
+
+                    // Display Modal
+                    $('#modalHapus').modal('show');
+                }
+            });
+        });
+    });
+    </script>
+
+
+    <?php
+
+    require_once "../template/footer.php";
+
+    ?>
+
+
+
+
+
+
+
+
+    <!-- Modal Edit
                             <div class="modal fade" id="modalEdit<?=$dataPersentase['id'] ?>" tabindex="-1"
                                 aria-labelledby="modalEdit<?=$dataPersentase['id'] ?>Label" aria-hidden="true">
                                 <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
@@ -152,7 +238,7 @@ require_once "../template/sidebar.php";
                                                         class="form-select border-0 border-bottom">
 
                                                         <option value="A11"
-                                                            <?php if($dataPersentase["PG"] == "A11") echo "selected";?>>
+                                                        <?php if($dataPersentase["PG"] == "A11") echo "selected";?>>
                                                             A11</option>
                                                         <option value="A21"
                                                             <?php if($dataPersentase["PG"] == "A21") echo "selected";?>>
@@ -250,67 +336,10 @@ require_once "../template/sidebar.php";
                                         <div class="modal-footer">
                                             <button type="button" class="btn btn-secondary"
                                                 data-bs-dismiss="modal">Close</button>
-                                            <button type="submit" name="submit" id="submit" class="btn btn-primary">Simpan</button>
+                                            <button type="submit" name="submit" id="submit"
+                                                class="btn btn-primary">Simpan</button>
                                         </div>
                                         </form>
                                     </div>
                                 </div>
-                            </div>
-
-                            <!-- Modal Delete -->
-                            <div class="modal fade" id="modalHapus<?=$dataPersentase['id'] ?>" tabindex="-1"
-                                aria-labelledby="modalHapus<?=$dataPersentase['id'] ?>Label" aria-hidden="true">
-                                <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
-                                    <div class="modal-content">
-                                        <div class="modal-header">
-                                            <h1 class="modal-title fs-5" id="modalHapus<?=$dataPersentase['id'] ?>Label">
-                                                Hapus Data </h1>
-                                            <button type="button" class="btn-close" data-bs-dismiss="modal"
-                                                aria-label="Close"></button>
-                                        </div>
-                                        <form method="POST" action="hapus_polres.php">
-                                        <div class="modal-body ">
-                                        <div class="form-group mb-2">
-                                                    <label style="font-weight:600;"
-                                                        for="exampleFormControlInput1">Polres</label>
-                                                    <input type="text" class="form-control"
-                                                        value="<?=$dataPersentase['Polres'] ?>" name="Polres" readonly>
-                                                </div>
-                                            <p>Apakah Anda yakin ingin menghapus data ini?</p>
-                                            <input type="hidden" name="id" value="<?=$dataPersentase['id'] ?>" />
-                                        </div>
-                                        <div class="modal-footer">
-                                            <button type="button" class="btn btn-secondary"
-                                                data-bs-dismiss="modal">Close</button>
-                                            <button type="submit" name="submit" id="submit" class="btn btn-primary">Hapus</button>
-                                        </div>
-                                        </form>
-                                    </div>
-                                </div>
-                            </div>
-                            <?php }
-                            } ?>
-                        </tbody>
-
-                    </table>
-
-
-
-                </div>
-            </div>
-        </div>
-    </main>
-
-
-    <script>
-    $('#myModal').on('shown.bs.modal', function() {
-        $('#myInput').trigger('focus')
-    })
-    </script>
-
-
-    <?php
-
-    require_once "../template/footer.php";
-
-    ?>
+                            </div> -->
