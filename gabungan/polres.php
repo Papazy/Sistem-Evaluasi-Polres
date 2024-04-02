@@ -189,7 +189,9 @@ $PG_ALL = [
                                             echo "<td>{$no}</td>";
                                             echo "<td>{$polres}</td>";
                                             foreach ($PG_ALL as $program) { // Sesuaikan dengan PG yang Anda perlukan
-                                                $total =  $total + (float)$pg[$program];
+                                                if($pg[$program] != -1){
+                                                    $total =  $total + (float)$pg[$program];
+                                                }
                                                 $persen = $pg[$program];
                                                 $count++;
                                                 if ($pg[$program] == -1) {
@@ -203,7 +205,9 @@ $PG_ALL = [
                                                     echo "<td class='table-danger'>{$persen}</td>"; // Jika persen kurang dari atau sama dengan Min, gunakan bg-danger
                                                 }
                                             }
-                                            $total = $total / $count;
+                                            if($count){
+                                                $total = $total / $count;
+                                            }
                                             if ($total == -1) {
                                                 echo "<td></td>"; // Jika nilai null, tampilkan sel kosong
                                                 $count--;
