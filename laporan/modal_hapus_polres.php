@@ -6,7 +6,7 @@ if(isset($_POST['id'])){
     $id = mysqli_real_escape_string($koneksi, $_POST['id']);
 }
 
-$sql = "SELECT * FROM persentase_polda WHERE id = $id";
+$sql = "SELECT * FROM persentase_polres WHERE id = $id";
 $result = mysqli_query($koneksi, $sql);
 
 if($result && mysqli_num_rows($result) > 0) {
@@ -22,8 +22,8 @@ $response = '<div class="modal-dialog modal-dialog-centered modal-dialog-scrolla
         
             <div class="modal-body">
                 <div class="form-group mb-2">
-                    <label style="font-weight:600;" for="exampleFormControlInput1">Satuan Kerja</label>
-                    <input type="text" class="form-control" value="' . $dataPersentase['Satker'] . '" name="Satker" readonly>
+                    <label style="font-weight:600;" for="exampleFormControlInput1">Polres</label>
+                    <input type="text" class="form-control" value="' . $dataPersentase['Polres'] . '" name="Polres" readonly>
                 </div>
                 <p>Apakah Anda yakin ingin menghapus data ini?</p>
                 <input type="hidden" name="id" value="' . $dataPersentase['id'] . '" />

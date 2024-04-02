@@ -46,7 +46,7 @@ require_once "../template/sidebar.php";
                         Cetak</a>
                 </div>
                 <div class="card-body">
-                    <table class="table table-hover" id="datatablesSimple">
+                    <table class="table table-hover" id="exampleNoSetting">
                         <thead>
                             <tr>
                                 <th scope="col">No.</th>
@@ -96,7 +96,7 @@ require_once "../template/sidebar.php";
                                     }
                             ?>
                             <tr>
-                                <td><?= $no++?></td>
+                                <td></td>
                                 <td><?= $dataPersentase['Polres'] ?></td>
                                 <td>
                                     <center><?= date('d-m-Y', strtotime($data['Periode'])) ?></center>

@@ -1,4 +1,4 @@
-<table class="table table-hover py-0" id="datatablesSimple">
+<table class="display" id="exampleNoSetting">
     <thead>
         <tr>
             <th scope="col">No.</th>
@@ -18,6 +18,8 @@
 
     <tbody>
         <?php
+                            
+                                
 
                             $no = 1;
                             // var_dump($POLRES_ALL);
@@ -25,6 +27,7 @@
                                 // var_dump('$satuan');
                                 // var_dump($satuan);
                                 $queryPersentase = mysqli_query($koneksi, "SELECT persentase FROM persentase_polres WHERE Polres = '{$satuan}' AND Periode = '{$periode_select}'");
+                                
                                 $persen = 0;
                                 $count = 0;
                                 while($dataPersentase = mysqli_fetch_array($queryPersentase)){
@@ -33,9 +36,19 @@
                                 }
                                 $persen = $persen / $count;
 
+                                $class = null;
+                                if($persen >= $Max){
+                                    $class = 'bg-success';
+                                }elseif($persen > $Min ){
+                                    $class = 'bg-warning';
+                                }else{
+                                    $class = 'bg-danger';
+
+                                }
+
                             ?>
         <tr>
-            <th scope="row"><?= $no++ ?></th>
+            <td scope="row"></td>
             <td><?= $satuan ?></td>
             
             <td style="padding:0; margin:0">

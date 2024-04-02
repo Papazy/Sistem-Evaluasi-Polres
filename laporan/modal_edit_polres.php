@@ -21,7 +21,7 @@ if($result && mysqli_num_rows($result) > 0) {
             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
         <div class="modal-body ">
-            <form method="POST" action="edit_polres.php">
+            
                 <input type="hidden" name="id" value="' . $dataPersentase['id'] . '" />
                 <div class="form-group mb-2">
                     <label style="font-weight:600;" for="exampleFormControlInput1">Polres</label>
@@ -79,7 +79,7 @@ if($result && mysqli_num_rows($result) > 0) {
             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
             <button type="submit" name="submit" id="submit" class="btn btn-primary">Simpan</button>
         </div>
-        </form>
+        
     </div>
 </div>';
 

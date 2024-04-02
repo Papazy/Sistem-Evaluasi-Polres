@@ -93,7 +93,7 @@
                             font-size: 14px;
                         }
                         </style>
-                        <table class="table table-hover" id="datatablesSimple">
+                        <table class="table table-hover" id="example">
                             <thead>
                                 <tr>
                                     <th scope="col">No.</th>

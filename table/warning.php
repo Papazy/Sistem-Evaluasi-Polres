@@ -43,8 +43,20 @@
 
     foreach($POLRES_ALL as $satu){
         $queryNilai = mysqli_query($koneksi, "SELECT * FROM persentase_".$jenis." WHERE ".$satuan." = '$satu'");
+        $periodeSQL = mysqli_query($koneksi, "SELECT * FROM persentase_".$jenis." WHERE ".$satuan." = '$satu'");
         $nilai = 0;
         $jumlah = 0;
+       
+        $periodeSQL = mysqli_fetch_array($periodeSQL);
+        $periode = $periodeSQL['Periode'];
+
+        $queryMinMax = mysqli_query($koneksi, "SELECT Min, Max FROM laporan_".$jenis." WHERE Periode = '$periode'");
+        while($data = mysqli_fetch_array($queryMinMax)){
+            $Min = $data['Min'];
+            $Max = $data['Max'];
+            break;
+        }
+    
         while($data = mysqli_fetch_array($queryNilai)){
             $nilai = $data['Persentase'];
             if ($nilai <  $Max && $nilai > $Min){
@@ -100,7 +112,7 @@
                             font-size: 14px;
                         }
                         </style>
-                        <table class="table table-hover" id="datatablesSimple">
+                        <table class="table table-hover" id="example">
                             <thead>
                                 <tr>
                                     <th scope="col">No.</th>
@@ -109,6 +121,9 @@
                                     </th>
                                     <th scope="col">
                                         <center>Total Persentase</center>
+                                    </th>
+                                    <th scope="col">
+                                        
                                     </th>
                                 </tr>
                             </thead>
@@ -138,13 +153,15 @@
                                 </tr>
 
                                 <?php $i++;} ?>
+                            </tbody>
+                            <tfoot>
                                 <tr>
                                     <th scope="row">TOTAL</th>
                                     <td align="center"></td>
                                     <td align="center"><?= $TOTAL_PG?></td>
                                     <td align="center"></td>
                                 </tr>
-                            </tbody>
+                                </tfoot>
 
                         </table>
                     </div>

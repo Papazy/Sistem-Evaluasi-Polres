@@ -30,7 +30,7 @@
                             <a href="<?= $main_url ?>kegiatan/add-kegiatan.php" class="btn btn-sm btn-primary float-end"><i class="fa-solid fa-plus"></i> Tambah</a>
                         </div>
                         <div class="card-body">
-                        <table class="table table-hover" id="datatablesSimple">
+                        <table class="table table-hover" id="example">
                             <thead>
                                 <tr>
                                     <th scope="col"><center>No.</center></th>

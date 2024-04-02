@@ -229,7 +229,7 @@ foreach ($NILAI_POLRES_ALL as $nilai) {
         </div>
         <div class="col-xl-2 col-md-4">
             <a href="<?= $main_url ?>gabungan/polres.php" style="text-decoration:none; color:white;">
-                <div class="card bg-info text-white mb-4">
+                <div class="card text-white mb-4" style="background-color:#d95c02">
                     <div class="card-body d-flex align-items-center justify-content-between">
                         <div>Total</div>
                         <div><?= $polda_hijau + $polda_hijau + $polda_merah?></div>
@@ -285,7 +285,7 @@ foreach ($NILAI_POLRES_ALL as $nilai) {
             </div>
 
             <head>
-                <script type="text/javascript" src="chartjs/Chart.js"></script>
+
             </head>
 
             <body>
@@ -341,7 +341,8 @@ foreach ($NILAI_POLRES_ALL as $nilai) {
 
 
 
-                var ctx = document.getElementById('myChart').getContext('2d');
+                var ctx = document.getElementById('myChart');
+                Chart.register(ChartDataLabels);
                 var myChart = new Chart(ctx, {
                     type: 'bar',
                     data: {
@@ -355,6 +356,9 @@ foreach ($NILAI_POLRES_ALL as $nilai) {
                         }]
                     },
                     options: {
+                        layout:{
+                            padding:35
+                        },
                         scales: {
                             xAxes: [{
                                 ticks: {
@@ -365,7 +369,10 @@ foreach ($NILAI_POLRES_ALL as $nilai) {
                             }],
                             yAxes: [{
                                 ticks: {
-                                    beginAtZero: true
+                                    beginAtZero: true,
+                                    steps: 10,
+                                    stepValue: 5,
+                                    max: 100
                                 }
                             }]
                         },
@@ -373,10 +380,32 @@ foreach ($NILAI_POLRES_ALL as $nilai) {
                             console.log(myChart.data.labels[elements[0]._index]);
                             var namaKota = myChart.data.labels[elements[0]._index];
                             window.location = "<?php echo $main_url; ?>table/data-periode.php?q=" +
-                                namaKota + "&periode=<?=$periode_select?>&triwulan=<?= $TRIWULAN_SELECTED ?>";
+                                namaKota +
+                                "&periode=<?=$periode_select?>&triwulan=<?= $TRIWULAN_SELECTED ?>";
+                        },
+                        plugins: {
+                            legend: {
+                                display: false,
+                                position: 'bottom'
+                            },
+                            datalabels: {
+                                anchor: 'end',
+                                align: 'end',
+                                color: 'blue',
+                                font: {
+                                    weight: 'bold'
+                                },
+                                formatter: function(value, context) {
+                                    if (typeof value === 'number' && !isNaN(value) && Number.isFinite(
+                                            value) && Number(value) === value) {
+                                        return value.toFixed(2) + '%';
+                                    } else {
+                                        return value + '%';
+                                    }
+                                }
+                            }
                         }
                     }
-
                 });
 
                 tableIcon.addEventListener('click', tampilTable);
@@ -399,6 +428,7 @@ foreach ($NILAI_POLRES_ALL as $nilai) {
                 function updateTriwulan(triwulan) {
                     window.location = "<?php echo $main_url; ?>index.php?triwulan=" + triwulan;
                 }
+
                 function updatePeriode(periode) {
                     window.location = "<?php echo $main_url; ?>index.php?periode=" + periode;
                 }

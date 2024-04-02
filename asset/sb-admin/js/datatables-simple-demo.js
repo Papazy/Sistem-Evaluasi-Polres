@@ -4,6 +4,9 @@ window.addEventListener('DOMContentLoaded', event => {
 
     const datatablesSimple = document.getElementById('datatablesSimple');
     if (datatablesSimple) {
-        new simpleDatatables.DataTable(datatablesSimple);
+        const table = new simpleDatatables.DataTable(datatablesSimple,{
+            order : [1, 'asc'],
+        });
     }
+    
 });

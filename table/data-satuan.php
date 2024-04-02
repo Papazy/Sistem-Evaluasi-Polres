@@ -82,7 +82,7 @@
 
             <div class="card w-75">
                 <div class="card-header d-flex align-items-center justify-content-between">
-                    <span class="h5 my-2"><i class="fa-solid fa-list"></i> Kategori <?=$Breadcumb?>s</span>
+                    <span class="h5 my-2"><i class="fa-solid fa-list"></i> Kategori <?=$Breadcumb?></span>
                     <div class="d-flex align-items-center">
                         <style>
                         select {
@@ -98,7 +98,7 @@
                     </div>
                 </div>
                 <div class="card-body ">
-                    <table class="table table-hover" id="datatablesSimple">
+                    <table class="table table-hover" id="example">
                         <thead>
                             <tr>
                                 <th scope="col">No</th>

@@ -83,7 +83,7 @@
                     </div>
                 </div>
                 <div class="card-body ">
-                    <table class="table table-hover" id="datatablesSimple">
+                    <table class="table table-hover" id="example">
                         <thead>
                             <tr>
                                 <th scope="col">No.</th>
@@ -107,10 +107,12 @@
                             <?php
 
                             $no = 1;
-                            $queryLaporan = mysqli_query($koneksi, "SELECT * FROM laporan_polres");
-                            while ($data = mysqli_fetch_array($queryLaporan)) {
-                                $queryPersentase = mysqli_query($koneksi, "SELECT * FROM persentase_polres WHERE Periode = '{$periode_select}' AND Polres = '{$nama_kota}'");
-                                while ($dataPersentase = mysqli_fetch_array($queryPersentase)) {
+                            $queryPersentase = mysqli_query($koneksi, "SELECT * FROM persentase_polres WHERE Periode = '{$periode_select}' AND Polres = '{$nama_kota}'");
+                            while ($dataPersentase = mysqli_fetch_array($queryPersentase)) {
+                                    $queryLaporan = mysqli_query($koneksi, "SELECT Min, Max FROM laporan_polres WHERE Periode = '{$periode_select}' AND PG = '{$dataPersentase['PG']}'" );
+                                    $data = mysqli_fetch_array($queryLaporan);
+                                    $dataMin = $data["Min"];
+                                    $dataMax = $data["Max"];
                                     $class = null;
                                     if((float)$dataPersentase['Persentase'] >= (float) $data["Max"]){
                                         $class = 'bg-success';
@@ -120,26 +122,27 @@
                                         $class = 'bg-danger';
 
                                     }
+                                    
                             ?>
                             <tr>
                                 <th scope="row"><?= $no++ ?></th>
                                 <td>
-                                    <center><?= $data['PG'] ?></center>
+                                    <center><?= $dataPersentase['PG'] ?></center>
                                 </td>
                                 <td style="padding:0; margin:0">
                                     <center class="<?= $class ?>" style="width:100%; height:100%; margin:0;">
                                         <?= $dataPersentase['Persentase'] . "%" ?></center>
                                 </td>
                                 <td>
-                                    <center><?= $data['Min'] . "%" ?></center>
+                                    <center><?= $dataMin . "%" ?></center>
                                 </td>
                                 <td>
-                                    <center><?= $data['Max'] . "%" ?></center>
+                                    <center><?= $dataMax . "%" ?></center>
                                 </td>
                             </tr>
 
 
-                            <?php }
+                            <?php 
                             } ?>
                         </tbody>
 

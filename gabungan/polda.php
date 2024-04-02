@@ -81,7 +81,7 @@ $PG_ALL = [
                     <div class="row mt-3">
                         <div class="col-auto">
 
-                            <table class="table table-bordered">
+                            <table class="table table-bordered" id="example">
                                 <thead class="thead-dark">
                                     <tr>
                                         <th rowspan="2">No</th>

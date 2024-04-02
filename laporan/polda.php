@@ -45,7 +45,7 @@ require_once "../template/sidebar.php";
                             class="fa-solid fa-print"></i> Cetak</a>
                 </div>
                 <div class="card-body">
-                    <table class="table table-hover" id="datatablesSimple">
+                    <table class="table table-hover" id="exampleNoSetting">
                         <thead>
                             <tr>
                                 <th scope="col">No.</th>

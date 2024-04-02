@@ -112,7 +112,7 @@
                             font-size: 14px;
                         }
                         </style>
-                        <table class="table table-hover" id="datatablesSimple">
+                        <table class="display" id="example">
                             <thead>
                                 <tr>
                                     <th scope="col">No.</th>
@@ -121,6 +121,9 @@
                                     </th>
                                     <th scope="col">
                                         <center>Total Persentase</center>
+                                    </th>
+                                    <th scope="col">
+                                        
                                     </th>
                                 </tr>
                             </thead>
@@ -150,13 +153,16 @@
                                 </tr>
 
                                 <?php $i++;} ?>
+                                
+                            </tbody>
+                            <tfoot>
                                 <tr>
                                     <th scope="row">TOTAL</th>
                                     <td align="center"></td>
                                     <td align="center"><?= $TOTAL_PG?></td>
                                     <td align="center"></td>
                                 </tr>
-                            </tbody>
+                                </tfoot>
 
                         </table>
                     </div>
