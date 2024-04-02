@@ -9,6 +9,7 @@ if (!isset($_SESSION["ssLogin"])) {
 
 require "config.php";
 require_once "utils.php";
+require_once "utils2.php";
 
 
 $title = "Dashboard - Sistem Evaluasi Polres";
@@ -30,9 +31,9 @@ $polres_merah = 0;
 $polres_kuning = 0;
 $polres_hijau = 0;
 
-$polres_merah = cariJumlahPolresMerah();
-$polres_kuning = cariJumlahPolresKuning();
-$polres_hijau = cariJumlahPolresHijau();
+$polres_merah = get_data_kartu_dashboard("polres", "merah");
+$polres_kuning = get_data_kartu_dashboard("polres", "kuning");
+$polres_hijau = get_data_kartu_dashboard("polres", "hijau");
 if($polres_hijau == 0 && $polres_kuning == 0 && $polres_merah == 0){
     $persentase = 0;
 }else{
@@ -43,9 +44,9 @@ $polda_merah = 0;
 $polda_kuning = 0;
 $polda_hijau = 0;
 
-$polda_merah = cariJumlahPoldaMerah();
-$polda_kuning = cariJumlahPoldaKuning();
-$polda_hijau = cariJumlahPoldaHijau();
+$polda_merah = get_data_kartu_dashboard("polda", "merah");
+$polda_kuning = get_data_kartu_dashboard("polda", "kuning");
+$polda_hijau = get_data_kartu_dashboard("polda", "hijau");
 if($polda_hijau == 0 && $polda_kuning == 0 && $polda_merah == 0){
     $persentase_polda = 0;
 }else{

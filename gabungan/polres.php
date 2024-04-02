@@ -128,7 +128,7 @@ $PG_ALL = [
                                         $no = 1;
                                         // Mendapatkan semua satker
                                         $queryPG = mysqli_query($koneksi, "SELECT DISTINCT Polres FROM persentase_polres");
-                                        $queryData = mysqli_query($koneksi, "SELECT Min, Max, Periode FROM laporan_polres");
+                                        $queryData = mysqli_query($koneksi, "SELECT Min, Max, Periode FROM laporan_polres where Periode = '{$periode_select}'");
 
                                         $Min = null;
                                         $Max = null;
