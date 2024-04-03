@@ -117,7 +117,7 @@ if ($polda_hijau == 0 && $polda_kuning == 0 && $polda_merah == 0) {
 
 if($periode_select == "None"){
 
-    $queryPG = mysqli_query($koneksi, "SELECT DISTINCT " . $satker . " FROM persentase_" . $jenis . "");
+    $queryPG = mysqli_query($koneksi, "SELECT DISTINCT " . $satker . " FROM persentase_" . $jenis . " WHERE Triwulan ='{$TRIWULAN_SELECTED}'");
 }else{
     $queryPG = mysqli_query($koneksi, "SELECT DISTINCT " . $satker . " FROM persentase_" . $jenis . " WHERE Periode = '{$periode_select}'");
 }
@@ -132,7 +132,7 @@ $NILAI_POLRES_ALL = array();
 
 foreach ($POLRES_ALL as $satuan) {
     if ($periode_select == "None"){
-        $queryNilai = mysqli_query($koneksi, "SELECT * FROM persentase_" . $jenis . " WHERE " . $satker . " = '$satuan'");
+        $queryNilai = mysqli_query($koneksi, "SELECT * FROM persentase_" . $jenis . " WHERE " . $satker . " = '$satuan' AND Triwulan ='{$TRIWULAN_SELECTED}'");
     }else{
         $queryNilai = mysqli_query($koneksi, "SELECT * FROM persentase_" . $jenis . " WHERE " . $satker . " = '$satuan' AND Periode = '{$periode_select}'");
     }
@@ -151,7 +151,7 @@ foreach ($POLRES_ALL as $satuan) {
 $Min = 0;
 $Max = 0;
 if($periode_select == "None"){
-    $queryMinMax = mysqli_query($koneksi, "SELECT Min, Max FROM laporan_" . $jenis . "");
+    $queryMinMax = mysqli_query($koneksi, "SELECT Min, Max FROM laporan_" . $jenis . " WHERE Triwulan ='{$TRIWULAN_SELECTED}'");
 }else{
     $queryMinMax = mysqli_query($koneksi, "SELECT Min, Max FROM laporan_" . $jenis . " WHERE Periode = '{$periode_select}'");
 }
