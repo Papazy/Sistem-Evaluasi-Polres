@@ -1,4 +1,9 @@
-<table class="display" id="exampleNoSetting">
+<style>
+    th, td {
+    white-space: nowrap;
+}
+</style>
+<table class="display" id="exampleNoSetting" style="width:80%">
     <thead>
         <tr>
             <th scope="col">No.</th>
@@ -7,7 +12,7 @@
             </th>
             
             <th scope="col">
-                <center>Persentase</center>
+                <center style="width:20%">Persentase</center>
             </th>
             
             <th scope="col">
@@ -34,7 +39,11 @@
                                     $persen += $dataPersentase['persentase'];
                                     $count++;
                                 }
-                                $persen = $persen / $count;
+                                if($count > 0){
+                                    $persen = $persen / $count;
+                                }else{
+                                    $persen = 0;
+                                }
 
                                 $class = null;
                                 if($persen >= $Max){
@@ -51,8 +60,8 @@
             <td scope="row"></td>
             <td><?= $satuan ?></td>
             
-            <td style="padding:0; margin:0">
-                <center class="<?= $class ?>" style="width:100%; height:100%; margin:0;">
+            <td class="<?= $class ?>">
+                <center >
                     <?= $persen . "%" ?></center>
             </td>
             <td><center>

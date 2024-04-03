@@ -12,16 +12,18 @@ require_once "utils.php";
 require_once "utils2.php";
 
 $TRIWULAN_SELECTED = 1;
-if(isset($_GET['triwulan'])){
+if (isset($_GET['triwulan'])) {
     $TRIWULAN_SELECTED = $_GET['triwulan'];
 }
 
 $DAERAH = "Polres";
-if(isset($_GET['d'])){
+if (isset($_GET['d'])) {
     $DAERAH = $_GET['d'];
 }
 $jenis = $DAERAH == "Polda" ? "polda" : "polres";
 $satker = $DAERAH == "Polda" ? "Satker" : "Polres";
+
+
 
 
 $start_date = '';
@@ -55,30 +57,33 @@ require_once "template/header.php";
 // require_once "template/navbar.php";
 require_once "template/sidebar.php";
 
+
+
 $queryPolres = mysqli_query($koneksi, "SELECT * FROM polres");
 $totalPolres = mysqli_num_rows($queryPolres);
 
 $queryKegiatan = mysqli_query($koneksi, "SELECT * FROM kegiatan");
 $totalKegiatan = mysqli_num_rows($queryKegiatan);
 
-$queryLaporan = mysqli_query($koneksi, "SELECT * FROM laporan_".$jenis."");
+$queryLaporan = mysqli_query($koneksi, "SELECT * FROM laporan_" . $jenis . "");
 $totalLaporan = mysqli_num_rows($queryLaporan);
 
 // Fitur Periode 
 
-$queryPeriode = mysqli_query($koneksi, "SELECT DISTINCT Periode FROM laporan_".$jenis." WHERE Periode >= '$start_date' AND Periode <= '$end_date' ");
+$queryPeriode = mysqli_query($koneksi, "SELECT DISTINCT Periode FROM laporan_" . $jenis . " WHERE Periode >= '$start_date' AND Periode <= '$end_date' ");
 $PERIODE_ALL = array();
-while($periode = mysqli_fetch_array($queryPeriode)){
+while ($periode = mysqli_fetch_array($queryPeriode)) {
     $PERIODE_ALL[] = $periode["Periode"];
 }
-$periode_select =0;
-if(count($PERIODE_ALL) > 0){
-    if(isset($_GET["periode"])){
+$periode_select = 0;
+if (count($PERIODE_ALL) > 0) {
+    if (isset($_GET["periode"])) {
         $periode_select = $_GET["periode"];
-    }else{
+    } else {
         $periode_select = $PERIODE_ALL[count($PERIODE_ALL) - 1];
-    }   
+    }
 }
+
 
 
 
@@ -90,9 +95,9 @@ $polres_hijau = 0;
 $polres_merah = get_data_kartu_dashboard("polres", "merah");
 $polres_kuning = get_data_kartu_dashboard("polres", "kuning");
 $polres_hijau = get_data_kartu_dashboard("polres", "hijau");
-if($polres_hijau == 0 && $polres_kuning == 0 && $polres_merah == 0){
+if ($polres_hijau == 0 && $polres_kuning == 0 && $polres_merah == 0) {
     $persentase = 0;
-}else{
+} else {
     $persentase = $polres_hijau / ($polres_hijau + $polres_kuning + $polres_merah) * 100;
 }
 // POLDA
@@ -103,56 +108,66 @@ $polda_hijau = 0;
 $polda_merah = get_data_kartu_dashboard("polda", "merah");
 $polda_kuning = get_data_kartu_dashboard("polda", "kuning");
 $polda_hijau = get_data_kartu_dashboard("polda", "hijau");
-if($polda_hijau == 0 && $polda_kuning == 0 && $polda_merah == 0){
+if ($polda_hijau == 0 && $polda_kuning == 0 && $polda_merah == 0) {
     $persentase_polda = 0;
-}else{
+} else {
     $persentase_polda = $polda_hijau / ($polda_hijau + $polda_kuning + $polda_merah) * 100;
 }
 
 
-$queryPG = mysqli_query($koneksi, "SELECT DISTINCT ".$satker." FROM persentase_".$jenis."");
-$POLRES_ALL =  array();
+
+$queryPG = mysqli_query($koneksi, "SELECT DISTINCT " . $satker . " FROM persentase_" . $jenis . " WHERE Periode = '{$periode_select}'");
+$POLRES_ALL = array();
 $i = 0;
-while($polres = mysqli_fetch_array($queryPG)){
+while ($polres = mysqli_fetch_array($queryPG)) {
     $POLRES_ALL[$i] = $polres[$satker];
     $i++;
 }
 $NILAI_POLRES_ALL = array();
 
 
-foreach($POLRES_ALL as $satuan){
-    $queryNilai = mysqli_query($koneksi, "SELECT * FROM persentase_".$jenis." WHERE ".$satker." = '$satuan' AND Periode = '{$periode_select}'");
+foreach ($POLRES_ALL as $satuan) {
+    $queryNilai = mysqli_query($koneksi, "SELECT * FROM persentase_" . $jenis . " WHERE " . $satker . " = '$satuan' AND Periode = '{$periode_select}'");
     $nilai = 0;
     $jumlah = 0;
-    while($data = mysqli_fetch_array($queryNilai)){
+    while ($data = mysqli_fetch_array($queryNilai)) {
         $nilai += (float) $data['Persentase'];
         $jumlah++;
     }
-    if($jumlah != 0){
+    if ($jumlah != 0) {
         $NILAI_POLRES_ALL[] = $nilai / $jumlah;
     }
-
+    
 }
 
 $Min = 0;
 $Max = 0;
-$queryMinMax = mysqli_query($koneksi, "SELECT Min, Max FROM laporan_".$jenis."");
-while($data = mysqli_fetch_array($queryMinMax)){
+$queryMinMax = mysqli_query($koneksi, "SELECT Min, Max FROM laporan_" . $jenis . " WHERE Periode = '{$periode_select}'");
+while ($data = mysqli_fetch_array($queryMinMax)) {
     $Min = $data['Min'];
     $Max = $data['Max'];
     break;
 }
-                                     
+
+// var_dump($Min);
+// print_r("<br>");
+// var_dump($Max);
+// print_r("<br>");
+// var_dump($NILAI_POLRES_ALL);
+// print_r("<br>");
+
 $backgroundColorArray = array();
 foreach ($NILAI_POLRES_ALL as $nilai) {
-    if ($nilai <= $Min) {
-        $backgroundColorArray[] = 'rgba(255, 0, 0, 0.5)'; // Merah
-    } elseif ($nilai > $Min && $nilai < $Max) {
+    if ($nilai >= $Max) {
+        $backgroundColorArray[] = 'rgba(0, 255, 0, 0.5)'; // Hijau
+    } elseif ($nilai > $Min ) {
         $backgroundColorArray[] = 'rgba(255, 255, 0, 0.5)'; // Kuning
     } else {
-        $backgroundColorArray[] = 'rgba(0, 255, 0, 0.5)'; // Hijau
+        $backgroundColorArray[] = 'rgba(255, 0, 0, 0.5)'; // Merah
     }
 }
+
+// var_dump($backgroundColorArray);
 
 
 ?>
@@ -171,32 +186,41 @@ foreach ($NILAI_POLRES_ALL as $nilai) {
                         <a href="<?= $main_url ?>table/success.php?j=polda" style="text-decoration:none; color:white;">
                             <div class="card-body d-flex align-items-center justify-content-between">
                                 <div>Polda</div>
-                                <div><?= $polda_hijau ?></div>
+                                <div>
+                                    <?= $polda_hijau ?>
+                                </div>
                             </div>
                         </a>
                         <a href="<?= $main_url ?>table/success.php?j=polres" style="text-decoration:none; color:white;">
                             <div class="card-body border-top border-dark d-flex align-items-center justify-content-between"
                                 style="--bs-border-opacity: .5;">
                                 <div>Polres</div>
-                                <div><?= $polres_hijau ?></div>
+                                <div>
+                                    <?= $polres_hijau ?>
+                                </div>
 
                             </div>
                         </a>
                     </div>
                 </div>
                 <div class="" style="width: 22%; flex:0 0 auto; ">
+
                     <a href="<?= $main_url ?>table/warning.php?j=polda" style="text-decoration:none; color:white;">
                         <div class="card bg-warning text-white mb-4">
                             <div class="card-body d-flex align-items-center justify-content-between">
                                 <div>Polda</div>
-                                <div><?= $polda_kuning ?></div>
+                                <div>
+                                    <?= $polda_kuning ?>
+                                </div>
                             </div>
                     </a>
                     <a href="<?= $main_url ?>table/warning.php?j=polres" style="text-decoration:none; color:white;">
                         <div class="card-body border-top border-dark d-flex align-items-center justify-content-between"
                             style="--bs-border-opacity: .5;">
                             <div>Polres</div>
-                            <div><?= $polres_kuning ?></div>
+                            <div>
+                                <?= $polres_kuning ?>
+                            </div>
 
                         </div>
                 </div>
@@ -207,14 +231,18 @@ foreach ($NILAI_POLRES_ALL as $nilai) {
                     <div class="card bg-danger text-white mb-4">
                         <div class="card-body d-flex align-items-center justify-content-between">
                             <div>Polda</div>
-                            <div><?= $polda_merah ?></div>
+                            <div>
+                                <?= $polda_merah ?>
+                            </div>
                         </div>
                 </a>
                 <a href="<?= $main_url ?>table/danger.php?j=polres" style="text-decoration:none; color:white;">
                     <div class="card-body border-top border-dark d-flex align-items-center justify-content-between"
                         style="--bs-border-opacity: .5;">
                         <div>Polres</div>
-                        <div><?= $polres_merah ?></div>
+                        <div>
+                            <?= $polres_merah ?>
+                        </div>
 
                     </div>
             </div>
@@ -225,12 +253,16 @@ foreach ($NILAI_POLRES_ALL as $nilai) {
                 <div class="card bg-info text-white mb-4">
                     <div class="card-body d-flex align-items-center justify-content-between">
                         <div>Persentase</div>
-                        <div><?= number_format($persentase_polda, 2) ?>%</div>
+                        <div>
+                            <?= number_format($persentase_polda, 2) ?>%
+                        </div>
                     </div>
                     <div class="card-body border-top border-dark d-flex align-items-center justify-content-between"
                         style="--bs-border-opacity: .5;">
                         <div>Persentase</div>
-                        <div><?= number_format($persentase, 2) ?>%</div>
+                        <div>
+                            <?= number_format($persentase, 2) ?>%
+                        </div>
 
                     </div>
                 </div>
@@ -241,12 +273,16 @@ foreach ($NILAI_POLRES_ALL as $nilai) {
                 <div class="card text-white mb-4" style="background-color:#d95c02">
                     <div class="card-body d-flex align-items-center justify-content-between">
                         <div>Total</div>
-                        <div><?= $polda_hijau + $polda_hijau + $polda_merah?></div>
+                        <div>
+                            <?= $polda_hijau + $polda_hijau + $polda_merah ?>
+                        </div>
                     </div>
                     <div class="card-body border-top border-dark d-flex align-items-center justify-content-between"
                         style="--bs-border-opacity: .5;">
                         <div>Total</div>
-                        <div><?= $polres_hijau + $polres_hijau + $polres_merah?></div>
+                        <div>
+                            <?= $polres_hijau + $polres_hijau + $polres_merah ?>
+                        </div>
 
                     </div>
                 </div>
@@ -261,18 +297,28 @@ foreach ($NILAI_POLRES_ALL as $nilai) {
                 <div class="d-inline-flex align-items-center">
                     <i class="fas fa-chart-bar me-1"></i>
                     Capaian
-                    <select class="form-select ms-2" name="triwulan" id="triwulan" onchange="updateDaerah(this.value)">
-                        <option value="Polda" <?php if($DAERAH == "Polda" ) echo 'selected';?>>Polda</option>
-                        <option value="Polres" <?php if($DAERAH == "Polres" ) echo 'selected';?>>Polres</option>
-                  
+                    <select class="form-select ms-2" name="daerah" id="daerah" onchange="updateDaerah(this.value)">
+                        <option value="Polda" <?php if ($DAERAH == "Polda")
+                            echo 'selected'; ?>>Polda</option>
+                        <option value="Polres" <?php if ($DAERAH == "Polres")
+                            echo 'selected'; ?>>Polres</option>
+
                     </select>
                 </div>
                 <div class="d-inline-flex align-items-center gap-2">
                     <select class="form-select" name="triwulan" id="triwulan" onchange="updateTriwulan(this.value)">
-                        <option value="1&d=<?=$DAERAH;?>" <?php if($TRIWULAN_SELECTED == "1" ) echo 'selected';?>>Triwulan 1</option>
-                        <option value="2&d=<?=$DAERAH;?>" <?php if($TRIWULAN_SELECTED == "2" ) echo 'selected';?>>Triwulan 2</option>
-                        <option value="3&d=<?=$DAERAH;?>" <?php if($TRIWULAN_SELECTED == "3" ) echo 'selected';?>>Triwulan 3</option>
-                        <option value="4&d=<?=$DAERAH;?>" <?php if($TRIWULAN_SELECTED == "4" ) echo 'selected';?>>Triwulan 4</option>
+                        <option value="1&d=<?= $DAERAH; ?>" <?php if ($TRIWULAN_SELECTED == "1")
+                              echo 'selected'; ?>>Triwulan
+                            1</option>
+                        <option value="2&d=<?= $DAERAH; ?>" <?php if ($TRIWULAN_SELECTED == "2")
+                              echo 'selected'; ?>>Triwulan
+                            2</option>
+                        <option value="3&d=<?= $DAERAH; ?>" <?php if ($TRIWULAN_SELECTED == "3")
+                              echo 'selected'; ?>>Triwulan
+                            3</option>
+                        <option value="4&d=<?= $DAERAH; ?>" <?php if ($TRIWULAN_SELECTED == "4")
+                              echo 'selected'; ?>>Triwulan
+                            4</option>
                     </select>
 
                     <select class="form-select" style="width: 150px;" onchange="updatePeriode(this.value)">
@@ -315,12 +361,12 @@ foreach ($NILAI_POLRES_ALL as $nilai) {
                 </center>
 
                 <div style="width: 100%; margin: 0px auto; overflow: auto;">
-                    <?php if(count($NILAI_POLRES_ALL)) { ?>
+                    <?php if (count($NILAI_POLRES_ALL)) { ?>
                     <canvas id="myChart" style=""></canvas>
-                    <div class="table-chart px-3 py-2" style="display:none">
+                    <div class="table-chart" style="display:none">
                         <?php require_once "table/components/table-simple.php"; ?>
                     </div>
-                    <?php }else{ ?>
+                    <?php } else { ?>
                     <div class="alert alert-danger" role="alert">
                         Data tidak ditemukan
                     </div>
@@ -370,7 +416,7 @@ foreach ($NILAI_POLRES_ALL as $nilai) {
                         }]
                     },
                     options: {
-                       
+
                         scales: {
                             x: [{
                                 ticks: {
@@ -379,14 +425,14 @@ foreach ($NILAI_POLRES_ALL as $nilai) {
                                     minRotation: 90
                                 }
                             }],
-                            y: [{
-                                ticks: {
-                                    beginAtZero: true,
-                                }
-                            }]
+                            y: {
+                                beginAtZero: true,
+                                min: 0,
+                                max: 100
+                            }
                         },
-                        layout:{
-                            padding:35
+                        layout: {
+                            padding: 35
                         },
                         onClick: (event, elements) => {
                             console.log(myChart.data.labels[elements[0].index]);
@@ -394,7 +440,7 @@ foreach ($NILAI_POLRES_ALL as $nilai) {
 
                             window.location = "<?php echo $main_url; ?>table/data-periode.php?q=" +
                                 namaKota +
-                                "&periode=<?=$periode_select?>&triwulan=<?= $TRIWULAN_SELECTED ?>";
+                                "&periode=<?= $periode_select ?>&triwulan=<?= $TRIWULAN_SELECTED ?>&d=<?= $DAERAH; ?>";
                         },
                         plugins: {
                             legend: {
@@ -440,6 +486,7 @@ foreach ($NILAI_POLRES_ALL as $nilai) {
                 function updateTriwulan(triwulan) {
                     window.location = "<?php echo $main_url; ?>index.php?triwulan=" + triwulan;
                 }
+
                 function updateDaerah(daerah) {
                     window.location = "<?php echo $main_url; ?>index.php?d=" + daerah;
                 }
@@ -458,6 +505,6 @@ foreach ($NILAI_POLRES_ALL as $nilai) {
 
 <?php
 
-    require_once "template/footer.php";
+require_once "template/footer.php";
 
-    ?>
+?>

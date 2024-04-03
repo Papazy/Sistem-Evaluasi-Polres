@@ -114,8 +114,8 @@ require_once "../template/sidebar.php";
                                 <td>
                                     <center><?= $dataPersentase['PG'] ?></center>
                                 </td>
-                                <td style="padding:0; margin:0">
-                                    <center class="<?= $class ?>" style="width:100%; height:100%; margin:0;">
+                                <td class="<?= $class ?>">
+                                    <center>
                                         <?= $dataPersentase['Persentase'] . "%" ?></center>
                                 </td>
                                 <td>

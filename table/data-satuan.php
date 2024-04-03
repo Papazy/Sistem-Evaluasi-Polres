@@ -98,14 +98,14 @@
                     </div>
                 </div>
                 <div class="card-body ">
-                    <table class="table table-hover" id="example">
+                    <table class="table table-hover w-75" id="example">
                         <thead>
                             <tr>
                                 <th scope="col">No</th>
                                 <th scope="col">
                                     <center>PG</center>
                                 </th>
-                                <th scope="col">
+                                <th scope="col" style="width:50%">
                                     <center>Persentase</center>
                                 </th>
                                
@@ -126,8 +126,8 @@
                                 <td>
                                     <center><?= $PG[$i] ?></center>
                                 </td>
-                                <td style="padding:0; margin:0">
-                                    <center class="<?= $class_bo ?>" style="width:100%; height:100%; margin:0;">
+                                <td class="<?= $class_bo ?>">
+                                    <center>
                                         <?= $persen . "%" ?></center>
                                 </td>
                                

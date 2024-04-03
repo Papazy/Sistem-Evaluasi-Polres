@@ -109,7 +109,7 @@
                         <table class="display" id="exampleNoSetting">
                             <thead>
                                 <tr>
-                                    <th scope="col">No.</th>
+                                    <th scope="col"><center>No.</center></th>
                                     <th scope="col">
                                         <center>Polres</center>
                                     </th>
@@ -137,9 +137,9 @@
                                 ?>
 
                                 <tr>
-                                    <th scope="row"><?=$no++;?></th>
+                                    <th scope="row"></th>
                                     <td align="center"><?= $polres;?></td>
-                                    <td align="center"><?= $NILAI_POLRES_ALL[$i]?></td>
+                                    <td align="center"><center><?= $NILAI_POLRES_ALL[$i]?></center></td>
                                     <td align="center">
                                     <a href="<?= $main_url?>table/data-jenis.php?j=<?=$jenis?>&q=success&p=<?=$polres?>" class="btn btn-sm btn-primary"><i class="fa-solid fa-magnifying-glass"></i> Show</a>
                                         
@@ -153,7 +153,7 @@
                                 <tr>
                                     <th scope="row">TOTAL</th>
                                     <td align="center"></td>
-                                    <td align="center"><?= $TOTAL_PG?></td>
+                                    <td align="center"><center><?= $TOTAL_PG?></center></td>
                                     <td align="center"></td>
                                 </tr>
                                 </tfoot>
