@@ -12,7 +12,7 @@ require_once "utils.php";
 require_once "utils2.php";
 $title = "Dashboard - Sistem Evaluasi Polres";
 require_once "template/header.php";
-require_once "template/navbar.php";
+// require_once "template/navbar.php";
 require_once "template/sidebar.php";
 
 $TRIWULAN_SELECTED = 1;
@@ -30,31 +30,7 @@ $satker = $DAERAH == "Polda" ? "Satker" : "Polres";
 
 
 
-$start_date = '';
-$end_date = '';
-switch ($TRIWULAN_SELECTED) {
-    case 1:
-        $start_date = date('Y-m-d', strtotime('January 1'));
-        $end_date = date('Y-m-d', strtotime('March 31'));
-        break;
-    case 2:
-        $start_date = date('Y-m-d', strtotime('April 1'));
-        $end_date = date('Y-m-d', strtotime('June 30'));
-        break;
-    case 3:
-        $start_date = date('Y-m-d', strtotime('July 1'));
-        $end_date = date('Y-m-d', strtotime('September 30'));
-        break;
-    case 4:
-        $start_date = date('Y-m-d', strtotime('October 1'));
-        $end_date = date('Y-m-d', strtotime('December 31'));
-        break;
-    default:
-        // Default to full year if triwulan selected is invalid
-        $start_date = date('Y-m-d', strtotime('January 1'));
-        $end_date = date('Y-m-d', strtotime('December 31'));
-        break;
-}
+
 
 
 
@@ -69,7 +45,7 @@ $queryLaporan = mysqli_query($koneksi, "SELECT * FROM laporan_" . $jenis . "");
 $totalLaporan = mysqli_num_rows($queryLaporan);
 
 
-$queryPeriode = mysqli_query($koneksi, "SELECT DISTINCT Periode FROM laporan_" . $jenis . " WHERE Periode >= '$start_date' AND Periode <= '$end_date' ");
+$queryPeriode = mysqli_query($koneksi, "SELECT DISTINCT Periode FROM laporan_" . $jenis . " WHERE Triwulan='{$TRIWULAN_SELECTED}' ");
 
 $PERIODE_ALL = array();
 while ($periode = mysqli_fetch_array($queryPeriode)) {
@@ -221,7 +197,7 @@ if ($polda_hijau == 0 && $polda_kuning == 0 && $polda_merah == 0) {
                         <center>Tercapai <i class="fa-regular fa-face-smile" style="color: green;"></i></center>
                     </h5>
                     <div class="card bg-success text-white mb-4">
-                        <a href="<?= $main_url ?>table/success.php?j=polda" style="text-decoration:none; color:white;">
+                        <a href="<?= $main_url ?>table/data-daerah.php?j=polda<?php if($periode_select != 'None'){echo '&p='.$periode_select;}else{echo '&triwulan='.$TRIWULAN_SELECTED;}?>&q=Hijau" style="text-decoration:none; color:white;">
                             <div class="card-body d-flex align-items-center justify-content-between">
                                 <div>
                                     <h4>Polda</h4>
@@ -231,7 +207,7 @@ if ($polda_hijau == 0 && $polda_kuning == 0 && $polda_merah == 0) {
                                 </div>
                             </div>
                         </a>
-                        <a href="<?= $main_url ?>table/success.php?j=polres" style="text-decoration:none; color:white;">
+                        <a href="<?= $main_url ?>table/data-daerah.php?j=polres<?php if($periode_select != 'None'){echo '&p='.$periode_select;}else{echo '&triwulan='.$TRIWULAN_SELECTED;}?>&q=Hijau" style="text-decoration:none; color:white;">
                             <div class="card-body border-top border-dark d-flex align-items-center justify-content-between"
                                 style="--bs-border-opacity: .5;">
                                 <div>
@@ -249,7 +225,7 @@ if ($polda_hijau == 0 && $polda_kuning == 0 && $polda_merah == 0) {
                     <h5 class="mb-3">
                         <center>Cukup <i class="fa-regular fa-face-meh" style="color: #C7BA28;"></i></center>
                     </h5>
-                    <a href="<?= $main_url ?>table/warning.php?j=polda" style="text-decoration:none; color:white;">
+                    <a href="<?= $main_url ?>table/data-daerah.php?j=Polda<?php if($periode_select != 'None'){echo '&p='.$periode_select;}else{echo '&triwulan='.$TRIWULAN_SELECTED;}?>&q=Kuning" style="text-decoration:none; color:white;">
                         <div class="card bg-warning text-white mb-4">
                             <div class="card-body d-flex align-items-center justify-content-between">
                                 <div>
@@ -260,7 +236,7 @@ if ($polda_hijau == 0 && $polda_kuning == 0 && $polda_merah == 0) {
                                 </div>
                             </div>
                     </a>
-                    <a href="<?= $main_url ?>table/warning.php?j=polres" style="text-decoration:none; color:white;">
+                    <a href="<?= $main_url ?>table/data-daerah.php?j=polres<?php if($periode_select != 'None'){echo '&p='.$periode_select;}else{echo '&triwulan='.$TRIWULAN_SELECTED;}?>&q=Kuning" style="text-decoration:none; color:white;">
                         <div class="card-body border-top border-dark d-flex align-items-center justify-content-between"
                             style="--bs-border-opacity: .5;">
                             <div>
@@ -278,7 +254,7 @@ if ($polda_hijau == 0 && $polda_kuning == 0 && $polda_merah == 0) {
                 <h5 class="mb-3">
                     <center>Tidak <i class="fa-regular fa-face-frown" style="color: red;"></i></center>
                 </h5>
-                <a href="<?= $main_url ?>table/danger.php?j=polda" style="text-decoration:none; color:white;">
+                <a href="<?= $main_url ?>table/data-daerah.php?j=polda<?php if($periode_select != 'None'){echo '&p='.$periode_select;}else{echo '&triwulan='.$TRIWULAN_SELECTED;}?>&q=Merah" style="text-decoration:none; color:white;">
                     <div class="card bg-danger text-white mb-4">
                         <div class="card-body d-flex align-items-center justify-content-between">
                             <div>
@@ -289,7 +265,7 @@ if ($polda_hijau == 0 && $polda_kuning == 0 && $polda_merah == 0) {
                             </div>
                         </div>
                 </a>
-                <a href="<?= $main_url ?>table/danger.php?j=polres" style="text-decoration:none; color:white;">
+                <a href="<?= $main_url ?>table/data-daerah.php?j=polres<?php if($periode_select != 'None'){echo '&p='.$periode_select;}else{echo '&triwulan='.$TRIWULAN_SELECTED;}?>&q=Merah" style="text-decoration:none; color:white;">
                     <div class="card-body border-top border-dark d-flex align-items-center justify-content-between"
                         style="--bs-border-opacity: .5;">
                         <div>
@@ -341,7 +317,7 @@ if ($polda_hijau == 0 && $polda_kuning == 0 && $polda_merah == 0) {
                             <h4>Polda</h4>
                         </div>
                         <div>
-                            <?= $polda_hijau + $polda_hijau + $polda_merah ?>
+                            <?= $polda_hijau + $polda_kuning + $polda_merah ?>
                         </div>
                     </div>
                     <div class="card-body border-top border-dark d-flex align-items-center justify-content-between"
@@ -350,7 +326,7 @@ if ($polda_hijau == 0 && $polda_kuning == 0 && $polda_merah == 0) {
                             <h6>Polres</h6>
                         </div>
                         <div>
-                            <?= $polres_hijau + $polres_hijau + $polres_merah ?>
+                            <?= $polres_hijau + $polres_kuning + $polres_merah ?>
                         </div>
 
                     </div>
@@ -395,10 +371,10 @@ if ($polda_hijau == 0 && $polda_kuning == 0 && $polda_merah == 0) {
 
                         <?php
                         $selected = $periode_select == "None" ? "selected" : "";
-                        echo "<option value='None&triwulan{$TRIWULAN_SELECTED}&d={$DAERAH}' {$selected}>None</option>";
+                        echo "<option value='None&triwulan={$TRIWULAN_SELECTED}&d={$DAERAH}' {$selected}>None</option>";
                         foreach ($PERIODE_ALL as $periode) {
                             $selected = $periode == $periode_select ? "selected" : "";
-                            echo "<option value='{$periode}&triwulan{$TRIWULAN_SELECTED}&d={$DAERAH}' {$selected}>{$periode}</option>";
+                            echo "<option value='{$periode}&triwulan={$TRIWULAN_SELECTED}&d={$DAERAH}' {$selected}>{$periode}</option>";
                         }
                         ?>
                     </select>
@@ -510,10 +486,15 @@ if ($polda_hijau == 0 && $polda_kuning == 0 && $polda_merah == 0) {
                             onClick: (event, elements) => {
                                 console.log(myChart.data.labels[elements[0].index]);
                                 var namaKota = myChart.data.labels[elements[0].index];
-
-                                window.location = "<?php echo $main_url; ?>table/data-periode.php?q=" +
-                                    namaKota +
-                                    "&periode=<?= $periode_select ?>&triwulan=<?= $TRIWULAN_SELECTED ?>&d=<?= $DAERAH; ?>";
+                                <?php if ($periode_select == "None"){?>
+                                    window.location = "<?php echo $main_url; ?>table/data-triwulan-daerah.php?q=" +
+                                        namaKota +
+                                        "&triwulan=<?= $TRIWULAN_SELECTED ?>&d=<?= $DAERAH; ?>";
+                                    <?php } else {?>
+                                        window.location = "<?php echo $main_url; ?>table/data-periode.php?q=" +
+                                            namaKota +
+                                            "&periode=<?= $periode_select ?>&triwulan=<?= $TRIWULAN_SELECTED ?>&d=<?= $DAERAH; ?>";
+                                    <?php } ?>
                             },
                             plugins: {
                                 legend: {

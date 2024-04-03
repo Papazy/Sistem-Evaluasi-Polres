@@ -23,10 +23,8 @@ $DAERAH = "Polres";
 if (isset($_GET['d'])) {
     $DAERAH = $_GET['d'];
 }
-
-$jenis = $DAERAH == "Polda" ? "polda" : "polres";
-$satker = $DAERAH == "Polda" ? "Satker" : "Polres";
-
+$jenis = strtolower($DAERAH) == "polda" ? "polda" : "polres";
+$satker = strtolower($DAERAH) == "polda" ? "Satker" : "Polres";
 
 
 $PERIODE = array();
@@ -129,7 +127,7 @@ foreach ($PERIODE as $period) {
 
                             $no = 1;
                             $queryPersentase = mysqli_query($koneksi, "SELECT * FROM persentase_".$jenis." WHERE Periode = '{$periode_select}' AND ".$satker." = '{$nama_kota}'");
-                            print_r($periode_select);
+                            // print_r($periode_select);
                             while ($dataPersentase = mysqli_fetch_array($queryPersentase)) {
                                 $queryLaporan = mysqli_query($koneksi, "SELECT Min, Max FROM laporan_".$jenis." WHERE Periode = '{$periode_select}' AND PG = '{$dataPersentase['PG']}'");
                                 $data = mysqli_fetch_array($queryLaporan);

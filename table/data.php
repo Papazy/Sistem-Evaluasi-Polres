@@ -60,54 +60,56 @@
             <ol class="breadcrumb mb-4">
                 <li class="breadcrumb-item"><a href="../index.php">Home</a></li>
                 <li class="breadcrumb-item"><a href="../index.php">Triwulan <?=$TRIWULAN_SELECTED?></a></li>
-                <li class="breadcrumb-item active"><a href="../table/data.php?q=<?= $nama_kota?>"><?= $nama_kota; ?></a></li>
+                <li class="breadcrumb-item active"><a href="../table/data.php?q=<?= $nama_kota?>"><?= $nama_kota; ?></a>
+                </li>
             </ol>
-          
-                <div class="card w-75">
-                    <div class="card-header">
-                        <span class="h5 my-2"><i class="fa-solid fa-list"></i> Data Polres <?= $nama_kota; ?></span>
 
-                    </div>
-                    <div class="card-body ">
-                        <style>
-                        /* Style untuk table */
-                        #datatablesSimple {
-                            width: 100%;
-                            border-collapse: collapse;
-                        }
+            <div class="card w-75">
+                <div class="card-header">
+                    <span class="h5 my-2"><i class="fa-solid fa-list"></i> Data Polres <?= $nama_kota; ?></span>
 
-                        #datatablesSimple th,
-                        #datatablesSimple td {
-                            padding: 8px;
-                            text-align: center;
-                        }
+                </div>
+                <div class="card-body ">
+                    <style>
+                    /* Style untuk table */
+                    #datatablesSimple {
+                        width: 100%;
+                        border-collapse: collapse;
+                    }
 
-                        /* Style untuk baris ganjil */
-                        #datatablesSimple tbody tr:nth-child(odd) {
-                            background-color: #f2f2f2;
-                        }
+                    #datatablesSimple th,
+                    #datatablesSimple td {
+                        padding: 8px;
+                        text-align: center;
+                    }
 
-                        /* Style untuk tombol */
-                        .btn {
-                            padding: 6px 12px;
-                            font-size: 14px;
-                        }
-                        </style>
-                        <table class="table table-hover" id="example">
-                            <thead>
-                                <tr>
-                                    <th scope="col">No.</th>
-                                    <th scope="col">
-                                        <center>Periode</center>
-                                    </th>
-                                    <th scope="col">
-                                        <center>Total Persentase</center>
-                                    </th>
-                                </tr>
-                            </thead>
+                    /* Style untuk baris ganjil */
+                    #datatablesSimple tbody tr:nth-child(odd) {
+                        background-color: #f2f2f2;
+                    }
 
-                            <tbody>
-                                <?php 
+                    /* Style untuk tombol */
+                    .btn {
+                        padding: 6px 12px;
+                        font-size: 14px;
+                    }
+                    </style>
+                    <table class="display" id="exampleNoSetting">
+                        <thead>
+                            <tr>
+                                <th scope="col">No.</th>
+                                <th scope="col">
+                                    <center>Periode</center>
+                                </th>
+                                <th scope="col">
+                                    <center>Total Persentase</center>
+                                </th>
+                                <th></th>
+                            </tr>
+                        </thead>
+
+                        <tbody>
+                            <?php 
                             $i = 0;
                             $no = 1;
                             
@@ -120,30 +122,32 @@
                                 }
                              ?>
 
-                                <tr>
-                                    <th scope="row"><?= $no ?></th>
-                                    <td align="center"><?= $period ?></td>
-                                    <td align="center"><?= $PERSENTASE[$i] ?></td>
-                                    <td align="center">
-                                        <a href="<?= $main_url ?>table/data-periode.php?q=<?= $nama_kota ?>&periode=<?= $period?>&triwulan=<?= $TRIWULAN_SELECTED?>" class="btn btn-sm btn-primary"><i class="fa-solid fa-magnifying-glass"></i> Show</a>
-                                        
-                                    </td>
-                                </tr>
+                            <tr>
+                                <td></td>
+                                <td align="center"><?= $period ?></td>
+                                <td align="center"><?= $PERSENTASE[$i] ?></td>
+                                <td align="center">
+                                    <a href="<?= $main_url ?>table/data-periode.php?q=<?= $nama_kota ?>&periode=<?= $period?>&triwulan=<?= $TRIWULAN_SELECTED?>"
+                                        class="btn btn-sm btn-primary"><i class="fa-solid fa-magnifying-glass"></i>
+                                        Show</a>
 
-                                <?php $i++; $no++; } ?>
-                            </tbody>
+                                </td>
+                            </tr>
 
-                        </table>
-                    </div>
-          
+                            <?php $i++; $no++; } ?>
+                        </tbody>
+
+                    </table>
+                </div>
+
+            </div>
         </div>
-</div>
-</main>
+    </main>
 
 
 
 
-<?php 
+    <?php 
 
     require_once "../template/footer.php";
 

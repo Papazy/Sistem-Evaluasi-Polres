@@ -7,69 +7,108 @@ require_once "config.php";
 function hitungPersentaseDariPeriode( $DAERAH, $PERIODE, $KATEGORI)
 {
     global $koneksi;
-
+ 
     $jenis = $DAERAH == "Polda" ? "polda" : "polres";
     $satker = $DAERAH == "Polda" ? "Satker" : "Polres";
 
+    $SATUAN_SEMUA = array();
 
-
-    $Min = 0;
-    $Max = 0;
-    $queryMinMax = mysqli_query($koneksi, "SELECT Min, Max FROM laporan_".$jenis." WHERE Periode = '$PERIODE'");
-    while ($data = mysqli_fetch_array($queryMinMax)) {
-        $Min = $data['Min'];
-        $Max = $data['Max'];
-        break;
+    $queryPG = mysqli_query($koneksi, "SELECT DISTINCT " . $satker . " FROM persentase_" . $jenis . " WHERE Periode = '$PERIODE'");
+    while($polres = mysqli_fetch_array($queryPG)){
+        $SATUAN_SEMUA[] = $polres[$satker];
     }
+    // var_dump($SATUAN_SEMUA);
+    $NILAI_TOTAL = 0;
+    foreach($SATUAN_SEMUA as $satu){
+        $queryNilai = mysqli_query($koneksi, "SELECT * FROM persentase_" . $jenis . " WHERE " . $satker . " = '$satu' AND Periode = '$PERIODE'");
+        $nilai = 0;
+        $jumlah = 0;
 
-    if($KATEGORI == "Merah"){
-        $query_total = "SELECT COUNT(*) AS total FROM persentase_".$jenis." pp WHERE pp.Periode = '{$PERIODE}' AND pp.Persentase <= " . $Min . "";
-    }elseif ($KATEGORI == "Kuning"){
-        $query_total = "SELECT COUNT(*) AS total FROM persentase_".$jenis." pp WHERE pp.Periode = '{$PERIODE}' AND pp.Persentase > " . $Min . " AND pp.Persentase < " . $Max . "";
-    }else{
-        $query_total = "SELECT COUNT(*) AS total FROM persentase_".$jenis." pp WHERE pp.Periode = '{$PERIODE}' AND pp.Persentase >= " . $Max . "";
+        $Min = 0;
+        $Max = 0;
+        
+        
+        while ($data = mysqli_fetch_array($queryNilai)) {
+            $PG = $data["PG"];
+            $queryMinMax = mysqli_query($koneksi, "SELECT Min, Max FROM laporan_" . $jenis . " WHERE Periode = '{$PERIODE}' AND PG ='$PG'");
+            while ($datas = mysqli_fetch_array($queryMinMax)) {
+                $Min = $datas['Min'];
+                $Max = $datas['Max'];
+                break;
+            }
+
+            $nilai = $data['Persentase'];
+            if ($KATEGORI == "Merah") {
+                if ($nilai <= $Min) {
+                    $jumlah++;
+                }
+            } else if ($KATEGORI == "Kuning") {
+                if ($nilai < $Max && $nilai > $Min) {
+                    $jumlah++;
+                }
+            } else if ($KATEGORI == "Hijau") {
+                if ($nilai >= $Max) {
+                    $jumlah++;
+                }
+            }
+        }
+        $NILAI_TOTAL += $jumlah;
     }
-
-    $result_total = mysqli_query($koneksi, $query_total);
-
-    $row_total = mysqli_fetch_assoc($result_total);
-    $total = $row_total['total'];
-
-    return $total;
+    return $NILAI_TOTAL;
 }
 
-function hitungPersentaseDariTriwulan( $DAERAH, $PERIODE, $KATEGORI)
+function hitungPersentaseDariTriwulan( $DAERAH, $TRIWULAN, $KATEGORI)
 {
     global $koneksi;
  
     $jenis = $DAERAH == "Polda" ? "polda" : "polres";
     $satker = $DAERAH == "Polda" ? "Satker" : "Polres";
 
+    $SATUAN_SEMUA = array();
 
-
-    $Min = 0;
-    $Max = 0;
-    $queryMinMax = mysqli_query($koneksi, "SELECT Min, Max FROM laporan_".$jenis." WHERE Triwulan = '$PERIODE'");
-    while ($data = mysqli_fetch_array($queryMinMax)) {
-        $Min = $data['Min'];
-        $Max = $data['Max'];
-        break;
+    $queryPG = mysqli_query($koneksi, "SELECT DISTINCT " . $satker . " FROM persentase_" . $jenis . " WHERE Triwulan = '$TRIWULAN'");
+    while($polres = mysqli_fetch_array($queryPG)){
+        $SATUAN_SEMUA[] = $polres[$satker];
     }
+    // var_dump($SATUAN_SEMUA);
+    $NILAI_TOTAL = 0;
+    foreach($SATUAN_SEMUA as $satu){
+        $queryNilai = mysqli_query($koneksi, "SELECT * FROM persentase_" . $jenis . " WHERE " . $satker . " = '$satu' AND Triwulan = '$TRIWULAN'");
+        $nilai = 0;
+        $jumlah = 0;
 
-    if($KATEGORI == "Merah"){
-        $query_total = "SELECT COUNT(*) AS total FROM persentase_".$jenis." pp WHERE pp.Triwulan = '{$PERIODE}' AND pp.Persentase <= " . $Min . "";
-    }elseif ($KATEGORI == "Kuning"){
-        $query_total = "SELECT COUNT(*) AS total FROM persentase_".$jenis." pp WHERE pp.Triwulan = '{$PERIODE}' AND pp.Persentase > " . $Min . " AND pp.Persentase < " . $Max . "";
-    }elseif ($KATEGORI == "Hijau"){
-        $query_total = "SELECT COUNT(*) AS total FROM persentase_".$jenis." pp WHERE pp.Triwulan = '{$PERIODE}' AND pp.Persentase >= " . $Max . "";
+        $Min = 0;
+        $Max = 0;
+        
+        while ($data = mysqli_fetch_array($queryNilai)) {
+            $periode = $data['Periode'];
+            $PG = $data["PG"];
+            $queryMinMax = mysqli_query($koneksi, "SELECT Min, Max FROM laporan_" . $jenis . " WHERE Periode = '{$periode}' AND PG ='$PG'");
+
+            while ($datas = mysqli_fetch_array($queryMinMax)) {
+                $Min = $datas['Min'];
+                $Max = $datas['Max'];
+                break;
+            }
+
+            $nilai = $data['Persentase'];
+            if ($KATEGORI == "Merah") {
+                if ($nilai <= $Min) {
+                    $jumlah++;
+                }
+            } else if ($KATEGORI == "Kuning") {
+                if ($nilai < $Max && $nilai > $Min) {
+                    $jumlah++;
+                }
+            } else if ($KATEGORI == "Hijau") {
+                if ($nilai >= $Max) {
+                    $jumlah++;
+                }
+            }
+        }
+        $NILAI_TOTAL += $jumlah;
     }
-
-    $result_total = mysqli_query($koneksi, $query_total);
-
-    $row_total = mysqli_fetch_assoc($result_total);
-    $total = $row_total['total'];
-
-    return $total;
+    return $NILAI_TOTAL;
 }
 
 

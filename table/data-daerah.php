@@ -11,7 +11,7 @@
 
     $title = "Polres - Sistem Evaluasi Polres";
     require_once "../template/header.php";
-    require_once "../template/navbar.php";
+    // require_once "../template/navbar.php";
     require_once "../template/sidebar.php";
     
     $jenis = "polres";
@@ -34,11 +34,28 @@
     if (isset($_GET['p'])) {
         $periode_select = $_GET['p'];
     }
-    
-    if($periode_select == "None"){
-        $queryPG = mysqli_query($koneksi, "SELECT DISTINCT ".$satuan." FROM persentase_".$jenis."");
+
+    $TRIWULAN_SELECTED = isset($_GET['triwulan']) ? $_GET['triwulan'] : "None";
+
+    $KATEGORI = "Hijau";
+    if(isset($_GET["q"])){
+        $KATEGORI = $_GET["q"];
+    }
+    $kategori_title = ""; 
+    if($KATEGORI == "Hijau"){
+        $kategori_title = "Lulus" ;
+
+    }elseif($KATEGORI == "Kuning"){
+        $kategori_title = "Cukup";
     }else{
-        $queryPG = mysqli_query($koneksi, "SELECT DISTINCT ".$satuan." FROM persentase_".$jenis." Where Periode = '$periode_select' ");
+        $kategori_title = "Tidak Lulus";
+    }
+
+
+    if($periode_select == "None"){
+        $queryPG = mysqli_query($koneksi, "SELECT DISTINCT ".$satuan." FROM persentase_".$jenis." WHERE Triwulan = '$TRIWULAN_SELECTED'");
+    }else{
+        $queryPG = mysqli_query($koneksi, "SELECT DISTINCT ".$satuan." FROM persentase_".$jenis." WHERE Periode = '$periode_select' ");
     }
     
     $POLRES_ALL =  array();
@@ -50,30 +67,61 @@
     $NILAI_POLRES_ALL = array();
 
     foreach($POLRES_ALL as $satu){
-        $queryNilai = mysqli_query($koneksi, "SELECT * FROM persentase_".$jenis." WHERE ".$satuan." = '$satu'");
-        $periodeSQL = mysqli_query($koneksi, "SELECT * FROM persentase_".$jenis." WHERE ".$satuan." = '$satu'");
+        if($periode_select == "None"){
+            $queryNilai = mysqli_query($koneksi, "SELECT * FROM persentase_".$jenis." WHERE ".$satuan." = '$satu' AND Triwulan = '$TRIWULAN_SELECTED'");
+            $periodeSQL = mysqli_query($koneksi, "SELECT * FROM persentase_".$jenis." WHERE ".$satuan." = '$satu' AND Triwulan = '$TRIWULAN_SELECTED'");
+
+        }else{
+            $queryNilai = mysqli_query($koneksi, "SELECT * FROM persentase_".$jenis." WHERE ".$satuan." = '$satu' AND Periode = '$periode_select'");
+            $periodeSQL = mysqli_query($koneksi, "SELECT * FROM persentase_".$jenis." WHERE ".$satuan." = '$satu' AND Periode = '$periode_select'");
+        }
         $nilai = 0;
         $jumlah = 0;
        
         $periodeSQL = mysqli_fetch_array($periodeSQL);
-        $periode = $periodeSQL['Periode'];
-
-        $queryMinMax = mysqli_query($koneksi, "SELECT Min, Max FROM laporan_".$jenis." WHERE Periode = '$periode'");
-        while($data = mysqli_fetch_array($queryMinMax)){
-            $Min = $data['Min'];
-            $Max = $data['Max'];
-            break;
-        }
-    
+        
         while($data = mysqli_fetch_array($queryNilai)){
+            
+            // var_dump($data["id"]);
+            // var_dump($data[$satuan]);
+            // var_dump($data["Persentase"]);
+            // print_r("<br>");
+            if($periode_select == "None"){
+                $periode = $data["Periode"];
+            }else{
+                $periode = $periode_select;
+
+            }
+            
+            $PG = $data["PG"];
+            $queryMinMax = mysqli_query($koneksi, "SELECT Min, Max FROM laporan_".$jenis." WHERE Periode = '$periode' AND PG = '$PG'");
+            while($datas = mysqli_fetch_array($queryMinMax)){
+                $Min = $datas['Min'];
+                $Max = $datas['Max'];
+                break;
+            }
+
+            // print_r($data);
+            // print_r("<br>");
             $nilai = $data['Persentase'];
-            if ($nilai <= $Min){
-                $jumlah++;
+            if($KATEGORI == "Hijau"){
+                if ($nilai >= $Max){
+                    $jumlah++;
+                }
+            }elseif($KATEGORI == "Kuning"){
+                if ($nilai < $Max && $nilai > $Min){
+                    $jumlah++;
+                }
+            }else{
+                if ($nilai <= $Min){
+                    $jumlah++;
+                }
             }
         }
         $NILAI_POLRES_ALL[] = $jumlah;
 
     }
+    // var_dump($NILAI_POLRES_ALL);
 
     // var_dump($NILAI_POLRES_ALL);
         
@@ -86,7 +134,7 @@
             <ol class="breadcrumb mb-4">
             <li class="breadcrumb-item"><a style="text-decoration: none;" href="../index.php">Home</a></li>
                 <li class="breadcrumb-item active"><a style="text-decoration: none;" href="../index.php"><?=$title_jenis?> </a></li>
-                <li class="breadcrumb-item active"><a style="text-decoration: none;" href="../table/danger.php?j=<?=$jenis?>">Cukup </a></li>
+                <li class="breadcrumb-item active"><a style="text-decoration: none;" href="../table/danger.php?j=<?=$jenis?>"><?= $kategori_title?> </a></li>
                 <?php if($periode_select != "None"){?>
                     <li class="breadcrumb-item active"><a style="text-decoration: none;" href="../table/danger.php?j=<?=$jenis?>"><?= $periode_select?> </a></li>
                 <?php } ?>
@@ -95,7 +143,7 @@
           
                 <div class="card w-75">
                     <div class="card-header">
-                        <span class="h5 my-2"><i class="fa-solid fa-list"></i> Kategori Cukup</span>
+                        <span class="h5 my-2"><i class="fa-solid fa-list"></i> Kategori <?=$kategori_title?></span>
 
                     </div>
                     <div class="card-body ">
@@ -131,7 +179,7 @@
                                         <center>Polres</center>
                                     </th>
                                     <th scope="col">
-                                        <center>Total Persentase</center>
+                                        <center>Total</center>
                                     </th>
                                     <th scope="col">
                                         
@@ -156,8 +204,9 @@
                                 <tr>
                                     <th scope="row"><?=$no++;?></th>
                                     <td align="center"><?= $polres;?></td>
-                                    <td align="center"><?= $NILAI_POLRES_ALL[$i]?></td>
+                                    <td><center><?= $NILAI_POLRES_ALL[$i]?></center</td>
                                     <td align="center">
+                                        <!-- Kalau tidak ada periode maka kembali ke data-daerah dengan periode -->
                                     <a href="<?= $main_url?>table/data-jenis.php?j=<?=$jenis?>&q=danger&p=<?=$polres?>" class="btn btn-sm btn-primary"><i class="fa-solid fa-magnifying-glass"></i> Show</a>
                                         
                                     </td>
@@ -170,7 +219,7 @@
                                 <tr>
                                     <th scope="row">TOTAL</th>
                                     <td align="center"></td>
-                                    <td align="center"><?= $TOTAL_PG?></td>
+                                    <td ><center><?= $TOTAL_PG?></center</td>
                                     <td align="center"></td>
                                 </tr>
                                 </tfoot>
