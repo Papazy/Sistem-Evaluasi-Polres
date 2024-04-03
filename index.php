@@ -12,7 +12,7 @@ require_once "utils.php";
 require_once "utils2.php";
 $title = "Dashboard - Sistem Evaluasi Polres";
 require_once "template/header.php";
-// require_once "template/navbar.php";
+require_once "template/navbar.php";
 require_once "template/sidebar.php";
 
 $TRIWULAN_SELECTED = 1;
@@ -89,10 +89,10 @@ if (count($PERIODE_ALL) > 0) {
 
 
 
-if($periode_select == "None"){
+if ($periode_select == "None") {
 
     $queryPG = mysqli_query($koneksi, "SELECT DISTINCT " . $satker . " FROM persentase_" . $jenis . " WHERE Triwulan ='{$TRIWULAN_SELECTED}'");
-}else{
+} else {
     $queryPG = mysqli_query($koneksi, "SELECT DISTINCT " . $satker . " FROM persentase_" . $jenis . " WHERE Periode = '{$periode_select}'");
 }
 $POLRES_ALL = array();
@@ -105,9 +105,9 @@ $NILAI_POLRES_ALL = array();
 
 
 foreach ($POLRES_ALL as $satuan) {
-    if ($periode_select == "None"){
+    if ($periode_select == "None") {
         $queryNilai = mysqli_query($koneksi, "SELECT * FROM persentase_" . $jenis . " WHERE " . $satker . " = '$satuan' AND Triwulan ='{$TRIWULAN_SELECTED}'");
-    }else{
+    } else {
         $queryNilai = mysqli_query($koneksi, "SELECT * FROM persentase_" . $jenis . " WHERE " . $satker . " = '$satuan' AND Periode = '{$periode_select}'");
     }
     $nilai = 0;
@@ -119,14 +119,14 @@ foreach ($POLRES_ALL as $satuan) {
     if ($jumlah != 0) {
         $NILAI_POLRES_ALL[] = $nilai / $jumlah;
     }
-    
+
 }
 
 $Min = 0;
 $Max = 0;
-if($periode_select == "None"){
+if ($periode_select == "None") {
     $queryMinMax = mysqli_query($koneksi, "SELECT Min, Max FROM laporan_" . $jenis . " WHERE Triwulan ='{$TRIWULAN_SELECTED}'");
-}else{
+} else {
     $queryMinMax = mysqli_query($koneksi, "SELECT Min, Max FROM laporan_" . $jenis . " WHERE Periode = '{$periode_select}'");
 }
 while ($data = mysqli_fetch_array($queryMinMax)) {
@@ -146,7 +146,7 @@ $backgroundColorArray = array();
 foreach ($NILAI_POLRES_ALL as $nilai) {
     if ($nilai >= $Max) {
         $backgroundColorArray[] = 'rgba(0, 255, 0, 0.5)'; // Hijau
-    } elseif ($nilai > $Min ) {
+    } elseif ($nilai > $Min) {
         $backgroundColorArray[] = 'rgba(255, 255, 0, 0.5)'; // Kuning
     } else {
         $backgroundColorArray[] = 'rgba(255, 0, 0, 0.5)'; // Merah
@@ -166,26 +166,26 @@ $polda_merah = 0;
 $polda_kuning = 0;
 $polda_hijau = 0;
 
-if($periode_select != "None"){
-    $polres_merah = hitungPersentaseDariPeriode("Polres",$periode_select, "Merah");
-    $polres_kuning = hitungPersentaseDariPeriode("Polres",$periode_select, "Kuning");
-    $polres_hijau = hitungPersentaseDariPeriode("Polres",$periode_select, "Hijau");
+if ($periode_select != "None") {
+    $polres_merah = hitungPersentaseDariPeriode("Polres", $periode_select, "Merah");
+    $polres_kuning = hitungPersentaseDariPeriode("Polres", $periode_select, "Kuning");
+    $polres_hijau = hitungPersentaseDariPeriode("Polres", $periode_select, "Hijau");
     // POLDA
-    
-    $polda_merah = hitungPersentaseDariPeriode("Polda",$periode_select, "Merah");
-    $polda_kuning = hitungPersentaseDariPeriode("Polda",$periode_select, "Kuning");
-    $polda_hijau = hitungPersentaseDariPeriode("Polda",$periode_select, "Hijau");
-    
 
-}else{
-    $polres_merah = hitungPersentaseDariTriwulan("Polres",$TRIWULAN_SELECTED, "Merah");
-    $polres_kuning = hitungPersentaseDariTriwulan("Polres",$TRIWULAN_SELECTED, "Kuning");
-    $polres_hijau = hitungPersentaseDariTriwulan("Polres",$TRIWULAN_SELECTED, "Hijau");
+    $polda_merah = hitungPersentaseDariPeriode("Polda", $periode_select, "Merah");
+    $polda_kuning = hitungPersentaseDariPeriode("Polda", $periode_select, "Kuning");
+    $polda_hijau = hitungPersentaseDariPeriode("Polda", $periode_select, "Hijau");
+
+
+} else {
+    $polres_merah = hitungPersentaseDariTriwulan("Polres", $TRIWULAN_SELECTED, "Merah");
+    $polres_kuning = hitungPersentaseDariTriwulan("Polres", $TRIWULAN_SELECTED, "Kuning");
+    $polres_hijau = hitungPersentaseDariTriwulan("Polres", $TRIWULAN_SELECTED, "Hijau");
     // POLDA
-    
-    $polda_merah = hitungPersentaseDariTriwulan("Polda",$TRIWULAN_SELECTED, "Merah");
-    $polda_kuning = hitungPersentaseDariTriwulan("Polda",$TRIWULAN_SELECTED, "Kuning");
-    $polda_hijau = hitungPersentaseDariTriwulan("Polda",$TRIWULAN_SELECTED, "Hijau");
+
+    $polda_merah = hitungPersentaseDariTriwulan("Polda", $TRIWULAN_SELECTED, "Merah");
+    $polda_kuning = hitungPersentaseDariTriwulan("Polda", $TRIWULAN_SELECTED, "Kuning");
+    $polda_hijau = hitungPersentaseDariTriwulan("Polda", $TRIWULAN_SELECTED, "Hijau");
 }
 
 // print_r("<br>");
@@ -204,7 +204,7 @@ if ($polda_hijau == 0 && $polda_kuning == 0 && $polda_merah == 0) {
 } else {
     $persentase_polda = $polda_hijau / ($polda_hijau + $polda_kuning + $polda_merah) * 100;
 }
-    ?>
+?>
 
 
 <div id="layoutSidenav_content">
@@ -304,18 +304,24 @@ if ($polda_hijau == 0 && $polda_kuning == 0 && $polda_merah == 0) {
             </a>
         </div>
         <div class="" style="width: 20%; flex:0 0 auto;">
-            <h5 class="mb-3"><center>Persentase <i class="fa-solid fa-percent" style="color: blue;"></i></center></h5>
+            <h5 class="mb-3">
+                <center>Persentase <i class="fa-solid fa-percent" style="color: blue;"></i></center>
+            </h5>
             <a href="<?= $main_url ?>gabungan/polres.php" style="text-decoration:none; color:white;">
                 <div class="card bg-primary text-white mb-4">
                     <div class="card-body d-flex align-items-center justify-content-between">
-                        <div><h4>Polda</h4></div>
+                        <div>
+                            <h4>Polda</h4>
+                        </div>
                         <div>
                             <?= number_format($persentase_polda, 2) ?>%
                         </div>
                     </div>
                     <div class="card-body border-top border-dark d-flex align-items-center justify-content-between"
                         style="--bs-border-opacity: .5;">
-                        <div><h6>Polres</h6></div>
+                        <div>
+                            <h6>Polres</h6>
+                        </div>
                         <div>
                             <?= number_format($persentase, 2) ?>%
                         </div>
@@ -325,18 +331,24 @@ if ($polda_hijau == 0 && $polda_kuning == 0 && $polda_merah == 0) {
             </a>
         </div>
         <div class="" style="width: 20%; flex:0 0 auto;">
-            <h5 class="mb-3"><center>Jumlah <i class="fa-solid fa-hotel" style="color: gray;"></i></center></h5>
+            <h5 class="mb-3">
+                <center>Jumlah <i class="fa-solid fa-hotel" style="color: gray;"></i></center>
+            </h5>
             <a href="<?= $main_url ?>gabungan/polres.php" style="text-decoration:none; color:white;">
                 <div class="card bg-secondary text-white mb-4">
                     <div class="card-body d-flex align-items-center justify-content-between">
-                        <div><h4>Polda</h4></div>
+                        <div>
+                            <h4>Polda</h4>
+                        </div>
                         <div>
                             <?= $polda_hijau + $polda_hijau + $polda_merah ?>
                         </div>
                     </div>
                     <div class="card-body border-top border-dark d-flex align-items-center justify-content-between"
                         style="--bs-border-opacity: .5;">
-                        <div><h6>Polres</h6></div>
+                        <div>
+                            <h6>Polres</h6>
+                        </div>
                         <div>
                             <?= $polres_hijau + $polres_hijau + $polres_merah ?>
                         </div>
@@ -411,26 +423,26 @@ if ($polda_hijau == 0 && $polda_kuning == 0 && $polda_merah == 0) {
 
             <body>
                 <style type="text/css">
-                table {
-                    margin: 0px auto;
-                }
+                    table {
+                        margin: 0px auto;
+                    }
                 </style>
 
 
                 <center>
-                    <h2>Grafik Persentase Polres<br />- keseluruhan -</h2>
+                    <h2>Grafik Persentase <?=$DAERAH?><br />- keseluruhan -</h2>
                 </center>
 
                 <div style="width: 100%; margin: 0px auto; overflow: auto;">
                     <?php if (count($NILAI_POLRES_ALL)) { ?>
-                    <canvas id="myChart" style=""></canvas>
-                    <div class="table-chart" style="display:none">
-                        <?php require_once "table/components/table-simple.php"; ?>
-                    </div>
+                        <canvas id="myChart" style=""></canvas>
+                        <div class="table-chart" style="display:none">
+                            <?php require_once "table/components/table-simple.php"; ?>
+                        </div>
                     <?php } else { ?>
-                    <div class="alert alert-danger" role="alert">
-                        Data tidak ditemukan
-                    </div>
+                        <div class="alert alert-danger" role="alert">
+                            Data tidak ditemukan
+                        </div>
                     <?php } ?>
 
                 </div>
@@ -438,123 +450,123 @@ if ($polda_hijau == 0 && $polda_kuning == 0 && $polda_merah == 0) {
                 <br />
                 <br />
                 <script>
-                // Ambil referensi ke elemen-elemen ikon
-                const tableIcon = document.getElementById('itable');
-                const chartIcon = document.getElementById('ichart');
+                    // Ambil referensi ke elemen-elemen ikon
+                    const tableIcon = document.getElementById('itable');
+                    const chartIcon = document.getElementById('ichart');
 
-                // Tambahkan event listener untuk itable
-                tableIcon.addEventListener('click', function() {
-                    // Tambahkan background-color pada itable
-                    tableIcon.style.backgroundColor = 'rgba(0, 0, 0, 0.15)';
-                    // Hapus background-color dari ichard
-                    chartIcon.style.backgroundColor = 'transparent';
-                    console.log("ditekan")
-                });
+                    // Tambahkan event listener untuk itable
+                    tableIcon.addEventListener('click', function () {
+                        // Tambahkan background-color pada itable
+                        tableIcon.style.backgroundColor = 'rgba(0, 0, 0, 0.15)';
+                        // Hapus background-color dari ichard
+                        chartIcon.style.backgroundColor = 'transparent';
+                        console.log("ditekan")
+                    });
 
-                // Tambahkan event listener untuk ichard
-                chartIcon.addEventListener('click', function() {
-                    // Tambahkan background-color pada ichard
-                    chartIcon.style.backgroundColor = 'rgba(0, 0, 0, 0.15)';
-                    // Hapus background-color dari itable
-                    tableIcon.style.backgroundColor = 'transparent';
-                    console.log("ditekan")
-                });
+                    // Tambahkan event listener untuk ichard
+                    chartIcon.addEventListener('click', function () {
+                        // Tambahkan background-color pada ichard
+                        chartIcon.style.backgroundColor = 'rgba(0, 0, 0, 0.15)';
+                        // Hapus background-color dari itable
+                        tableIcon.style.backgroundColor = 'transparent';
+                        console.log("ditekan")
+                    });
 
 
 
-                var ctx = document.getElementById('myChart');
-                Chart.register(ChartDataLabels);
-                var myChart = new Chart(ctx, {
-                    type: 'bar',
-                    data: {
-                        labels: <?php echo json_encode($POLRES_ALL); ?>,
-                        datasets: [{
-                            label: 'Nilai',
-                            data: <?php echo json_encode($NILAI_POLRES_ALL); ?>,
-                            backgroundColor: <?php echo json_encode($backgroundColorArray); ?>,
-                            borderColor: 'rgba(54, 162, 235, 1)',
-                            borderWidth: 1
-                        }]
-                    },
-                    options: {
+                    var ctx = document.getElementById('myChart');
+                    Chart.register(ChartDataLabels);
+                    var myChart = new Chart(ctx, {
+                        type: 'bar',
+                        data: {
+                            labels: <?php echo json_encode($POLRES_ALL); ?>,
+                            datasets: [{
+                                label: 'Nilai',
+                                data: <?php echo json_encode($NILAI_POLRES_ALL); ?>,
+                                backgroundColor: <?php echo json_encode($backgroundColorArray); ?>,
+                                borderColor: 'rgba(54, 162, 235, 1)',
+                                borderWidth: 1
+                            }]
+                        },
+                        options: {
 
-                        scales: {
-                            x: [{
-                                ticks: {
-                                    autoSkip: false,
-                                    maxRotation: 90,
-                                    minRotation: 90
+                            scales: {
+                                x: [{
+                                    ticks: {
+                                        autoSkip: false,
+                                        maxRotation: 90,
+                                        minRotation: 90
+                                    }
+                                }],
+                                y: {
+                                    beginAtZero: true,
+                                    min: 0,
+                                    max: 100
                                 }
-                            }],
-                            y: {
-                                beginAtZero: true,
-                                min: 0,
-                                max: 100
-                            }
-                        },
-                        layout: {
-                            padding: 35
-                        },
-                        onClick: (event, elements) => {
-                            console.log(myChart.data.labels[elements[0].index]);
-                            var namaKota = myChart.data.labels[elements[0].index];
-
-                            window.location = "<?php echo $main_url; ?>table/data-periode.php?q=" +
-                                namaKota +
-                                "&periode=<?= $periode_select ?>&triwulan=<?= $TRIWULAN_SELECTED ?>&d=<?= $DAERAH; ?>";
-                        },
-                        plugins: {
-                            legend: {
-                                position: 'bottom'
                             },
-                            datalabels: {
-                                anchor: 'end',
-                                align: 'end',
-                                color: 'blue',
-                                font: {
-                                    weight: 'bold'
+                            layout: {
+                                padding: 35
+                            },
+                            onClick: (event, elements) => {
+                                console.log(myChart.data.labels[elements[0].index]);
+                                var namaKota = myChart.data.labels[elements[0].index];
+
+                                window.location = "<?php echo $main_url; ?>table/data-periode.php?q=" +
+                                    namaKota +
+                                    "&periode=<?= $periode_select ?>&triwulan=<?= $TRIWULAN_SELECTED ?>&d=<?= $DAERAH; ?>";
+                            },
+                            plugins: {
+                                legend: {
+                                    position: 'bottom'
                                 },
-                                formatter: function(value, context) {
-                                    if (typeof value === 'number' && !isNaN(value) && Number.isFinite(
+                                datalabels: {
+                                    anchor: 'end',
+                                    align: 'end',
+                                    color: 'blue',
+                                    font: {
+                                        weight: 'bold'
+                                    },
+                                    formatter: function (value, context) {
+                                        if (typeof value === 'number' && !isNaN(value) && Number.isFinite(
                                             value) && Number(value) === value) {
-                                        return value.toFixed(2) + '%';
-                                    } else {
-                                        return value + '%';
+                                            return value.toFixed(2) + '%';
+                                        } else {
+                                            return value + '%';
+                                        }
                                     }
                                 }
                             }
                         }
+                    });
+
+                    tableIcon.addEventListener('click', tampilTable);
+                    chartIcon.addEventListener('click', tampilChart);
+
+                    function tampilChart() {
+                        var table = document.querySelector('.table-chart');
+                        table.style.display = 'none';
+                        var chart = document.getElementById('myChart');
+                        chart.style.display = 'block';
                     }
-                });
 
-                tableIcon.addEventListener('click', tampilTable);
-                chartIcon.addEventListener('click', tampilChart);
+                    function tampilTable() {
+                        var table = document.querySelector('.table-chart');
+                        table.style.display = 'block';
+                        var chart = document.getElementById('myChart');
+                        chart.style.display = 'none';
+                    }
 
-                function tampilChart() {
-                    var table = document.querySelector('.table-chart');
-                    table.style.display = 'none';
-                    var chart = document.getElementById('myChart');
-                    chart.style.display = 'block';
-                }
+                    function updateTriwulan(triwulan) {
+                        window.location = "<?php echo $main_url; ?>index.php?triwulan=" + triwulan;
+                    }
 
-                function tampilTable() {
-                    var table = document.querySelector('.table-chart');
-                    table.style.display = 'block';
-                    var chart = document.getElementById('myChart');
-                    chart.style.display = 'none';
-                }
+                    function updateDaerah(daerah) {
+                        window.location = "<?php echo $main_url; ?>index.php?d=" + daerah;
+                    }
 
-                function updateTriwulan(triwulan) {
-                    window.location = "<?php echo $main_url; ?>index.php?triwulan=" + triwulan;
-                }
-
-                function updateDaerah(daerah) {
-                    window.location = "<?php echo $main_url; ?>index.php?d=" + daerah;
-                }
-
-                function updatePeriode(periode) {
-                    window.location = "<?php echo $main_url; ?>index.php?periode=" + periode;
-                }
+                    function updatePeriode(periode) {
+                        window.location = "<?php echo $main_url; ?>index.php?periode=" + periode;
+                    }
                 </script>
             </body>
             <div class="card-body"><canvas id="myBarChart" height="85"></canvas></div>

@@ -14,7 +14,7 @@ require_once "../config.php";
 
 $title = "Polres - Sistem Evaluasi Polres";
 require_once "../template/header.php";
-// require_once "../template/navbar.php";
+require_once "../template/navbar.php";
 require_once "../template/sidebar.php";
 
 $jenis = "polres";
@@ -94,12 +94,10 @@ $Breadcumb = ($class == "danger") ? "Tidak Lulus" : (($class == "warning") ? "Cu
             </h1>
             <ol class="breadcrumb mb-4">
                 <li class="breadcrumb-item"><a style="text-decoration: none;" href="../index.php">Home</a></li>
-                <li class="breadcrumb-item active"><a style="text-decoration: none;" href="../index.php">
-                        <?= $title_jenis ?>
-                    </a></li>
-                <li class="breadcrumb-item"><a style="text-decoration: none;"
-                        href="../table/<?= $class ?>.php?j=<?= $jenis ?>">
-                        <?= $Breadcumb ?>
+                
+                <li class="breadcrumb-item active"><a style="text-decoration: none;"
+                        href="../table/data-jenis.php?j=<?= $jenis ?>&q=<?= $class ?>&p=<?= $nama_kota ?>">
+                        <?= $nama_kota ?>
                     </a></li>
                 <li class="breadcrumb-item active"><a style="text-decoration: none;"
                         href="../table/data-jenis.php?j=<?= $jenis ?>&q=<?= $class ?>&p=<?= $nama_kota ?>">
