@@ -12,7 +12,7 @@ require_once "utils.php";
 require_once "utils2.php";
 $title = "Dashboard - Sistem Evaluasi Polres";
 require_once "template/header.php";
-// require_once "template/navbar.php";
+require_once "template/navbar.php";
 require_once "template/sidebar.php";
 
 $TRIWULAN_SELECTED = 1;

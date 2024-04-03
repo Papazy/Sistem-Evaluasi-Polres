@@ -11,7 +11,7 @@ require_once "../config.php";
 
 $title = "Polres - Sistem Evaluasi Polres";
 require_once "../template/header.php";
-// require_once "../template/navbar.php";
+require_once "../template/navbar.php";
 require_once "../template/sidebar.php";
 
 $nama_kota = "";
