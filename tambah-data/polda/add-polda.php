@@ -67,22 +67,17 @@ require_once "../../template/sidebar.php";
                                     <label for="PG" class="col-sm-2 col-form-label">Program Giat</label>
                                     <label for="PG" class="col-sm-1 col-form-label">:</label>
                                     <div class="col-sm-9" style="margin-left: -45px;">
-                                        <select name="PG" id="PG" class="form-select border-0 border-bottom">
+                                        
+                                        <select name="PG" class="form-select border-0 border-bottom">
                                             <option value="" selected>-- Pilih --</option>
-                                            <option value="PAG1">PAG1</option>
-                                            <option value="PAG2">PAG2</option>
-                                            <option value="PCG7">PCG7</option>
-                                            <option value="PCG8">PCG8</option>
-                                            <option value="PCG9.1">PCG9.1</option>
-                                            <option value="PCG9.2">PCG9.2</option>
-                                            <option value="PCG9.3">PCG9.3</option>
-                                            <option value="PCG9.4">PCG9.4</option>
-                                            <option value="PDG10">PDG10</option>
-                                            <option value="PDG11">PDG11</option>
-                                            <option value="PEG13">PEG13</option>
-                                            <option value="PEG14">PEG14</option>
-                                            <option value="PFG15">PFG15</option>
-                                            <option value="PGG16">PGG16</option>
+                                                <?php
+                                                    include "../config.php";
+                                                    $query_jenis = mysqli_query($koneksi, "SELECT * FROM kegiatan_polda");
+                                                    while ($jenis = mysqli_fetch_array($query_jenis)) { ?>
+                                                        <option value="<?= $jenis['pg'] ?>"><?= ucwords($jenis['pg']) ?></option>
+                                                    <?php
+                                                    };
+                                                ?>
                                         </select>
                                     </div>
                                 </div>

@@ -25,25 +25,21 @@ if (count($PERIODE_ALL) > 0) {
 if (isset($_GET['periode'])) {
     $periode_select = $_GET['periode'];
 }
-$PG_ALL = [
-    'PAG1',
-    'PAG2',
-    'PCG7',
-    'PCG8',
-    'PCG9.1',
-    'PCG9.2',
-    'PCG9.3',
-    'PCG9.4',
-    'PDG10',
-    'PDG11',
-    'PEG13',
-    'PEG14',
-    'PFG15',
-    'PGG16'
-];
+
+
+$query_jenis = mysqli_query($koneksi, "SELECT COUNT(*) as TOTAL FROM kegiatan_polda");
+$jenis = mysqli_fetch_array($query_jenis);
+$TOTAL_PG = $jenis['TOTAL'];
+
+$query_jenis = mysqli_query($koneksi, "SELECT * FROM kegiatan_polda");
+$PG_ALL = array();
+while ($jenis = mysqli_fetch_array($query_jenis)){
+    $PG_ALL[] = $jenis['pg'];
+} 
+     
+
 
 ?>
-
 <div id="layoutSidenav_content">
     <main>
         <div class="px-4">
@@ -86,27 +82,18 @@ $PG_ALL = [
                                     <tr>
                                         <th rowspan="2">No</th>
                                         <th rowspan="2">Satuan Kerja</th>
-                                        <th colspan="14">Program Giat</th>
+                                        <th colspan="<?=$TOTAL_PG?>">Program Giat</th>
                                         <th rowspan="2">Total</th>
                                         <th rowspan="2">Min</th>
                                         <th rowspan="2">Max</th>
                                         <th rowspan="2">Periode</th>
                                     </tr>
                                     <tr>
-                                        <th>PAG1</th>
-                                        <th>PAG2</th>
-                                        <th>PCG7</th>
-                                        <th>PCG8</th>
-                                        <th>PCG9.1</th>
-                                        <th>PCG9.2</th>
-                                        <th>PCG9.3</th>
-                                        <th>PCG9.4</th>
-                                        <th>PDG10</th>
-                                        <th>PDG11</th>
-                                        <th>PEG13</th>
-                                        <th>PEG14</th>
-                                        <th>PFG15</th>
-                                        <th>PGG16</th>
+                                        <?php
+                                        foreach ($PG_ALL as $program) {
+                                            echo "<th>{$program}</th>";
+                                        }
+                                        ?>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -138,22 +125,11 @@ $PG_ALL = [
                                     // Inisialisasi array untuk menyimpan data polda berdasarkan PG
                                     $datapolda = array();
                                     while ($row = mysqli_fetch_assoc($queryPG)) {
-                                        $datapolda[$row['Satker']] = array(
-                                            'PAG1' =>-1,
-                                            'PAG2' =>-1,
-                                            'PCG7' =>-1,
-                                            'PCG8' =>-1,
-                                            'PCG9.1' =>-1,
-                                            'PCG9.2' =>-1,
-                                            'PCG9.3' =>-1,
-                                            'PCG9.4' =>-1,
-                                            'PDG10' =>-1,
-                                            'PDG11' =>-1,
-                                            'PEG13' =>-1,
-                                            'PEG14' =>-1,
-                                            'PFG15' =>-1,
-                                            'PGG16' => -1
-                                        );
+                                        $datapolda[$row['Satker']] = array();
+                                    
+                                        foreach ($PG_ALL as $pg) {
+                                            $datapolda[$row['Satker']][$pg] = -1;
+                                        }
                                     }
 
                                     // Mengambil data dari database dan mengisi array $datapolda

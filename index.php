@@ -38,9 +38,6 @@ $satker = $DAERAH == "Polda" ? "Satker" : "Polres";
 $queryPolres = mysqli_query($koneksi, "SELECT * FROM polres");
 $totalPolres = mysqli_num_rows($queryPolres);
 
-$queryKegiatan = mysqli_query($koneksi, "SELECT * FROM kegiatan");
-$totalKegiatan = mysqli_num_rows($queryKegiatan);
-
 $queryLaporan = mysqli_query($koneksi, "SELECT * FROM laporan_" . $jenis . "");
 $totalLaporan = mysqli_num_rows($queryLaporan);
 
