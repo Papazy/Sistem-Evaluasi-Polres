@@ -68,14 +68,15 @@ $totalKegiatan = mysqli_num_rows($queryKegiatan);
 $queryLaporan = mysqli_query($koneksi, "SELECT * FROM laporan_" . $jenis . "");
 $totalLaporan = mysqli_num_rows($queryLaporan);
 
-// Fitur Periode 
 
 $queryPeriode = mysqli_query($koneksi, "SELECT DISTINCT Periode FROM laporan_" . $jenis . " WHERE Periode >= '$start_date' AND Periode <= '$end_date' ");
+
 $PERIODE_ALL = array();
 while ($periode = mysqli_fetch_array($queryPeriode)) {
     $PERIODE_ALL[] = $periode["Periode"];
 }
-$periode_select = 0;
+
+$periode_select = "None";
 if (count($PERIODE_ALL) > 0) {
     if (isset($_GET["periode"])) {
         $periode_select = $_GET["periode"];
@@ -83,7 +84,6 @@ if (count($PERIODE_ALL) > 0) {
         $periode_select = $PERIODE_ALL[count($PERIODE_ALL) - 1];
     }
 }
-
 
 
 
@@ -115,8 +115,12 @@ if ($polda_hijau == 0 && $polda_kuning == 0 && $polda_merah == 0) {
 }
 
 
+if($periode_select == "None"){
 
-$queryPG = mysqli_query($koneksi, "SELECT DISTINCT " . $satker . " FROM persentase_" . $jenis . " WHERE Periode = '{$periode_select}'");
+    $queryPG = mysqli_query($koneksi, "SELECT DISTINCT " . $satker . " FROM persentase_" . $jenis . "");
+}else{
+    $queryPG = mysqli_query($koneksi, "SELECT DISTINCT " . $satker . " FROM persentase_" . $jenis . " WHERE Periode = '{$periode_select}'");
+}
 $POLRES_ALL = array();
 $i = 0;
 while ($polres = mysqli_fetch_array($queryPG)) {
@@ -127,7 +131,11 @@ $NILAI_POLRES_ALL = array();
 
 
 foreach ($POLRES_ALL as $satuan) {
-    $queryNilai = mysqli_query($koneksi, "SELECT * FROM persentase_" . $jenis . " WHERE " . $satker . " = '$satuan' AND Periode = '{$periode_select}'");
+    if ($periode_select == "None"){
+        $queryNilai = mysqli_query($koneksi, "SELECT * FROM persentase_" . $jenis . " WHERE " . $satker . " = '$satuan'");
+    }else{
+        $queryNilai = mysqli_query($koneksi, "SELECT * FROM persentase_" . $jenis . " WHERE " . $satker . " = '$satuan' AND Periode = '{$periode_select}'");
+    }
     $nilai = 0;
     $jumlah = 0;
     while ($data = mysqli_fetch_array($queryNilai)) {
@@ -142,7 +150,11 @@ foreach ($POLRES_ALL as $satuan) {
 
 $Min = 0;
 $Max = 0;
-$queryMinMax = mysqli_query($koneksi, "SELECT Min, Max FROM laporan_" . $jenis . " WHERE Periode = '{$periode_select}'");
+if($periode_select == "None"){
+    $queryMinMax = mysqli_query($koneksi, "SELECT Min, Max FROM laporan_" . $jenis . "");
+}else{
+    $queryMinMax = mysqli_query($koneksi, "SELECT Min, Max FROM laporan_" . $jenis . " WHERE Periode = '{$periode_select}'");
+}
 while ($data = mysqli_fetch_array($queryMinMax)) {
     $Min = $data['Min'];
     $Max = $data['Max'];
@@ -307,6 +319,7 @@ foreach ($NILAI_POLRES_ALL as $nilai) {
                 </div>
                 <div class="d-inline-flex align-items-center gap-2">
                     <select class="form-select" name="triwulan" id="triwulan" onchange="updateTriwulan(this.value)">
+                       
                         <option value="1&d=<?= $DAERAH; ?>" <?php if ($TRIWULAN_SELECTED == "1")
                               echo 'selected'; ?>>Triwulan
                             1</option>
@@ -322,7 +335,10 @@ foreach ($NILAI_POLRES_ALL as $nilai) {
                     </select>
 
                     <select class="form-select" style="width: 150px;" onchange="updatePeriode(this.value)">
-                        <?php
+                        
+                    <?php
+                        $selected = $periode_select == "None" ? "selected" : "";
+                        echo "<option value='None&triwulan{$TRIWULAN_SELECTED}' {$selected}>None</option>";
                         foreach ($PERIODE_ALL as $periode) {
                             $selected = $periode == $periode_select ? "selected" : "";
                             echo "<option value='{$periode}&triwulan{$TRIWULAN_SELECTED}' {$selected}>{$periode}</option>";
