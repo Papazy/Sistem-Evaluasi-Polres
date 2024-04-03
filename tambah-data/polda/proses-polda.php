@@ -21,9 +21,9 @@ function gantiKoma($nilai)
     return $nilai;
 }
 
-function periksaPeriodeJikaSudahAda($periode){
+function periksaPeriodeJikaSudahAda($periode, $PG){
     global $koneksi;
-    mysqli_query($koneksi, "SELECT * FROM laporan_polda WHERE Periode = '$periode'");
+    mysqli_query($koneksi, "SELECT * FROM laporan_polda WHERE Periode = '$periode' AND PG = '$PG'");
     if(mysqli_affected_rows($koneksi) > 0){
         return true;
     }else{
@@ -42,7 +42,7 @@ if (isset($_POST['submit'])) {
     $Triwulan = $_POST['Triwulan'];
     try {
         mysqli_query($koneksi, "INSERT INTO persentase_polda (Satker, Periode, Persentase, PG, Triwulan) VALUES ('$Polda', '$Periode', '$Persentase', '$PG', '$Triwulan')");
-        if(!periksaPeriodeJikaSudahAda($Periode)){
+        if(!periksaPeriodeJikaSudahAda($Periode, $PG)){
             mysqli_query($koneksi, "INSERT INTO laporan_polda (Periode, PG, Min, Max , Triwulan) VALUES ('$Periode', '$PG', '$Min', '$Max', '$Triwulan')");
         }
 
