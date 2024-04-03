@@ -207,7 +207,8 @@
                                     <td><center><?= $NILAI_POLRES_ALL[$i]?></center</td>
                                     <td align="center">
                                         <!-- Kalau tidak ada periode maka kembali ke data-daerah dengan periode -->
-                                    <a href="<?= $main_url?>table/data-jenis.php?j=<?=$jenis?>&q=danger&p=<?=$polres?>" class="btn btn-sm btn-primary"><i class="fa-solid fa-magnifying-glass"></i> Show</a>
+                                    <a href="<?= $main_url?>table/data-periode-daerah.php?j=<?=$jenis?>&q=<?=$KATEGORI?>&p=<?=$polres?>&periode=<?=$periode_select?>" class="btn btn-sm btn-primary"><i class="fa-solid fa-magnifying-glass"></i> Show</a>
+                                    
                                         
                                     </td>
                                 </tr>

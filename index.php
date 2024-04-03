@@ -28,19 +28,11 @@ $jenis = $DAERAH == "Polda" ? "polda" : "polres";
 $satker = $DAERAH == "Polda" ? "Satker" : "Polres";
 
 
-
-
-
-
-
-
-
 $queryPolres = mysqli_query($koneksi, "SELECT * FROM polres");
 $totalPolres = mysqli_num_rows($queryPolres);
 
 $queryLaporan = mysqli_query($koneksi, "SELECT * FROM laporan_" . $jenis . "");
 $totalLaporan = mysqli_num_rows($queryLaporan);
-
 
 $queryPeriode = mysqli_query($koneksi, "SELECT DISTINCT Periode FROM laporan_" . $jenis . " WHERE Triwulan='{$TRIWULAN_SELECTED}' ");
 
@@ -57,10 +49,6 @@ if (count($PERIODE_ALL) > 0) {
         $periode_select = "None";
     }
 }
-
-
-
-
 
 if ($periode_select == "None") {
 

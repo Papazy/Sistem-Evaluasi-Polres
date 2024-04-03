@@ -45,8 +45,6 @@ foreach ($PERIODE as $period) {
     $count = 0;
     $query = mysqli_query($koneksi, "SELECT Persentase FROM persentase_".$jenis." WHERE ".$satker." = '$nama_kota' AND Periode = '$period'");
     while ($data = mysqli_fetch_array($query)) {
-        // var_dump($data["Persentase"]);
-        // var_dump($data["Persentase"]);
         $total = $total + (float) $data["Persentase"];
         $count++;
     }
