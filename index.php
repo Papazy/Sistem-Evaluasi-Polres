@@ -81,7 +81,7 @@ if (count($PERIODE_ALL) > 0) {
     if (isset($_GET["periode"])) {
         $periode_select = $_GET["periode"];
     } else {
-        $periode_select = $PERIODE_ALL[count($PERIODE_ALL) - 1];
+        $periode_select = "None";
     }
 }
 
@@ -338,10 +338,10 @@ foreach ($NILAI_POLRES_ALL as $nilai) {
                         
                     <?php
                         $selected = $periode_select == "None" ? "selected" : "";
-                        echo "<option value='None&triwulan{$TRIWULAN_SELECTED}' {$selected}>None</option>";
+                        echo "<option value='None&triwulan{$TRIWULAN_SELECTED}&d={$DAERAH}' {$selected}>None</option>";
                         foreach ($PERIODE_ALL as $periode) {
                             $selected = $periode == $periode_select ? "selected" : "";
-                            echo "<option value='{$periode}&triwulan{$TRIWULAN_SELECTED}' {$selected}>{$periode}</option>";
+                            echo "<option value='{$periode}&triwulan{$TRIWULAN_SELECTED}&d={$DAERAH}' {$selected}>{$periode}</option>";
                         }
                         ?>
                     </select>
