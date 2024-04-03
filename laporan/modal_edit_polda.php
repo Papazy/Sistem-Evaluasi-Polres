@@ -35,27 +35,20 @@ if($result && mysqli_num_rows($result) > 0) {
                     <label for="PG" style="font-weight:600;">Program Giat</label>
                     <!-- Select Options -->
                     <select name="PG" class="form-control" id="PG" class="form-select border-0 border-bottom">
-                    <option value="A11" ' . ($dataPersentase["PG"] == "A11" ? "selected" : "") . '>A11</option>
-                    <option value="A21" ' . ($dataPersentase["PG"] == "A21" ? "selected" : "") . '>A21</option>
-                    <option value="A41" ' . ($dataPersentase["PG"] == "A41" ? "selected" : "") . '>A41</option>
-                    <option value="C72" ' . ($dataPersentase["PG"] == "C72" ? "selected" : "") . '>C72</option>
-                    <option value="C81" ' . ($dataPersentase["PG"] == "C81" ? "selected" : "") . '>C81</option>
-                    <option value="C82" ' . ($dataPersentase["PG"] == "C82" ? "selected" : "") . '>C82</option>
-                    <option value="D101" ' . ($dataPersentase["PG"] == "D101" ? "selected" : "") . '>D101</option>
-                    <option value="D102" ' . ($dataPersentase["PG"] == "D102" ? "selected" : "") . '>D102</option>
-                    <option value="D103" ' . ($dataPersentase["PG"] == "D103" ? "selected" : "") . '>D103</option>
-                    <option value="D104" ' . ($dataPersentase["PG"] == "D104" ? "selected" : "") . '>D104</option>
-                    <option value="D111" ' . ($dataPersentase["PG"] == "D111" ? "selected" : "") . '>D111</option>
-                    <option value="D112" ' . ($dataPersentase["PG"] == "D112" ? "selected" : "") . '>D112</option>
-                    <option value="D121" ' . ($dataPersentase["PG"] == "D121" ? "selected" : "") . '>D121</option>
-                    <option value="D122" ' . ($dataPersentase["PG"] == "D122" ? "selected" : "") . '>D122</option>
-                    <option value="E131" ' . ($dataPersentase["PG"] == "E131" ? "selected" : "") . '>E131</option>
-                    <option value="E132" ' . ($dataPersentase["PG"] == "E132" ? "selected" : "") . '>E132</option>
-                    <option value="E141" ' . ($dataPersentase["PG"] == "E141" ? "selected" : "") . '>E141</option>
-                    <option value="E142" ' . ($dataPersentase["PG"] == "E142" ? "selected" : "") . '>E142</option>
-                    <option value="E151" ' . ($dataPersentase["PG"] == "E151" ? "selected" : "") . '>E151</option>
-                    <option value="E152" ' . ($dataPersentase["PG"] == "E152" ? "selected" : "") . '>E152</option>
-                    <option value="G161" ' . ($dataPersentase["PG"] == "G161" ? "selected" : "") . '>G161</option>
+                    <option value="PAG1" '.($dataPersentase["PG"] == "PAG1").'>PAG1</option>
+                    <option value="PAG2" '.($dataPersentase["PG"] == "PAG2").'>PAG2</option>
+                    <option value="PCG7" '.($dataPersentase["PG"] == "PCG7").'>PCG7</option>
+                    <option value="PCG8" '.($dataPersentase["PG"] == "PCG8").'>PCG8</option>
+                    <option value="PCG9.1" '.($dataPersentase["PG"] == "PCG9.1").'>PCG9.1</option>
+                    <option value="PCG9.2" '.($dataPersentase["PG"] == "PCG9.2").'>PCG9.2</option>
+                    <option value="PCG9.3" '.($dataPersentase["PG"] == "PCG9.3").'>PCG9.3</option>
+                    <option value="PCG9.4" '.($dataPersentase["PG"] == "PCG9.4").'>PCG9.4</option>
+                    <option value="PDG10" '.($dataPersentase["PG"] == "PDG10").'>PDG10</option>
+                    <option value="PDG11" '.($dataPersentase["PG"] == "PDG11").'>PDG11</option>
+                    <option value="PEG13" '.($dataPersentase["PG"] == "PEG13").'>PEG13</option>
+                    <option value="PEG14" '.($dataPersentase["PG"] == "PEG14").'>PEG14</option>
+                    <option value="PFG15" '.($dataPersentase["PG"] == "PFG15").'>PFG15</option>
+                    <option value="PGG16" '.($dataPersentase["PG"] == "PGG16").'>PGG16</option>
                         <!-- Tambahkan sisa opsi di sini -->
                     </select>
                 </div>

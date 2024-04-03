@@ -123,6 +123,11 @@ CREATE TABLE `user` (
 -- Indexes for dumped tables
 --
 
+
+INSERT INTO `user` (`id`, `username`, `password`, `nama`, `alamat`, `jabatan`, `foto`) VALUES
+(1, 'admin', '$2y$10$KfroUfCRTIo0r8do5HBMt.KM.g.oCb.ilCxCy1k0jI4R3Z9KHdfTK', 'Fadhil', 'Tanjung Selamat', 'Ketua', 'foto.jpg');
+
+
 --
 -- Indeks untuk tabel `kegiatan`
 --
