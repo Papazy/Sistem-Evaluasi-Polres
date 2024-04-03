@@ -24,7 +24,7 @@ if (isset($_GET['j'])) {
     $DAERAH = $_GET['j'];
 }
 
-$KATEGORI = "Hijau";
+$KATEGORI = "None";
 if (isset($_GET["q"])) {
     $KATEGORI = $_GET["q"];
 }
@@ -95,11 +95,7 @@ if($count > 0){
                 <li class="breadcrumb-item "><a href="../table/data.php?q=<?= $nama_kota ?>">
                         <?= $nama_kota; ?>
                     </a></li>
-                <li class="breadcrumb-item active"><a
-                        href="../table/data-periode.php?q=<?= $nama_kota ?>&periode=<?= $TRIWULAN_SELECTED; ?>">
-                        <?= $TRIWULAN_SELECTED; ?>
-                    </a>
-                </li>
+                
             </ol>
 
             <div class="card w-75">
@@ -114,12 +110,8 @@ if($count > 0){
                                 text-overflow: '';
                             }
                         </style>
-                        <label class="mx-2 ">Triwulan</label>
-                        <select class="form-select" style="width: 150px;" onchange="location = this.value;">
-                            <?php
-                            echo "<option value='?periode={$TRIWULAN_SELECTED}' selected>{$TRIWULAN_SELECTED}</option>";
-                            ?>
-                        </select>
+                        <!-- <label class="mx-2 ">Triwulan</label> -->
+                       
                     </div>
                 </div>
                 <div class="card-body ">
@@ -128,7 +120,13 @@ if($count > 0){
                             <tr>
                                 <th scope="col">No.</th>
                                 <th scope="col">
+                                    <center><?=$satker?></center>
+                                </th>
+                                <th scope="col">
                                     <center>PG</center>
+                                </th>
+                                <th scope="col">
+                                    <center>Periode</center>
                                 </th>
                                 <th scope="col" style="width:20%; height:100%">
                                     <center>Persentase</center>
@@ -165,13 +163,14 @@ if($count > 0){
 
                                 }
 
-
-                                if ($KATEGORI == "Hijau" && !($dataPersentase['Persentase'] >= (float) $data["Max"])) {
-                                    continue;
-                                } elseif ($KATEGORI == "Kuning" && !($dataPersentase['Persentase'] < (float) $data["Max"] && $dataPersentase['Persentase'] > (float) $data["Min"])) {
-                                    continue;
-                                } elseif ($KATEGORI == "Merah" && !($dataPersentase['Persentase'] <= (float) $data["Min"])) {
-                                    continue;
+                                if($KATEGORI != "None"){
+                                    if ($KATEGORI == "Hijau" && !($dataPersentase['Persentase'] >= (float) $data["Max"])) {
+                                        continue;
+                                    } elseif ($KATEGORI == "Kuning" && !($dataPersentase['Persentase'] < (float) $data["Max"] && $dataPersentase['Persentase'] > (float) $data["Min"])) {
+                                        continue;
+                                    } elseif ($KATEGORI == "Merah" && !($dataPersentase['Persentase'] <= (float) $data["Min"])) {
+                                        continue;
+                                    }
                                 }
 
 
@@ -181,7 +180,17 @@ if($count > 0){
                                     </th>
                                     <td>
                                         <center>
+                                            <?= $dataPersentase[$satker] ?>
+                                        </center>
+                                    </td>
+                                    <td>
+                                        <center>
                                             <?= $dataPersentase['PG'] ?>
+                                        </center>
+                                    </td>
+                                    <td>
+                                        <center>
+                                            <?= $periode ?>
                                         </center>
                                     </td>
                                     <td class="<?= $class ?>">

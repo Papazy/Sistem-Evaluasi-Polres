@@ -472,9 +472,10 @@ if ($polda_hijau == 0 && $polda_kuning == 0 && $polda_merah == 0) {
                                 console.log(myChart.data.labels[elements[0].index]);
                                 var namaKota = myChart.data.labels[elements[0].index];
                                 <?php if ($periode_select == "None"){?>
-                                    window.location = "<?php echo $main_url; ?>table/data-triwulan-daerah.php?q=" +
+                                    
+                                    window.location = "<?php echo $main_url; ?>table/data-triwulan-daerah.php?p=" +
                                         namaKota +
-                                        "&triwulan=<?= $TRIWULAN_SELECTED ?>&d=<?= $DAERAH; ?>";
+                                        "&triwulan=<?= $TRIWULAN_SELECTED ?>&j=<?= $DAERAH; ?>";
                                     <?php } else {?>
                                         window.location = "<?php echo $main_url; ?>table/data-periode.php?q=" +
                                             namaKota +
