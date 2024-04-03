@@ -1,6 +1,3 @@
-
-
-
 <?php
 
 session_start();
@@ -17,63 +14,67 @@ require_once "../template/header.php";
 // require_once "../template/navbar.php";
 require_once "../template/sidebar.php";
 
-$jenis = "Polres";
-if (isset($_GET['j'])) {
-    $jenis = $_GET['j'];
+$nama_kota = "";
+if (isset($_GET['p'])) {
+    // Ambil nilai dari parameter p
+    $nama_kota = $_GET['p'];
 }
-$title_jenis = $jenis == "Polres" ? "Polres" : "Polda";
-$satuan = $jenis == "Polres" ? "Polres" : "Satker";
+$DAERAH = "Polres";
+if (isset($_GET['j'])) {
+    $DAERAH = $_GET['j'];
+}
 
+$KATEGORI = "Hijau";
+if (isset($_GET["q"])) {
+    $KATEGORI = $_GET["q"];
+}
+$kategori_title = "";
+if ($KATEGORI == "Hijau") {
+    $kategori_title = "Lulus";
+
+} elseif ($KATEGORI == "Kuning") {
+    $kategori_title = "Cukup";
+} else {
+    $kategori_title = "Tidak Lulus";
+}
+
+$jenis = strtolower($DAERAH) == "polda" ? "polda" : "polres";
+$satker = strtolower($DAERAH) == "polda" ? "Satker" : "Polres";
+
+
+$PERIODE = array();
+$PERSENTASE = array();
 
 $TRIWULAN_SELECTED = isset($_GET['triwulan']) ? $_GET['triwulan'] : 1;
-$nama_kota = $_GET["q"];
 
-$start_date = '';
-$end_date = '';
-switch ($TRIWULAN_SELECTED) {
-    case 1:
-        $start_date = date('Y-m-d', strtotime('January 1'));
-        $end_date = date('Y-m-d', strtotime('March 31'));
-        break;
-    case 2:
-        $start_date = date('Y-m-d', strtotime('April 1'));
-        $end_date = date('Y-m-d', strtotime('June 30'));
-        break;
-    case 3:
-        $start_date = date('Y-m-d', strtotime('July 1'));
-        $end_date = date('Y-m-d', strtotime('September 30'));
-        break;
-    case 4:
-        $start_date = date('Y-m-d', strtotime('October 1'));
-        $end_date = date('Y-m-d', strtotime('December 31'));
-        break;
-    default:
-        // Default to full year if triwulan selected is invalid
-        $start_date = date('Y-m-d', strtotime('January 1'));
-        $end_date = date('Y-m-d', strtotime('December 31'));
-        break;
+$query = mysqli_query($koneksi, "SELECT DISTINCT Triwulan FROM persentase_" . $jenis . " WHERE " . $satker . " = '$nama_kota'");
+while ($data = mysqli_fetch_array($query)) {
+    // var_dump($data["Triwulan"]);
+    $PERIODE[] = $data["Triwulan"];
 }
 
-$queryPeriode = mysqli_query($koneksi, "SELECT DISTINCT Periode FROM persentase_" . $jenis . " WHERE ".$satuan." = '$nama_kota' AND Triwulan = '{$TRIWULAN_SELECTED}' ");
+
+// $TRIWULAN_SELECTED = isset($_GET['periode']) ? $_GET['periode'] : $PERIODE[0];
 
 
-while ($periode = mysqli_fetch_array($queryPeriode)) {
-    $PERIODE[] = $periode["Periode"];
+
+$total = 0;
+$count = 0;
+$query = mysqli_query($koneksi, "SELECT Persentase FROM persentase_" . $jenis . " WHERE " . $satker . " = '$nama_kota' AND Triwulan = '$TRIWULAN_SELECTED'");
+while ($data = mysqli_fetch_array($query)) {
+    $total = $total + (float) $data["Persentase"];
+    $count++;
+}
+if($count > 0){
+    $PERSENTASE[] = ($total / $count);
+}else{
+    $PERSENTASE[] = 0;
 }
 
-// print_r("<br>");
+
+
+
 // var_dump($PERIODE);
-
-
-
-$queryData = mysqli_query($koneksi, "SELECT * FROM persentase_" . $jenis . " WHERE " . $satuan . " = '{$nama_kota}' AND Triwulan = '$TRIWULAN_SELECTED'");
-
-// print_r("<br>");
-// var_dump($nama_kota);
-// print_r("<br>");
-// var_dump($PERIODE);
-// print_r("<br>");
-// $Breadcumb = ($class == "danger") ? "Tidak Lulus" : (($class == "warning") ? "Cukup" : "Lulus");
 
 
 
@@ -83,30 +84,27 @@ $queryData = mysqli_query($koneksi, "SELECT * FROM persentase_" . $jenis . " WHE
     <main>
         <div class="container-fluid px-4">
             <h1 class="mt-4">
-                <?= $title_jenis ?>
+                <?php echo $DAERAH == "Polda" ? "Satuan Kerja" : "Polres"; ?>
                 <?= $nama_kota; ?>
             </h1>
             <ol class="breadcrumb mb-4">
-                <li class="breadcrumb-item"><a style="text-decoration: none;" href="../index.php">Home</a></li>
-                
-                <li class="breadcrumb-item active"><a style="text-decoration: none;"
-                        href="../table/data-jenis.php?j=<?= $jenis ?>&q=<?= $class ?>&p=<?= $nama_kota ?>">
-                        Triwulan <?= $TRIWULAN_SELECTED ?>
+                <li class="breadcrumb-item"><a href="../index.php">Home</a></li>
+                <li class="breadcrumb-item"><a href="../index.php">Triwulan
+                        <?= $TRIWULAN_SELECTED ?>
                     </a></li>
-                <li class="breadcrumb-item active"><a style="text-decoration: none;"
-                        href="../table/data-jenis.php?j=<?= $jenis ?>&q=<?= $class ?>&p=<?= $nama_kota ?>">
-                        <?= $nama_kota ?>
+                <li class="breadcrumb-item "><a href="../table/data.php?q=<?= $nama_kota ?>">
+                        <?= $nama_kota; ?>
                     </a></li>
-                
-
-
+                <li class="breadcrumb-item active"><a
+                        href="../table/data-periode.php?q=<?= $nama_kota ?>&periode=<?= $TRIWULAN_SELECTED; ?>">
+                        <?= $TRIWULAN_SELECTED; ?>
+                    </a>
+                </li>
             </ol>
 
-            <div class="card w-50">
-                <div class="card-header d-flex align-items-center justify-content-between">
-                    <span class="h5 my-2"><i class="fa-solid fa-list"></i> Kategori
-
-                    </span>
+            <div class="card w-75">
+                <div class="card-header d-flex align-items-center justify-content-between">Data
+                    <?= $DAERAH ?></span>
                     <div class="d-flex align-items-center">
                         <style>
                             select {
@@ -116,29 +114,30 @@ $queryData = mysqli_query($koneksi, "SELECT * FROM persentase_" . $jenis . " WHE
                                 text-overflow: '';
                             }
                         </style>
-                        <!-- <label class="mx-2 ">Periode</label>
+                        <label class="mx-2 ">Triwulan</label>
                         <select class="form-select" style="width: 150px;" onchange="location = this.value;">
                             <?php
-                            echo "<option value='?periode={$periode_select}' selected>{$periode_select}</option>";
+                            echo "<option value='?periode={$TRIWULAN_SELECTED}' selected>{$TRIWULAN_SELECTED}</option>";
                             ?>
-                        </select> -->
+                        </select>
                     </div>
                 </div>
                 <div class="card-body ">
-                    <table class="table table-hover" id="example">
+                    <table class="table table-hover w-75" id="example">
                         <thead>
                             <tr>
+                                <th scope="col">No.</th>
                                 <th scope="col">
-                                    <center>No</center>
+                                    <center>PG</center>
+                                </th>
+                                <th scope="col" style="width:20%; height:100%">
+                                    <center>Persentase</center>
                                 </th>
                                 <th scope="col">
-                                    <center>Periode</center>
+                                    <center>Min</center>
                                 </th>
                                 <th scope="col">
-                                    <center>Jumlah</center>
-                                </th>
-                                <th scope="col">
-
+                                    <center>Max</center>
                                 </th>
 
                             </tr>
@@ -148,45 +147,62 @@ $queryData = mysqli_query($koneksi, "SELECT * FROM persentase_" . $jenis . " WHE
                             <?php
 
                             $no = 1;
-                            $i = 0;
-                            foreach ($PERIODE as $period) {
-                                $query = mysqli_query($koneksi, "SELECT COUNT(*) as Jumlah FROM persentase_" . $jenis . " WHERE " . $satuan . " = '{$nama_kota}' AND Periode = '{$period}' AND Triwulan = '{$TRIWULAN_SELECTED}'");
-                                $data = mysqli_fetch_array($query);
-                                
-                                if ($data["Jumlah"] == 0) {
-                                    $i++;
+                            $queryPersentase = mysqli_query($koneksi, "SELECT * FROM persentase_" . $jenis . " WHERE Triwulan = '{$TRIWULAN_SELECTED}' AND " . $satker . " = '{$nama_kota}'");
+                            // print_r($TRIWULAN_SELECTED);
+                            while ($dataPersentase = mysqli_fetch_array($queryPersentase)) {
+                                $periode = $dataPersentase['Periode'];
+                                $queryLaporan = mysqli_query($koneksi, "SELECT Min, Max FROM laporan_" . $jenis . " WHERE Triwulan = '{$TRIWULAN_SELECTED}' AND PG = '{$dataPersentase['PG']}' AND Periode = '{$periode}'");
+                                $data = mysqli_fetch_array($queryLaporan);
+                                $dataMin = $data["Min"];
+                                $dataMax = $data["Max"];
+                                $class = null;
+                                if ((float) $dataPersentase['Persentase'] >= (float) $data["Max"]) {
+                                    $class = 'bg-success';
+                                } elseif ((float) $dataPersentase['Persentase'] > (float) $data["Min"]) {
+                                    $class = 'bg-warning';
+                                } else {
+                                    $class = 'bg-danger';
+
+                                }
+
+
+                                if ($KATEGORI == "Hijau" && !($dataPersentase['Persentase'] >= (float) $data["Max"])) {
+                                    continue;
+                                } elseif ($KATEGORI == "Kuning" && !($dataPersentase['Persentase'] < (float) $data["Max"] && $dataPersentase['Persentase'] > (float) $data["Min"])) {
+                                    continue;
+                                } elseif ($KATEGORI == "Merah" && !($dataPersentase['Persentase'] <= (float) $data["Min"])) {
                                     continue;
                                 }
 
-                               
+
                                 ?>
                                 <tr>
                                     <th scope="row">
-                                        <center>
-                                            <?= $no++ ?>
-                                        </center>
                                     </th>
                                     <td>
                                         <center>
-                                            <?= date('d-m-Y', strtotime($period)); ?>
+                                            <?= $dataPersentase['PG'] ?>
+                                        </center>
+                                    </td>
+                                    <td class="<?= $class ?>">
+                                        <center>
+                                            <?= $dataPersentase['Persentase'] . "%" ?>
                                         </center>
                                     </td>
                                     <td>
                                         <center>
-                                            <?= $data["Jumlah"] ?>
+                                            <?= $dataMin . "%" ?>
                                         </center>
                                     </td>
                                     <td>
                                         <center>
-                                            <a href="<?= $main_url ?>table/data-periode.php?&q=<?= $nama_kota ?>&periode=<?= $period; ?>&triwulan=<?= $TRIWULAN_SELECTED ?>&d=<?=$jenis?>"
-                                                class="btn btn-sm btn-primary"><i class="fa-solid fa-magnifying-glass"></i>
-                                                Show</a>
+                                            <?= $dataMax . "%" ?>
                                         </center>
                                     </td>
                                 </tr>
 
 
-                                <?php $i++;
+                                <?php
                             } ?>
                         </tbody>
 
