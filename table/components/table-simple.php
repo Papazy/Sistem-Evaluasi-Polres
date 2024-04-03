@@ -1,8 +1,8 @@
 <style>
-    th,
-    td {
-        white-space: nowrap;
-    }
+th,
+td {
+    white-space: nowrap;
+}
 </style>
 <table class="display" id="exampleNoSetting" style="width:80%">
     <thead>
@@ -60,25 +60,30 @@
             }
 
             ?>
-            <tr>
-                <td class="dt-type-numeric"></td>
-                <td>
-                    <?= $satuan ?>
-                </td>
+        <tr>
+            <td class="dt-type-numeric"></td>
+            <td>
+                <?= $satuan ?>
+            </td>
 
-                <td class="<?= $class ?>">
-                    <center>
-                        <?= $persen . "%" ?>
-                    </center>
-                </td>
-                <td>
-                    <center>
-                        <a href="<?php echo $main_url; ?>table/data-periode.php?q=<?= $satuan ?>&periode=<?= $periode_select ?>&triwulan=<?= $TRIWULAN_SELECTED ?>"
-                            class="btn btn-sm btn-primary"><i class="fa-solid fa-magnifying-glass"></i> Show</a>
-                </td>
+            <td class="<?= $class ?>">
+                <center>
+                    <?= $persen . "%" ?>
                 </center>
-                </td>
-            </tr>
+            </td>
+            <td>
+                <center>
+                    <?php if ($periode_select == "None") { ?>
+                    <a href="<?php echo $main_url; ?>table/data-triwulan-daerah.php?p=<?= $satuan ?>&triwulan=<?= $TRIWULAN_SELECTED ?>&j=<?= $DAERAH; ?>"
+                        class="btn btn-sm btn-primary"><i class="fa-solid fa-magnifying-glass"></i> Show</a>
+                    <?php } else { ?>
+                    <a href="<?php echo $main_url; ?>table/data-periode.php?q=<?= $satuan ?>&periode=<?= $periode_select ?>&triwulan=<?= $TRIWULAN_SELECTED ?>&d=<?= $DAERAH; ?>"
+                        class="btn btn-sm btn-primary"><i class="fa-solid fa-magnifying-glass"></i> Show</a>
+                    <?php } ?>
+            </td>
+            </center>
+            </td>
+        </tr>
 
         <?php } ?>
     </tbody>
