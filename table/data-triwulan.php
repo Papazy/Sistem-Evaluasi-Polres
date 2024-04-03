@@ -81,7 +81,12 @@ while ($periode = mysqli_fetch_array($queryPeriodeData)) {
 
 $Breadcumb = ($class == "danger") ? "Tidak Lulus" : (($class == "warning") ? "Cukup" : "Lulus");
 
-
+$title_jenis = $jenis == "polres" ? "Polres" : "Polda";
+if($periode_select != "None"){
+    $headerTable = "".$title_jenis." - Periode : ".$periode_select."";
+}else{
+    $headerTable = "".$title_jenis." - Triwulan : ".$TRIWULAN_SELECTED."";
+}
 
 ?>
 
@@ -161,10 +166,8 @@ $Breadcumb = ($class == "danger") ? "Tidak Lulus" : (($class == "warning") ? "Cu
                                 }
                                 ?>
                                 <tr>
-                                    <th scope="row">
-                                        <center>
-                                            <?= $no++ ?>
-                                        </center>
+                                    <th class="dt-type-numeric">
+                                       
                                     </th>
                                     <td>
                                         <center>

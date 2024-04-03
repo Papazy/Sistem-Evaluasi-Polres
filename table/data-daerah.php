@@ -124,6 +124,11 @@
     // var_dump($NILAI_POLRES_ALL);
 
     // var_dump($NILAI_POLRES_ALL);
+    if($periode_select != "None"){
+        $headerTable = "".$title_jenis." - Kategori ".$kategori_title." - Periode : ".$periode_select."";
+    }else{
+        $headerTable = "".$title_jenis." - Kategori ".$kategori_title." - Triwulan : ".$TRIWULAN_SELECTED."";
+    }
         
 ?>
 
@@ -147,31 +152,7 @@
 
                     </div>
                     <div class="card-body ">
-                        <style>
-                        /* Style untuk table */
-                        #datatablesSimple {
-                            width: 100%;
-                            border-collapse: collapse;
-                        }
-
-                        #datatablesSimple th,
-                        #datatablesSimple td {
-                            padding: 8px;
-                            text-align: center;
-                        }
-
-                        /* Style untuk baris ganjil */
-                        #datatablesSimple tbody tr:nth-child(odd) {
-                            background-color: #f2f2f2;
-                        }
-
-                        /* Style untuk tombol */
-                        .btn {
-                            padding: 6px 12px;
-                            font-size: 14px;
-                        }
-                        </style>
-                        <table class="display" id="example">
+                        <table class="display" id="exampleNoSetting">
                             <thead>
                                 <tr>
                                     <th scope="col">No.</th>
@@ -218,7 +199,7 @@
                             </tbody>
                             <tfoot>
                                 <tr>
-                                    <th scope="row">TOTAL</th>
+                                    <th class="dt-type-numeric">TOTAL</th>
                                     <td align="center"></td>
                                     <td ><center><?= $TOTAL_PG?></center</td>
                                     <td align="center"></td>

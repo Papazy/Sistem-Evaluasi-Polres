@@ -55,7 +55,12 @@ foreach ($PERIODE as $period) {
 
 // var_dump($PERIODE);
 
-
+$title_jenis = $jenis == "polres" ? "Polres" : "Polda";
+if($periode_select != "None"){
+    $headerTable = "".$title_jenis." - Periode : ".$periode_select."";
+}else{
+    $headerTable = "".$title_jenis." - Triwulan : ".$TRIWULAN_SELECTED."";
+}
 
 ?>
 
@@ -143,8 +148,8 @@ foreach ($PERIODE as $period) {
 
                                 ?>
                                 <tr>
-                                    <th scope="row">
-                                        <?= $no++ ?>
+                                    <th class="dt-type-numeric">
+                                     
                                     </th>
                                     <td>
                                         <center>

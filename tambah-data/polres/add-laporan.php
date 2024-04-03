@@ -56,28 +56,14 @@ require_once "../../template/sidebar.php";
                                     <div class="col-sm-9" style="margin-left: -45px;">
                                         <select name="PG" id="PG" class="form-select border-0 border-bottom">
                                             <option value="" selected>-- Pilih --</option>
-                                            <option value="A11">A11</option>
-                                            <option value="A21">A21</option>
-                                            <option value="A41">A41</option>
-                                            <option value="C72">C72</option>
-                                            <option value="C81">C81</option>
-                                            <option value="C82">C82</option>
-                                            <option value="C91">C91</option>
-                                            <option value="D101">D101</option>
-                                            <option value="D102">D102</option>
-                                            <option value="D103">D103</option>
-                                            <option value="D104">D104</option>
-                                            <option value="D111">D111</option>
-                                            <option value="D112">D112</option>
-                                            <option value="D121">D121</option>
-                                            <option value="D122">D122</option>
-                                            <option value="E131">E131</option>
-                                            <option value="E132">E132</option>
-                                            <option value="E141">E141</option>
-                                            <option value="E142">E142</option>
-                                            <option value="E151">E151</option>
-                                            <option value="E152">E152</option>
-                                            <option value="G161">G161</option>
+                                            <?php
+                                                    include "../config.php";
+                                                    $query_jenis = mysqli_query($koneksi, "SELECT * FROM kegiatan_polres");
+                                                    while ($jenis = mysqli_fetch_array($query_jenis)) { ?>
+                                                        <option value="<?= $jenis['PG'] ?>"><?= ucwords($jenis['PG']) ?></option>
+                                                    <?php
+                                                    };
+                                                ?>
                                         </select>
                                     </div>
                                 </div>
@@ -100,7 +86,7 @@ require_once "../../template/sidebar.php";
                                     <label for="Tw" class="col-sm-1 col-form-label">:</label>
                                     <div class="col-sm-9" style="margin-left: -45px;">
                                         <select name="Triwulan" id="Triwulan" class="form-select border-0 border-bottom">
-                                            <option value="" selected>-- Pilih --</option>
+                                            <option value="1" selected>-- Pilih --</option>
                                             <option value="1">1</option>
                                             <option value="2">2</option>
                                             <option value="3">3</option>

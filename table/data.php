@@ -123,7 +123,7 @@
                              ?>
 
                             <tr>
-                                <td></td>
+                                <td class="dt-type-numeric"></td>
                                 <td align="center"><?= $period ?></td>
                                 <td align="center"><?= $PERSENTASE[$i] ?></td>
                                 <td align="center">

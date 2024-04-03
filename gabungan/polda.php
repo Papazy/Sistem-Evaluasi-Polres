@@ -26,18 +26,15 @@ if (isset($_GET['periode'])) {
     $periode_select = $_GET['periode'];
 }
 
-
 $query_jenis = mysqli_query($koneksi, "SELECT COUNT(*) as TOTAL FROM kegiatan_polda");
 $jenis = mysqli_fetch_array($query_jenis);
 $TOTAL_PG = $jenis['TOTAL'];
 
 $query_jenis = mysqli_query($koneksi, "SELECT * FROM kegiatan_polda");
 $PG_ALL = array();
-while ($jenis = mysqli_fetch_array($query_jenis)){
-    $PG_ALL[] = $jenis['pg'];
-} 
-     
-
+while ($jenis = mysqli_fetch_array($query_jenis)) {
+    $PG_ALL[] = $jenis['PG'];
+}
 
 ?>
 <div id="layoutSidenav_content">
@@ -77,12 +74,12 @@ while ($jenis = mysqli_fetch_array($query_jenis)){
                     <div class="row mt-3">
                         <div class="col-auto">
 
-                            <table class="table table-bordered" id="example">
+                            <table class="table" id="example">
                                 <thead class="thead-dark">
                                     <tr>
                                         <th rowspan="2">No</th>
                                         <th rowspan="2">Satuan Kerja</th>
-                                        <th colspan="<?=$TOTAL_PG?>">Program Giat</th>
+                                        <th colspan="<?= $TOTAL_PG ?>">Program Giat</th>
                                         <th rowspan="2">Total</th>
                                         <th rowspan="2">Min</th>
                                         <th rowspan="2">Max</th>
@@ -126,7 +123,7 @@ while ($jenis = mysqli_fetch_array($query_jenis)){
                                     $datapolda = array();
                                     while ($row = mysqli_fetch_assoc($queryPG)) {
                                         $datapolda[$row['Satker']] = array();
-                                    
+
                                         foreach ($PG_ALL as $pg) {
                                             $datapolda[$row['Satker']][$pg] = -1;
                                         }
@@ -143,7 +140,7 @@ while ($jenis = mysqli_fetch_array($query_jenis)){
                                         $total = 0;
                                         $count = 0;
                                         echo "<tr>";
-                                        echo "<td>{$no}</td>";
+                                        echo "<td class='dt-type-numeric'></td>";
                                         echo "<td>{$polda}</td>";
                                         $i = 0;
                                         foreach ($PG_ALL as $program) { // Sesuaikan dengan PG yang Anda perlukan

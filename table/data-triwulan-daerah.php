@@ -75,6 +75,10 @@ if($count > 0){
 
 
 // var_dump($PERIODE);
+// var_dump($PERIODE);
+$title_jenis = $jenis == "polres" ? "Polres" : "Polda";
+
+$headerTable = "".$title_jenis." ".$nama_kota." - Triwulan : ".$TRIWULAN_SELECTED."";
 
 
 
@@ -176,7 +180,7 @@ if($count > 0){
 
                                 ?>
                                 <tr>
-                                    <th scope="row">
+                                    <th class="dt-type-numeric">
                                     </th>
                                     <td>
                                         <center>

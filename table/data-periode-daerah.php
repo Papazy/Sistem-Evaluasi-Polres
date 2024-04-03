@@ -77,8 +77,12 @@ if($count > 0){
 
 
 // var_dump($PERIODE);
-
-
+$title_jenis = $jenis == "polres" ? "Polres" : "Polda";
+if($periode_select != "None"){
+    $headerTable = "".$title_jenis." ".$nama_kota." - Periode : ".$periode_select."";
+}else{
+    $headerTable = "".$title_jenis." ".$nama_kota." - Triwulan : ".$TRIWULAN_SELECTED."";
+}
 
 ?>
 
@@ -130,6 +134,9 @@ if($count > 0){
                             <tr>
                                 <th scope="col">No.</th>
                                 <th scope="col">
+                                    <center><?=$satker?></center>
+                                </th>
+                                <th scope="col">
                                     <center>PG</center>
                                 </th>
                                 <th scope="col" style="width:20%; height:100%">
@@ -179,8 +186,13 @@ if($count > 0){
 
                                 ?>
                                 <tr>
-                                    <th scope="row">
+                                    <th class="dt-type-numeric">
                                     </th>
+                                    <td>
+                                        <center>
+                                            <?= $dataPersentase[$satker] ?>
+                                        </center>
+                                    </td>
                                     <td>
                                         <center>
                                             <?= $dataPersentase['PG'] ?>

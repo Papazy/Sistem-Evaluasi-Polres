@@ -105,7 +105,7 @@ require_once "../template/sidebar.php";
                                     }
                             ?>
                             <tr>
-                                <td></td>
+                                <td class="dt-type-numeric"></td>
                                 <td><?= $dataPersentase['Satker'] ?></td>
                                 <td>
                                     <center><?= date('d-m-Y', strtotime($dataPersentase['Periode'])) ?></center>

@@ -182,7 +182,11 @@ if ($polda_hijau == 0 && $polda_kuning == 0 && $polda_merah == 0) {
                         <center>Tercapai <i class="fa-regular fa-face-smile" style="color: green;"></i></center>
                     </h5>
                     <div class="card bg-success text-white mb-4">
-                        <a href="<?= $main_url ?>table/data-daerah.php?j=polda<?php if($periode_select != 'None'){echo '&p='.$periode_select;}else{echo '&triwulan='.$TRIWULAN_SELECTED;}?>&q=Hijau" style="text-decoration:none; color:white;">
+                        <a href="<?= $main_url ?>table/data-daerah.php?j=polda<?php if ($periode_select != 'None') {
+                              echo '&p=' . $periode_select;
+                          } else {
+                              echo '&triwulan=' . $TRIWULAN_SELECTED;
+                          } ?>&q=Hijau" style="text-decoration:none; color:white;">
                             <div class="card-body d-flex align-items-center justify-content-between">
                                 <div>
                                     <h4>Polda</h4>
@@ -192,7 +196,11 @@ if ($polda_hijau == 0 && $polda_kuning == 0 && $polda_merah == 0) {
                                 </div>
                             </div>
                         </a>
-                        <a href="<?= $main_url ?>table/data-daerah.php?j=polres<?php if($periode_select != 'None'){echo '&p='.$periode_select;}else{echo '&triwulan='.$TRIWULAN_SELECTED;}?>&q=Hijau" style="text-decoration:none; color:white;">
+                        <a href="<?= $main_url ?>table/data-daerah.php?j=polres<?php if ($periode_select != 'None') {
+                              echo '&p=' . $periode_select;
+                          } else {
+                              echo '&triwulan=' . $TRIWULAN_SELECTED;
+                          } ?>&q=Hijau" style="text-decoration:none; color:white;">
                             <div class="card-body border-top border-dark d-flex align-items-center justify-content-between"
                                 style="--bs-border-opacity: .5;">
                                 <div>
@@ -210,7 +218,11 @@ if ($polda_hijau == 0 && $polda_kuning == 0 && $polda_merah == 0) {
                     <h5 class="mb-3">
                         <center>Cukup <i class="fa-regular fa-face-meh" style="color: #C7BA28;"></i></center>
                     </h5>
-                    <a href="<?= $main_url ?>table/data-daerah.php?j=Polda<?php if($periode_select != 'None'){echo '&p='.$periode_select;}else{echo '&triwulan='.$TRIWULAN_SELECTED;}?>&q=Kuning" style="text-decoration:none; color:white;">
+                    <a href="<?= $main_url ?>table/data-daerah.php?j=Polda<?php if ($periode_select != 'None') {
+                          echo '&p=' . $periode_select;
+                      } else {
+                          echo '&triwulan=' . $TRIWULAN_SELECTED;
+                      } ?>&q=Kuning" style="text-decoration:none; color:white;">
                         <div class="card bg-warning text-white mb-4">
                             <div class="card-body d-flex align-items-center justify-content-between">
                                 <div>
@@ -221,7 +233,11 @@ if ($polda_hijau == 0 && $polda_kuning == 0 && $polda_merah == 0) {
                                 </div>
                             </div>
                     </a>
-                    <a href="<?= $main_url ?>table/data-daerah.php?j=polres<?php if($periode_select != 'None'){echo '&p='.$periode_select;}else{echo '&triwulan='.$TRIWULAN_SELECTED;}?>&q=Kuning" style="text-decoration:none; color:white;">
+                    <a href="<?= $main_url ?>table/data-daerah.php?j=polres<?php if ($periode_select != 'None') {
+                          echo '&p=' . $periode_select;
+                      } else {
+                          echo '&triwulan=' . $TRIWULAN_SELECTED;
+                      } ?>&q=Kuning" style="text-decoration:none; color:white;">
                         <div class="card-body border-top border-dark d-flex align-items-center justify-content-between"
                             style="--bs-border-opacity: .5;">
                             <div>
@@ -239,7 +255,11 @@ if ($polda_hijau == 0 && $polda_kuning == 0 && $polda_merah == 0) {
                 <h5 class="mb-3">
                     <center>Tidak <i class="fa-regular fa-face-frown" style="color: red;"></i></center>
                 </h5>
-                <a href="<?= $main_url ?>table/data-daerah.php?j=polda<?php if($periode_select != 'None'){echo '&p='.$periode_select;}else{echo '&triwulan='.$TRIWULAN_SELECTED;}?>&q=Merah" style="text-decoration:none; color:white;">
+                <a href="<?= $main_url ?>table/data-daerah.php?j=polda<?php if ($periode_select != 'None') {
+                      echo '&p=' . $periode_select;
+                  } else {
+                      echo '&triwulan=' . $TRIWULAN_SELECTED;
+                  } ?>&q=Merah" style="text-decoration:none; color:white;">
                     <div class="card bg-danger text-white mb-4">
                         <div class="card-body d-flex align-items-center justify-content-between">
                             <div>
@@ -250,7 +270,11 @@ if ($polda_hijau == 0 && $polda_kuning == 0 && $polda_merah == 0) {
                             </div>
                         </div>
                 </a>
-                <a href="<?= $main_url ?>table/data-daerah.php?j=polres<?php if($periode_select != 'None'){echo '&p='.$periode_select;}else{echo '&triwulan='.$TRIWULAN_SELECTED;}?>&q=Merah" style="text-decoration:none; color:white;">
+                <a href="<?= $main_url ?>table/data-daerah.php?j=polres<?php if ($periode_select != 'None') {
+                      echo '&p=' . $periode_select;
+                  } else {
+                      echo '&triwulan=' . $TRIWULAN_SELECTED;
+                  } ?>&q=Merah" style="text-decoration:none; color:white;">
                     <div class="card-body border-top border-dark d-flex align-items-center justify-content-between"
                         style="--bs-border-opacity: .5;">
                         <div>
@@ -359,7 +383,7 @@ if ($polda_hijau == 0 && $polda_kuning == 0 && $polda_merah == 0) {
                         echo "<option value='None&triwulan={$TRIWULAN_SELECTED}&d={$DAERAH}' {$selected}>None</option>";
                         foreach ($PERIODE_ALL as $periode) {
                             $selected = $periode == $periode_select ? "selected" : "";
-                            echo "<option value='{$periode}&triwulan={$TRIWULAN_SELECTED}&d={$DAERAH}' {$selected}>{$periode}</option>";
+                            echo "<option value='{$periode}&triwulan={$TRIWULAN_SELECTED}&d={$DAERAH}' {$selected}>".date("d-m-Y", strtotime($periode))."</option>";
                         }
                         ?>
                     </select>
@@ -375,6 +399,7 @@ if ($polda_hijau == 0 && $polda_kuning == 0 && $polda_merah == 0) {
                         </div>
 
                     </div>
+                    <button class="btn btn-primary" id="print-chart-btn">Print</button>
                 </div>
             </div>
 
@@ -390,9 +415,7 @@ if ($polda_hijau == 0 && $polda_kuning == 0 && $polda_merah == 0) {
                 </style>
 
 
-                <center>
-                    <h2>Grafik Persentase <?=$DAERAH?><br />- keseluruhan -</h2>
-                </center>
+
 
                 <div style="width: 100%; margin: 0px auto; overflow: auto;">
                     <?php if (count($NILAI_POLRES_ALL)) { ?>
@@ -471,20 +494,28 @@ if ($polda_hijau == 0 && $polda_kuning == 0 && $polda_merah == 0) {
                             onClick: (event, elements) => {
                                 console.log(myChart.data.labels[elements[0].index]);
                                 var namaKota = myChart.data.labels[elements[0].index];
-                                <?php if ($periode_select == "None"){?>
-                                    
+                                <?php if ($periode_select == "None") { ?>
+
                                     window.location = "<?php echo $main_url; ?>table/data-triwulan-daerah.php?p=" +
                                         namaKota +
                                         "&triwulan=<?= $TRIWULAN_SELECTED ?>&j=<?= $DAERAH; ?>";
-                                    <?php } else {?>
-                                        window.location = "<?php echo $main_url; ?>table/data-periode.php?q=" +
-                                            namaKota +
-                                            "&periode=<?= $periode_select ?>&triwulan=<?= $TRIWULAN_SELECTED ?>&d=<?= $DAERAH; ?>";
-                                    <?php } ?>
+                                <?php } else { ?>
+                                    window.location = "<?php echo $main_url; ?>table/data-periode.php?q=" +
+                                        namaKota +
+                                        "&periode=<?= $periode_select ?>&triwulan=<?= $TRIWULAN_SELECTED ?>&d=<?= $DAERAH; ?>";
+                                <?php } ?>
                             },
                             plugins: {
                                 legend: {
                                     position: 'bottom'
+                                },
+                                title: {
+                                    display: true,
+                                    text: 'Grafik <?= $DAERAH ?> - Triwulan <?= $TRIWULAN_SELECTED ?> <?= $periode_select == "None" ? "" : " - Periode " . date("d M Y", strtotime($periode_select)); ?>',
+                                    font: {
+                                        size: 24
+                                    },
+                                    padding: 20
                                 },
                                 datalabels: {
                                     anchor: 'end',
@@ -534,6 +565,17 @@ if ($polda_hijau == 0 && $polda_kuning == 0 && $polda_merah == 0) {
                     function updatePeriode(periode) {
                         window.location = "<?php echo $main_url; ?>index.php?periode=" + periode;
                     }
+
+                    $('#print-chart-btn').on('click', function () {
+                        window.jsPDF = window.jspdf.jsPDF;
+                        var canvas = document.querySelector("#myChart");
+                        var canvas_img = canvas.toDataURL("image/png", 1.0); //JPEG will not match background color
+                        var pdf = new jsPDF('landscape', 'in', 'letter'); //orientation, units, page size
+                        pdf.addImage(canvas_img, 'png', .5, 1.75, 10, 5); //image, type, padding left, padding top, width, height
+                        pdf.autoPrint(); //print window automatically opened with pdf
+                        var blob = pdf.output("bloburl");
+                        window.open(blob);
+                    });
                 </script>
             </body>
             <div class="card-body"><canvas id="myBarChart" height="85"></canvas></div>

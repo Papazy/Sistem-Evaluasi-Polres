@@ -60,6 +60,9 @@
             }
         }
     }
+    $title_jenis = $jenis == "polres" ? "Polres" : "Polda";
+$headerTable = "".$title_jenis." - Triwulan : ".$TRIWULAN_SELECTED."";
+
 
     $Breadcumb = ($class == "danger") ? "Tidak Lulus" : (($class == "warning") ? "Cukup" : "Lulus");
 ?>
@@ -122,7 +125,7 @@
                                 $class_bo = ($class == "danger") ? "bg-danger" : (($class == "warning") ? "bg-warning" : "bg-success");
                             ?>
                             <tr>
-                                <th scope="row"><?= $no++ ?></th>
+                                <th class="dt-type-numeric"></th>
                                 <td>
                                     <center><?= $PG[$i] ?></center>
                                 </td>

@@ -23,4 +23,17 @@
     <!-- Chart -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2.0.0"></script>
+    <script src="https://code.jquery.com/jquery-3.7.1.js"></script>
+    <script src="https://unpkg.com/jspdf@latest/dist/jspdf.umd.min.js"></script>
+    <style>
+        body.dt-print-view h1::before {
+            content: "Capaian Evaluasi Polres";
+        }
+
+        body.dt-print-view h1 {
+            content: "";
+            text-align: center;
+            margin: 1em;
+        }
+    </style>
 </head>

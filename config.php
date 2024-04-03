@@ -7,7 +7,7 @@
     if (isset($_SESSION['main_title'])) {
         $main_title = $_SESSION['main_title'];
     } else {
-        $main_title = "Capaian Evaluasi Polres"; // Nilai default
+        $main_title = "Sistem Evaluasi Polres"; // Nilai default
     }
 
     function uploadimg($url) {

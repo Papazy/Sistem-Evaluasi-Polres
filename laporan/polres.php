@@ -13,7 +13,7 @@ $title = "Polres - Sistem Evaluasi Polres";
 require_once "../template/header.php";
 require_once "../template/navbar.php";
 require_once "../template/sidebar.php";
-
+$headerTable = "- Polisi Resort Aceh -"
 ?>
 
 <div id="layoutSidenav_content">
@@ -46,10 +46,11 @@ require_once "../template/sidebar.php";
                         Cetak</a>
                 </div>
                 <div class="card-body">
-                    <table class="table table-hover" id="exampleNoSetting">
+                    
+                    <table class="display" id="exampleNoSetting">
                         <thead>
                             <tr>
-                                <th scope="col">No.</th>
+                                <th scope="col">No</th>
                                 <th scope="col">
                                     <center>Polres</center>
                                 </th>
@@ -106,7 +107,7 @@ require_once "../template/sidebar.php";
                                     }
                             ?>
                             <tr>
-                                <td></td>
+                                <td class="dt-type-numeric"></td>
                                 <td><?= $dataPersentase['Polres'] ?></td>
                                 <td>
                                     <center><?= date('d-m-Y', strtotime($dataPersentase['Periode'])) ?></center>

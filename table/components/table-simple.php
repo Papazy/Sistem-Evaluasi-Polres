@@ -57,7 +57,7 @@
 
                             ?>
         <tr>
-            <td scope="row"></td>
+            <td class="dt-type-numeric"></td>
             <td><?= $satuan ?></td>
             
             <td class="<?= $class ?>">

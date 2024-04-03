@@ -136,9 +136,8 @@
                                 }
                             ?>
                             <tr>
-                                <th scope="row">
-                                    <center><?= $no++ ?></center>
-                                </th>
+                                <td class="dt-type-numeric">    
+                                </td>
                                 <td>
                                     <center><?= date('d-m-Y', strtotime($periode)); ?></center>
                                 </td>

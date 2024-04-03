@@ -1,76 +1,144 @@
-<?php 
+<?php
 
-    session_start();
+session_start();
 
-    if (!isset($_SESSION['ssLogin'])) {
-        header("location: ../../auth/login.php");
-        exit;
-    }
+if (!isset($_SESSION['ssLogin'])) {
+    header("location: ../../auth/login.php");
+    exit;
+}
 
-    require_once "../../config.php";
+require_once "../../config.php";
 
-    $title = "Kegiatan - Sistem Evaluasi Polres";
-    require_once "../../template/header.php";
-    require_once "../../template/navbar.php";
-    require_once "../../template/sidebar.php";
+$title = "Kegiatan - Sistem Evaluasi Polres";
+require_once "../../template/header.php";
+require_once "../../template/navbar.php";
+require_once "../../template/sidebar.php";
 
 ?>
 
-        <div id="layoutSidenav_content">
-            <main>
-                <div class="container-fluid px-4">
-                    <h1 class="mt-4">PG Polres</h1>
-                    <ol class="breadcrumb mb-4">
-                        <li class="breadcrumb-item"><a href="../../index.php">Home</a></li>
-                        <li class="breadcrumb-item active">Kegiatan</li>
-                    </ol>
-                    <div class="card">
-                        <div class="card-header">
-                            <span class="h5 my-2"><i class="fa-solid fa-list"></i> Data Kegiatan</span>
-                            <a href="<?= $main_url ?>kegiatan/polres/add-kegiatan.php" class="btn btn-sm btn-primary float-end"><i class="fa-solid fa-plus"></i> Tambah</a>
-                        </div>
-                        <div class="card-body">
-                        <table class="table table-hover" id="example">
-                            <thead>
-                                <tr>
-                                    <th scope="col"><center>No.</center></th>
-                                    <th scope="col"><center>PG</center></th>
-                                    <th scope="col"><center>Judul Kegiatan</center></th>
-                                    <th scope="col"><center>Setting</center></th>
-                                </tr>
-                            </thead>
+<div id="layoutSidenav_content">
+    <main>
+        <?php
+        if (isset($_GET['hapus'])) {
+            $id = $_GET['hapus'];
+            $query = mysqli_query($koneksi, "SELECT * FROM kegiatan_polres WHERE id = '$id'");
+            $row = mysqli_fetch_array($query);
+            ?>
+            <form method="POST" action="proses-hapus-kegiatan.php">
+                <div class="modal fade" id="modalHapus" tabindex="-1" aria-labelledby="modalHapusLabel" aria-hidden="true">
+                    <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h1 class="modal-title fs-5" id="modalHapusLabel">
+                                    Hapus Data </h1>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                            </div>
 
-                            <tbody>
-                                <?php 
-                                
-                                    $no = 1;
-                                    $queryKegiatan = mysqli_query($koneksi, "SELECT * FROM kegiatan_polres");
-                                    while ($data = mysqli_fetch_array($queryKegiatan)) { ?>
-
-                                    <tr>
-                                        <th scope="row"><center><?= $no++ ?></center></th>
-                                        <td><center><?= $data['pg'] ?></center></td>
-                                        <td class="text-truncate" style="max"><?= $data['nama_kegiatan'] ?></td>
-                                        <td><center>
-                                            <a href="" class="btn btn-sm btn-warning"><i class="fa-solid fa-pen" title="Edit"></i> Edit</a>
-                                            <a href="" class="btn btn-sm btn-danger"><i class="fa-solid fa-trash" title="Delete"></i> Delete</a>
-                                        </center></td>
-                                    </tr>
-
-                                <?php } ?>
-                            </tbody>
-
-                            </table>
+                            <div class="modal-body">
+                                <div class="form-group mb-2">
+                                    <label style="font-weight:600;" for="exampleFormControlInput1">Program</label>
+                                    <input type="text" class="form-control" value="<?= $row['PG'] ?>" name="PG" readonly>
+                                </div>
+                                <p>Apakah Anda yakin ingin menghapus data ini?</p>
+                                <input type="hidden" name="id" value="<?= $row['id'] ?>" />
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                <button type="submit" name="submit" id="submit" class="btn btn-primary">Hapus</button>
+                            </div>
                         </div>
                     </div>
                 </div>
-            </main>
-            
+            </form>
+            <?php
+        }
+        ?>
+
+        <script>
+            $(document).ready(function () {
+                $("#modalHapus").modal('show');
+            });
+        </script>
+
+
+        <div class="container-fluid px-4">
+            <h1 class="mt-4">PG Polres</h1>
+            <ol class="breadcrumb mb-4">
+                <li class="breadcrumb-item"><a href="../../index.php">Home</a></li>
+                <li class="breadcrumb-item active">Kegiatan</li>
+            </ol>
+            <div class="card">
+                <div class="card-header">
+                    <span class="h5 my-2"><i class="fa-solid fa-list"></i> Data Kegiatan</span>
+                    <a href="<?= $main_url ?>kegiatan/polres/add-kegiatan.php"
+                        class="btn btn-sm btn-primary float-end"><i class="fa-solid fa-plus"></i> Tambah</a>
+                </div>
+                <div class="card-body">
+                    <table class="table table-hover" id="example">
+                        <thead>
+                            <tr>
+                                <th scope="col">
+                                    <center>No.</center>
+                                </th>
+                                <th scope="col">
+                                    <center>PG</center>
+                                </th>
+                                <th scope="col">
+                                    <center>Judul Kegiatan</center>
+                                </th>
+                                <th scope="col">
+                                    <center>Setting</center>
+                                </th>
+                            </tr>
+                        </thead>
+
+                        <tbody>
+                            <?php
+
+                            $no = 1;
+                            $queryKegiatan = mysqli_query($koneksi, "SELECT * FROM kegiatan_polres");
+                            while ($data = mysqli_fetch_array($queryKegiatan)) { ?>
+
+                                <tr>
+                                    <th scope="row">
+                                        <center>
+                                            <?= $no++ ?>
+                                        </center>
+                                    </th>
+                                    <td>
+                                        <center>
+                                            <?= $data['PG'] ?>
+                                        </center>
+                                    </td>
+                                    <td class="text-truncate" style="max">
+                                        <?= $data['nama_kegiatan'] ?>
+                                    </td>
+                                    <td>
+                                        <center>
+                                            <a href="<?= $main_url ?>kegiatan/polres/edit-kegiatan.php?id=<?= $data['id'] ?>"
+                                                class="btn btn-sm btn-warning"><i class="fa-solid fa-pen" title="Edit"></i>
+                                                Edit</a>
+                                            <a href="<?= $main_url ?>kegiatan/polres/kegiatan.php?hapus=<?= $data['id'] ?>"
+                                                class="btn btn-sm btn-danger"><i class="fa-solid fa-trash"
+                                                    title="Delete"></i> Delete</a>
+                                        </center>
+                                    </td>
+                                </tr>
+
+                            <?php } ?>
+                        </tbody>
+
+                    </table>
+                </div>
+            </div>
+        </div>
+    </main>
 
 
 
-<?php 
+
+    <?php
 
     require_once "../../template/footer.php";
 
-?>
+    ?>
