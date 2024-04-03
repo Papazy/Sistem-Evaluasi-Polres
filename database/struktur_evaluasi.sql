@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Waktu pembuatan: 02 Apr 2024 pada 02.55
+-- Waktu pembuatan: 04 Apr 2024 pada 01.18
 -- Versi server: 10.4.28-MariaDB
 -- Versi PHP: 8.2.4
 
@@ -24,12 +24,25 @@ SET time_zone = "+00:00";
 -- --------------------------------------------------------
 
 --
--- Struktur dari tabel `kegiatan`
+-- Struktur dari tabel `kegiatan_polda`
 --
 
-CREATE TABLE `kegiatan` (
-  `pg` varchar(10) NOT NULL,
-  `judul` text NOT NULL
+CREATE TABLE `kegiatan_polda` (
+  `id` int(11) NOT NULL,
+  `PG` varchar(255) NOT NULL,
+  `nama_kegiatan` varchar(255) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Struktur dari tabel `kegiatan_polres`
+--
+
+CREATE TABLE `kegiatan_polres` (
+  `id` int(11) NOT NULL,
+  `PG` varchar(255) NOT NULL,
+  `nama_kegiatan` varchar(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
@@ -123,16 +136,17 @@ CREATE TABLE `user` (
 -- Indexes for dumped tables
 --
 
-
-INSERT INTO `user` (`id`, `username`, `password`, `nama`, `alamat`, `jabatan`, `foto`) VALUES
-(1, 'admin', '$2y$10$KfroUfCRTIo0r8do5HBMt.KM.g.oCb.ilCxCy1k0jI4R3Z9KHdfTK', 'Fadhil', 'Tanjung Selamat', 'Ketua', 'foto.jpg');
-
+--
+-- Indeks untuk tabel `kegiatan_polda`
+--
+ALTER TABLE `kegiatan_polda`
+  ADD PRIMARY KEY (`id`);
 
 --
--- Indeks untuk tabel `kegiatan`
+-- Indeks untuk tabel `kegiatan_polres`
 --
-ALTER TABLE `kegiatan`
-  ADD PRIMARY KEY (`pg`);
+ALTER TABLE `kegiatan_polres`
+  ADD PRIMARY KEY (`id`);
 
 --
 -- Indeks untuk tabel `laporan_polda`
@@ -173,6 +187,18 @@ ALTER TABLE `user`
 --
 -- AUTO_INCREMENT untuk tabel yang dibuang
 --
+
+--
+-- AUTO_INCREMENT untuk tabel `kegiatan_polda`
+--
+ALTER TABLE `kegiatan_polda`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT untuk tabel `kegiatan_polres`
+--
+ALTER TABLE `kegiatan_polres`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT untuk tabel `laporan_polda`
