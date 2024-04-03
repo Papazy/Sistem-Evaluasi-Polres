@@ -403,10 +403,6 @@ if ($polda_hijau == 0 && $polda_kuning == 0 && $polda_merah == 0) {
                 </div>
             </div>
 
-            <head>
-
-            </head>
-
             <body>
                 <style type="text/css">
                     table {
