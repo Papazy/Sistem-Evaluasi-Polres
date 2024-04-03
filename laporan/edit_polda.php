@@ -31,6 +31,10 @@ if (isset($_POST["submit"])){
     $Periode    = $_POST['Periode'];
     $PG         = $_POST['PG'];
     $Triwulan   = $_POST['Triwulan'];
+    
+    $Periode_old   = $_POST['Periode_old'];
+    $PG_old   = $_POST['PG_old'];
+    
 
     // mengupdate database
     var_dump($id);
@@ -44,6 +48,21 @@ if (isset($_POST["submit"])){
     //update data
     $sql = "UPDATE persentase_polda SET Persentase = '$Persentase', Periode = '$Periode', PG = '$PG', Triwulan = '$Triwulan' WHERE id = '$id'";
     $query = mysqli_query($koneksi, $sql);
+
+    // Periksa apakah masih ada
+    $sql = "SELECT * FROM persentase_polda WHERE Periode = '$Periode_old' AND PG = '$PG_old'";
+    $data = mysqli_query($koneksi, $sql);
+    if(mysqli_num_rows($data) == 0){
+        print_r("Menghapus ".$Periode." dan ".$PG);
+        print_r("<br>");
+        $sql = "DELETE FROM laporan_polda WHERE Periode = '$Periode_old' AND PG = '$PG_old'";
+        mysqli_query($koneksi, $sql);
+    }
+
+    $periksaPeriode = mysqli_query($koneksi, "SELECT * FROM laporan_polda WHERE Periode = '$Periode' AND PG = '$PG'");
+    if(mysqli_num_rows($periksaPeriode) == 0){
+        mysqli_query($koneksi,"INSERT INTO laporan_polda (Periode, PG, Min, Max , Triwulan) VALUES ('$Periode', '$PG', '$Min', '$Max', '$Triwulan')");
+    }
 }
 
 header("Location: polda.php");

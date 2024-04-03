@@ -11,15 +11,6 @@ if (!isset($_SESSION['ssLogin'])) {
 require_once "../config.php";
 
 
-function gantiKoma($nilai)
-{
-    // Periksa apakah nilai merupakan bilangan desimal dengan tanda koma
-    if (strpos($nilai, ',') !== false) {
-        // Ganti tanda koma dengan titik
-        $nilai = str_replace(',', '.', $nilai);
-    }
-    return $nilai;
-}
 
 
 // Periksa apakah ada filecsv
@@ -28,9 +19,27 @@ if (isset($_POST["submit"])){
     $id         = $_POST['id'];
     var_dump($id);
 
+    $sql = "SELECT * FROM persentase_polda WHERE id = '$id'";
+    $data = mysqli_query($koneksi, $sql);
+
+    $row = mysqli_fetch_assoc($data);
+    // var_dump($row["Periode"]);
+
+    $Periode = $row["Periode"];
+    $PG = $row["PG"];
+
     // menghapus data
     $sql = "DELETE FROM persentase_polda WHERE id = '$id'";
     $query = mysqli_query($koneksi, $sql);
+    // Periksa
+    $sql = "SELECT * FROM persentase_polda WHERE Periode = '$Periode' AND PG = '$PG'";
+    $data = mysqli_query($koneksi, $sql);
+    if(mysqli_num_rows($data) == 0){
+        print_r("Menghapus ".$Periode." dan ".$PG);
+        print_r("<br>");
+        $sql = "DELETE FROM laporan_polda WHERE Periode = '$Periode' AND PG = '$PG'";
+        mysqli_query($koneksi, $sql);
+    }
 
 }
 header("Location: polda.php");

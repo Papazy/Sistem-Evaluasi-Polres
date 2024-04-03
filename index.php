@@ -10,6 +10,10 @@ if (!isset($_SESSION["ssLogin"])) {
 require "config.php";
 require_once "utils.php";
 require_once "utils2.php";
+$title = "Dashboard - Sistem Evaluasi Polres";
+require_once "template/header.php";
+// require_once "template/navbar.php";
+require_once "template/sidebar.php";
 
 $TRIWULAN_SELECTED = 1;
 if (isset($_GET['triwulan'])) {
@@ -52,10 +56,6 @@ switch ($TRIWULAN_SELECTED) {
         break;
 }
 
-$title = "Dashboard - Sistem Evaluasi Polres";
-require_once "template/header.php";
-// require_once "template/navbar.php";
-require_once "template/sidebar.php";
 
 
 
@@ -87,32 +87,6 @@ if (count($PERIODE_ALL) > 0) {
 
 
 
-// POLRES
-$polres_merah = 0;
-$polres_kuning = 0;
-$polres_hijau = 0;
-
-$polres_merah = get_data_kartu_dashboard("polres", "merah");
-$polres_kuning = get_data_kartu_dashboard("polres", "kuning");
-$polres_hijau = get_data_kartu_dashboard("polres", "hijau");
-if ($polres_hijau == 0 && $polres_kuning == 0 && $polres_merah == 0) {
-    $persentase = 0;
-} else {
-    $persentase = $polres_hijau / ($polres_hijau + $polres_kuning + $polres_merah) * 100;
-}
-// POLDA
-$polda_merah = 0;
-$polda_kuning = 0;
-$polda_hijau = 0;
-
-$polda_merah = get_data_kartu_dashboard("polda", "merah");
-$polda_kuning = get_data_kartu_dashboard("polda", "kuning");
-$polda_hijau = get_data_kartu_dashboard("polda", "hijau");
-if ($polda_hijau == 0 && $polda_kuning == 0 && $polda_merah == 0) {
-    $persentase_polda = 0;
-} else {
-    $persentase_polda = $polda_hijau / ($polda_hijau + $polda_kuning + $polda_merah) * 100;
-}
 
 
 if($periode_select == "None"){
@@ -182,7 +156,56 @@ foreach ($NILAI_POLRES_ALL as $nilai) {
 // var_dump($backgroundColorArray);
 
 
-?>
+// Menghitung NIlai Kartu
+// POLRES
+$polres_merah = 0;
+$polres_kuning = 0;
+$polres_hijau = 0;
+
+$polda_merah = 0;
+$polda_kuning = 0;
+$polda_hijau = 0;
+
+if($periode_select != "None"){
+    $polres_merah = hitungPersentaseDariPeriode("Polres",$periode_select, "Merah");
+    $polres_kuning = hitungPersentaseDariPeriode("Polres",$periode_select, "Kuning");
+    $polres_hijau = hitungPersentaseDariPeriode("Polres",$periode_select, "Hijau");
+    // POLDA
+    
+    $polda_merah = hitungPersentaseDariPeriode("Polda",$periode_select, "Merah");
+    $polda_kuning = hitungPersentaseDariPeriode("Polda",$periode_select, "Kuning");
+    $polda_hijau = hitungPersentaseDariPeriode("Polda",$periode_select, "Hijau");
+    
+
+}else{
+    $polres_merah = hitungPersentaseDariTriwulan("Polres",$TRIWULAN_SELECTED, "Merah");
+    $polres_kuning = hitungPersentaseDariTriwulan("Polres",$TRIWULAN_SELECTED, "Kuning");
+    $polres_hijau = hitungPersentaseDariTriwulan("Polres",$TRIWULAN_SELECTED, "Hijau");
+    // POLDA
+    
+    $polda_merah = hitungPersentaseDariTriwulan("Polda",$TRIWULAN_SELECTED, "Merah");
+    $polda_kuning = hitungPersentaseDariTriwulan("Polda",$TRIWULAN_SELECTED, "Kuning");
+    $polda_hijau = hitungPersentaseDariTriwulan("Polda",$TRIWULAN_SELECTED, "Hijau");
+}
+
+// print_r("<br>");
+// var_dump($polres_merah);
+// print_r("<br>");
+// var_dump($polda_merah);
+
+if ($polres_hijau == 0 && $polres_kuning == 0 && $polres_merah == 0) {
+    $persentase = 0;
+} else {
+    $persentase = $polres_hijau / ($polres_hijau + $polres_kuning + $polres_merah) * 100;
+}
+
+if ($polda_hijau == 0 && $polda_kuning == 0 && $polda_merah == 0) {
+    $persentase_polda = 0;
+} else {
+    $persentase_polda = $polda_hijau / ($polda_hijau + $polda_kuning + $polda_merah) * 100;
+}
+    ?>
+
 
 <div id="layoutSidenav_content">
     <main>
@@ -193,11 +216,16 @@ foreach ($NILAI_POLRES_ALL as $nilai) {
             </ol>
 
             <div class="row">
-                <div class="" style="width: 22%; flex:0 0 auto;">
+                <div class="" style="width: 20%; flex:0 0 auto;">
+                    <h5 class="mb-3">
+                        <center>Tercapai <i class="fa-regular fa-face-smile" style="color: green;"></i></center>
+                    </h5>
                     <div class="card bg-success text-white mb-4">
                         <a href="<?= $main_url ?>table/success.php?j=polda" style="text-decoration:none; color:white;">
                             <div class="card-body d-flex align-items-center justify-content-between">
-                                <div>Polda</div>
+                                <div>
+                                    <h4>Polda</h4>
+                                </div>
                                 <div>
                                     <?= $polda_hijau ?>
                                 </div>
@@ -206,7 +234,9 @@ foreach ($NILAI_POLRES_ALL as $nilai) {
                         <a href="<?= $main_url ?>table/success.php?j=polres" style="text-decoration:none; color:white;">
                             <div class="card-body border-top border-dark d-flex align-items-center justify-content-between"
                                 style="--bs-border-opacity: .5;">
-                                <div>Polres</div>
+                                <div>
+                                    <h6>Polres</h6>
+                                </div>
                                 <div>
                                     <?= $polres_hijau ?>
                                 </div>
@@ -215,12 +245,16 @@ foreach ($NILAI_POLRES_ALL as $nilai) {
                         </a>
                     </div>
                 </div>
-                <div class="" style="width: 22%; flex:0 0 auto; ">
-
+                <div class="" style="width: 20%; flex:0 0 auto; ">
+                    <h5 class="mb-3">
+                        <center>Cukup <i class="fa-regular fa-face-meh" style="color: #C7BA28;"></i></center>
+                    </h5>
                     <a href="<?= $main_url ?>table/warning.php?j=polda" style="text-decoration:none; color:white;">
                         <div class="card bg-warning text-white mb-4">
                             <div class="card-body d-flex align-items-center justify-content-between">
-                                <div>Polda</div>
+                                <div>
+                                    <h4>Polda</h4>
+                                </div>
                                 <div>
                                     <?= $polda_kuning ?>
                                 </div>
@@ -229,7 +263,9 @@ foreach ($NILAI_POLRES_ALL as $nilai) {
                     <a href="<?= $main_url ?>table/warning.php?j=polres" style="text-decoration:none; color:white;">
                         <div class="card-body border-top border-dark d-flex align-items-center justify-content-between"
                             style="--bs-border-opacity: .5;">
-                            <div>Polres</div>
+                            <div>
+                                <h6>Polres</h6>
+                            </div>
                             <div>
                                 <?= $polres_kuning ?>
                             </div>
@@ -238,11 +274,16 @@ foreach ($NILAI_POLRES_ALL as $nilai) {
                 </div>
                 </a>
             </div>
-            <div class="" style="width: 22%; flex:0 0 auto;">
+            <div class="" style="width: 20%; flex:0 0 auto;">
+                <h5 class="mb-3">
+                    <center>Tidak <i class="fa-regular fa-face-frown" style="color: red;"></i></center>
+                </h5>
                 <a href="<?= $main_url ?>table/danger.php?j=polda" style="text-decoration:none; color:white;">
                     <div class="card bg-danger text-white mb-4">
                         <div class="card-body d-flex align-items-center justify-content-between">
-                            <div>Polda</div>
+                            <div>
+                                <h4>Polda</h4>
+                            </div>
                             <div>
                                 <?= $polda_merah ?>
                             </div>
@@ -251,7 +292,9 @@ foreach ($NILAI_POLRES_ALL as $nilai) {
                 <a href="<?= $main_url ?>table/danger.php?j=polres" style="text-decoration:none; color:white;">
                     <div class="card-body border-top border-dark d-flex align-items-center justify-content-between"
                         style="--bs-border-opacity: .5;">
-                        <div>Polres</div>
+                        <div>
+                            <h6>Polres</h6>
+                        </div>
                         <div>
                             <?= $polres_merah ?>
                         </div>
@@ -260,18 +303,19 @@ foreach ($NILAI_POLRES_ALL as $nilai) {
             </div>
             </a>
         </div>
-        <div class="col-xl-2 col-md-4">
+        <div class="" style="width: 20%; flex:0 0 auto;">
+            <h5 class="mb-3"><center>Persentase <i class="fa-solid fa-percent" style="color: blue;"></i></center></h5>
             <a href="<?= $main_url ?>gabungan/polres.php" style="text-decoration:none; color:white;">
-                <div class="card bg-info text-white mb-4">
+                <div class="card bg-primary text-white mb-4">
                     <div class="card-body d-flex align-items-center justify-content-between">
-                        <div>Persentase</div>
+                        <div><h4>Polda</h4></div>
                         <div>
                             <?= number_format($persentase_polda, 2) ?>%
                         </div>
                     </div>
                     <div class="card-body border-top border-dark d-flex align-items-center justify-content-between"
                         style="--bs-border-opacity: .5;">
-                        <div>Persentase</div>
+                        <div><h6>Polres</h6></div>
                         <div>
                             <?= number_format($persentase, 2) ?>%
                         </div>
@@ -280,18 +324,19 @@ foreach ($NILAI_POLRES_ALL as $nilai) {
                 </div>
             </a>
         </div>
-        <div class="col-xl-2 col-md-4">
+        <div class="" style="width: 20%; flex:0 0 auto;">
+            <h5 class="mb-3"><center>Jumlah <i class="fa-solid fa-hotel" style="color: gray;"></i></center></h5>
             <a href="<?= $main_url ?>gabungan/polres.php" style="text-decoration:none; color:white;">
-                <div class="card text-white mb-4" style="background-color:#d95c02">
+                <div class="card bg-secondary text-white mb-4">
                     <div class="card-body d-flex align-items-center justify-content-between">
-                        <div>Total</div>
+                        <div><h4>Polda</h4></div>
                         <div>
                             <?= $polda_hijau + $polda_hijau + $polda_merah ?>
                         </div>
                     </div>
                     <div class="card-body border-top border-dark d-flex align-items-center justify-content-between"
                         style="--bs-border-opacity: .5;">
-                        <div>Total</div>
+                        <div><h6>Polres</h6></div>
                         <div>
                             <?= $polres_hijau + $polres_hijau + $polres_merah ?>
                         </div>
@@ -319,7 +364,7 @@ foreach ($NILAI_POLRES_ALL as $nilai) {
                 </div>
                 <div class="d-inline-flex align-items-center gap-2">
                     <select class="form-select" name="triwulan" id="triwulan" onchange="updateTriwulan(this.value)">
-                       
+
                         <option value="1&d=<?= $DAERAH; ?>" <?php if ($TRIWULAN_SELECTED == "1")
                               echo 'selected'; ?>>Triwulan
                             1</option>
@@ -335,8 +380,8 @@ foreach ($NILAI_POLRES_ALL as $nilai) {
                     </select>
 
                     <select class="form-select" style="width: 150px;" onchange="updatePeriode(this.value)">
-                        
-                    <?php
+
+                        <?php
                         $selected = $periode_select == "None" ? "selected" : "";
                         echo "<option value='None&triwulan{$TRIWULAN_SELECTED}&d={$DAERAH}' {$selected}>None</option>";
                         foreach ($PERIODE_ALL as $periode) {

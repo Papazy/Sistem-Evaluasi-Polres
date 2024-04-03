@@ -11,7 +11,15 @@ $result = mysqli_query($koneksi, $sql);
 
 if($result && mysqli_num_rows($result) > 0) {
     $dataPersentase = mysqli_fetch_assoc($result);
-
+    $Min = 0;
+    $Max = 0;
+    $sqlMinMax = "SELECT * FROM laporan_polda WHERE periode = '".$dataPersentase['Periode']."' AND PG = '".$dataPersentase['PG']."'";
+    $resultMinMax = mysqli_query($koneksi, $sqlMinMax);
+    if($resultMinMax && mysqli_num_rows($resultMinMax) > 0){
+        $dataMinMax = mysqli_fetch_assoc($resultMinMax);
+        $Min = $dataMinMax['Min'];
+        $Max = $dataMinMax['Max'];
+    }
 
     $response = '<div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
     <div class="modal-content">
@@ -23,6 +31,10 @@ if($result && mysqli_num_rows($result) > 0) {
         <div class="modal-body ">
             
                 <input type="hidden" name="id" value="' . $dataPersentase['id'] . '" />
+                <input type="hidden" name="Min" value="' . $Min . '" />
+                <input type="hidden" name="Max" value="' . $Max . '" />
+                <input type="hidden" name="Periode_old" value="' . $dataPersentase['Periode'] . '" />
+                <input type="hidden" name="PG_old" value="' . $dataPersentase['PG'] . '" />
                 <div class="form-group mb-2">
                     <label style="font-weight:600;" for="exampleFormControlInput1">Satuan Kerja</label>
                     <input type="text" class="form-control" value="' . $dataPersentase['Satker'] . '" name="Satker" readonly>
